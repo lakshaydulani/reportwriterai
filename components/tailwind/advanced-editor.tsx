@@ -24,7 +24,8 @@ import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
-
+import { useAtom } from 'jotai';
+import { generatedContent } from "@/lib/atom";
 const extensions = [...defaultExtensions, slashCommand];
 
 const TailwindAdvancedEditor = () => {
@@ -36,7 +37,7 @@ const TailwindAdvancedEditor = () => {
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
-
+  const [todos, setTodos] = useAtom(generatedContent);
   const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
     setCharsCount(editor.storage.characterCount.words());
@@ -52,6 +53,12 @@ const TailwindAdvancedEditor = () => {
     else setInitialContent(defaultEditorContent);
   }, []);
 
+  useEffect(() => {
+    if (todos) {
+      // Create a new object reference to ensure re-render
+      setInitialContent({ ...todos });
+    }
+  }, [todos]);
   if (!initialContent) return null;
 
   return (
@@ -64,6 +71,7 @@ const TailwindAdvancedEditor = () => {
       </div>
       <EditorRoot>
         <EditorContent
+          key={JSON.stringify(initialContent)} // Use a key to force re-initialization
           initialContent={initialContent}
           extensions={extensions}
           className="relative min-h-[500px] w-full max-w-screen-lg shadow-blue-900 border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"

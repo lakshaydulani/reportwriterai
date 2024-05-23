@@ -1,10 +1,32 @@
 "use client";
 import React from 'react';
 import { SparklesIcon } from 'lucide-react';
+import { generatedContent } from '@/lib/atom';
+import { useAtom } from 'jotai';
 
 const CentralPrompt = () => {
+    const [todos, setTodos] = useAtom(generatedContent);
     const [prompt, setPrompt] = React.useState("");
 
+
+    const handleCick = () => {
+        const newContent = {
+            type: 'doc',
+            content: [
+                {
+                    type: 'paragraph',
+                    content: [
+                        {
+                            type: 'text',
+                            text: prompt,
+                        },
+                    ],
+                },
+            ],
+        };
+        setTodos(newContent);
+
+    }
     return (
         <>
             <div className="relative w-full">
@@ -12,7 +34,7 @@ const CentralPrompt = () => {
                 <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} className="w-full text-xl p-3 pl-14" rows={5} placeholder="Write with AI.."></textarea>
 
                 <button className="absolute top-3 right-4 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg"
-                    onClick={() => { }}
+                    onClick={handleCick}
                 >
                     <SparklesIcon className="mx-2" />
                     Generate</button>
