@@ -8,8 +8,8 @@ const Uploader
   return (
     <section className='section'>
       <div className='container'>
-        <h1 className='title text-3xl font-bold'>Upload Files</h1>
-        <Dropzone className='p-16 mt-10 border border-neutral-200' />
+        <h1 className='title text-3xl font-bold text-center'>Upload File</h1>
+        <Dropzone className='p-5 mt-5 border border-red-200' />
       </div>
     </section>
   );
