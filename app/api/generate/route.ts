@@ -9,12 +9,12 @@ import { match } from "ts-pattern";
 
 // IMPORTANT! Set the runtime to edge: https://vercel.com/docs/functions/edge-functions/edge-runtime
 export const runtime = "edge";
-
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: process.env.OPENAI_BASE_URL || "https://api.openai.com/v1/chat/completions",
+});
 export async function POST(req: Request): Promise<Response> {
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-    baseURL: process.env.OPENAI_BASE_URL || "https://api.openai.com/v1",
-  });
+  
   
   // Check if the OPENAI_API_KEY is set, if not return 400
   // if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === "") {
@@ -23,28 +23,29 @@ export async function POST(req: Request): Promise<Response> {
   //   });
   // }
   
-  if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
-    const ip = req.headers.get("x-forwarded-for");
-    const ratelimit = new Ratelimit({
-      redis: kv,
-      limiter: Ratelimit.slidingWindow(50, "1 d"),
-    });
+  // if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+  //   const ip = req.headers.get("x-forwarded-for");
+  //   const ratelimit = new Ratelimit({
+  //     redis: kv,
+  //     limiter: Ratelimit.slidingWindow(50, "1 d"),
+  //   });
 
-    const { success, limit, reset, remaining } = await ratelimit.limit(`novel_ratelimit_${ip}`);
+  //   const { success, limit, reset, remaining } = await ratelimit.limit(`novel_ratelimit_${ip}`);
 
-    if (!success) {
-      return new Response("You have reached your request limit for the day.", {
-        status: 429,
-        headers: {
-          "X-RateLimit-Limit": limit.toString(),
-          "X-RateLimit-Remaining": remaining.toString(),
-          "X-RateLimit-Reset": reset.toString(),
-        },
-      });
-    }
-  }
+  //   if (!success) {
+  //     return new Response("You have reached your request limit for the day.", {
+  //       status: 429,
+  //       headers: {
+  //         "X-RateLimit-Limit": limit.toString(),
+  //         "X-RateLimit-Remaining": remaining.toString(),
+  //         "X-RateLimit-Reset": reset.toString(),
+  //       },
+  //     });
+  //   }
+  // }
 
   const { prompt, option, command } = await req.json();
+  console.log("helloooo",req.json());
   const messages = match(option)
     .with("continue", () => [
       {

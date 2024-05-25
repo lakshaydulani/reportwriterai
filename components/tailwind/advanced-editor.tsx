@@ -37,7 +37,7 @@ const TailwindAdvancedEditor = () => {
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
-  const [todos, setTodos] = useAtom(generatedContent);
+  const [content, setContent] = useAtom(generatedContent);
   const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
     setCharsCount(editor.storage.characterCount.words());
@@ -54,11 +54,11 @@ const TailwindAdvancedEditor = () => {
   }, []);
 
   useEffect(() => {
-    if (todos) {
+    if (content) {
       // Create a new object reference to ensure re-render
-      setInitialContent({ ...todos });
+      setInitialContent({ ...content });
     }
-  }, [todos]);
+  }, [content]);
   if (!initialContent) return null;
 
   return (
