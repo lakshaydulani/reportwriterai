@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Link from 'next/link';
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
@@ -12,57 +12,80 @@ type FileWithPreview = File & {
 };
 
 export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
+  const [file, setFile] = useState<FileWithPreview | null>(null);
+  const [uploadStatus, setUploadStatus] = useState<'success' | 'failure' | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles?.length) {
-      setFiles(previousFiles => [
-        ...previousFiles,
-        ...acceptedFiles.map(file =>
-          Object.assign(file, { preview: URL.createObjectURL(file) })
-        ),
-      ]);
+  const onDrop = useCallback((acceptedFile) => {
+    if (acceptedFile?.length) {
+      const uploadedFile = acceptedFile[0] as FileWithPreview;
+      if (uploadedFile.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        setFile(uploadedFile);
+        uploadFile(uploadedFile);
+      } else {
+        // File type is not .docx, display an alert
+        setAlertMessage('Please select a .docx file');
+      }
     }
-    console.log(acceptedFiles);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const uploadFile = (file: FileWithPreview) => {
+    // Simulating an asynchronous file upload process
+    setTimeout(() => {
+      // Simulate upload success
+      setUploadStatus('success');
 
-  const removeFiles = (name) => {
-    setFiles(files => files.filter(file => file.name !== name))
-  }
+      // Here, you can perform actual upload logic to your server
+
+      console.log('Upload successful:', file.name);
+    }, 2000);
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: {
+      'application/msword': ['.doc'],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
+    },
+    // maxSize: 1024 * 1000,
+    maxFiles:1,
+    onDrop
+  })
+
+  const removeFile = () => {
+    setFile(null);
+    setUploadStatus(null);
+    setAlertMessage(null);
+  };
+
   return (
-    <div {...getRootProps({ className })}>
-      <input {...getInputProps()} />
+    <div
+      {...getRootProps({ className: `${className} ${uploadStatus === 'success' ? 'bg-green-200' : uploadStatus === 'failure' ? 'bg-red-900' : ''}` })}
+    >
+      <input {...getInputProps({ multiple: false })} />
       {isDragActive ? (
-        <p>Drop the files here ...</p>
+        <p>Drop your .docx file here ...</p>
       ) : (
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        file ? (
+          <p>
+            {uploadStatus === 'success' ? 'Upload successful: ' : uploadStatus === 'failure' ? 'Upload failed. ' : ''}
+            {file.name}
+            {uploadStatus && (
+              <button onClick={removeFile} className="ml-2 text-red">Remove</button>
+            )}
+          </p>
+        ) : (
+          <div>
+          <p>
+            Drag 'n' drop your .docx file here, or click to select a file
+            </p>
+            <p>
+            {alertMessage && (
+              <span className="text-red-500 ml-2">{alertMessage}</span>
+            )}
+          </p>
+          </div>
+        )
       )}
-      {/* {preview} */}
-      <ul>
-        {files.map(file => (
-          <li key={file.name}>
-            <Image 
-              src={file.preview} 
-              alt='' 
-              width={100} 
-              height={100} 
-              onLoad={() => {
-                URL.revokeObjectURL(file.preview)
-              }}
-              className='h-full w-full object-cover rounded-md'
-            />
-            <button
-              type='button'
-              className='w-7 h-7 border-secondary-400 bg-secondary-400 rounded-full'
-              onClick={() => removeFiles(file.name)}
-            >
-              
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { generatedContent } from '@/lib/atom';
 import { useAtom } from 'jotai';
 
 const CentralPrompt = () => {
-    const [todos, setTodos] = useAtom(generatedContent);
+    const [content, setContent] = useAtom(generatedContent);
     const [prompt, setPrompt] = React.useState("");
 
 
@@ -24,8 +24,7 @@ const CentralPrompt = () => {
                 },
             ],
         };
-        setTodos(newContent);
-
+        setContent(newContent);
     }
     return (
         <>
@@ -39,8 +38,6 @@ const CentralPrompt = () => {
                     <SparklesIcon className="mx-2" />
                     Generate</button>
             </div>
-
-
         </>
     )
 }

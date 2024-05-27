@@ -25,7 +25,6 @@ interface AISelectorProps {
 export function AISelector({ onOpenChange }: AISelectorProps) {
   const { editor } = useEditor();
   const [inputValue, setInputValue] = useState("");
-
   const { completion, complete, isLoading } = useCompletion({
     // id: "novel",
     api: "/api/generate",
