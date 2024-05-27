@@ -28,7 +28,6 @@ const knowledgebaseDropzone = ({ className }) => {
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
     },
     // maxSize: 1024 * 1000,
-    maxFiles:1,
     onDrop
   })
 

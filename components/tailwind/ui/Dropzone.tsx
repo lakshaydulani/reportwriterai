@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
@@ -40,7 +41,15 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
     }, 2000);
   };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: {
+      'application/msword': ['.doc'],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
+    },
+    // maxSize: 1024 * 1000,
+    maxFiles:1,
+    onDrop
+  })
 
   const removeFile = () => {
     setFile(null);

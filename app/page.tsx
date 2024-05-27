@@ -8,6 +8,7 @@ import { ScrollArea } from "@/components/tailwind/ui/scroll-area";
 import Uploader from "@/components/tailwind/ui/uploader";
 import Header from "@/components/tailwind/ui/header";
 import CentralPrompt from "@/components/tailwind/generative/central-prompt";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -39,6 +40,11 @@ export default function Page() {
         <div className="col-span-2">
           <Uploader />
           <ReportProcess />
+          <Link
+            href='/knowledgebase'
+          >
+            <button className="bg-black mt-5 p-5 rounded-full text-white">Knowledge Base</button>
+          </Link>
         </div>
       </div>
 
