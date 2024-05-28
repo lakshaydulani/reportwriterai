@@ -7,8 +7,10 @@ import SectionHeading from "./section-heading";
 const Uploader = () => {
   return (
     <section>
-      <SectionHeading><UploadIcon />Upload your current report:</SectionHeading>
-        <Dropzone className='p-16 mt-10 border border-red-200' />
+      <SectionHeading>
+        {/* <UploadIcon /> */}
+        Upload your current report:</SectionHeading>
+        <Dropzone className='uploader bg-zinc-600 p-3 text-white' />
     </section>
   );
 };

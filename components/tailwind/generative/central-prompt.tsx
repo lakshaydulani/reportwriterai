@@ -2,66 +2,66 @@
 import React, { useEffect, useState } from "react";
 import { SparklesIcon } from "lucide-react";
 import { generatedContent } from "@/lib/atom";
-import { toast } from 'sonner';
-import { useCompletion } from 'ai/react';
+import { toast } from "sonner";
+import { useCompletion } from "ai/react";
 import { useAtom } from "jotai";
 import SectionHeading from "./../ui/section-heading";
 
 const CentralPrompt = () => {
-    const [content, setContent] = useAtom(generatedContent);
-    const [prompt, setPrompt] = useState("");
-    
-    const { completion, complete, isLoading } = useCompletion({
-        api: "/api/generate",
-        onResponse: (response) => {
-            if(response.status === 429) {
-                toast.error("You have reached your request limit for the day.")
-                return;
-            }
-        },
-        onError: (e) => {
-            toast.error(e.message);
-        },
-    });
+  const [content, setContent] = useAtom(generatedContent);
+  const [prompt, setPrompt] = useState("");
 
-    useEffect(() => {
-        if (completion.length > 0) {
-            const newContent = {
-                type: 'doc',
-                content: [
-                    {
-                        type: 'paragraph',
-                        content: [
-                            {
-                                type: 'text',
-                                text: completion,
-                            },
-                        ],
-                    },
-                ],
-            };
-            setContent(newContent);
-            setPrompt("");
-        }
-    }, [completion]);
+  const { completion, complete, isLoading } = useCompletion({
+    api: "/api/generate",
+    onResponse: (response) => {
+      if (response.status === 429) {
+        toast.error("You have reached your request limit for the day.");
+        return;
+      }
+    },
+    onError: (e) => {
+      toast.error(e.message);
+    },
+  });
 
-    const hasCompletion = completion.length > 0;
-
-    const handleCick = () => {
-        if(completion )
-            return complete(prompt, {
-                body: { option: "zap", command: "generate report" },
-            });
-        complete(prompt, {
-            body: { option: "zap", command: "generate report" },
-        });
+  useEffect(() => {
+    if (completion.length > 0) {
+      const newContent = {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+            content: [
+              {
+                type: "text",
+                text: completion,
+              },
+            ],
+          },
+        ],
+      };
+      setContent(newContent);
+      setPrompt("");
     }
+  }, [completion]);
 
-    return (
-        <section><SectionHeading>Editor:</SectionHeading>
-            <div className="relative w-full">
+  const hasCompletion = completion.length > 0;
 
-            <svg
+  const handleCick = () => {
+    if (completion)
+      return complete(prompt, {
+        body: { option: "zap", command: "generate report" },
+      });
+    complete(prompt, {
+      body: { option: "zap", command: "generate report" },
+    });
+  };
+
+  return (
+    <section>
+      <SectionHeading>Editor:</SectionHeading>
+      <div className="relative w-full">
+        <svg
           className="absolute top-3 left-3 w-7 h-7"
           viewBox="0 0 256 256"
           xmlns="http://www.w3.org/2000/svg"
@@ -166,20 +166,17 @@ const CentralPrompt = () => {
           placeholder="Write with AI.."
         ></textarea>
 
-<button className="absolute top-3 right-4 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
-                    onClick={handleCick}
-                    disabled={isLoading}
-                >
-                    <SparklesIcon className="mx-2" />
-                    {isLoading ? "Generating..." : "Generate"}
-                </button>
-                
-             
-            </div>
-
-
-        </section>
-    )
-}
+        <button
+          className="w-full mt-2 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+          onClick={handleCick}
+          disabled={isLoading}
+        >
+          <SparklesIcon className="mx-2" />
+          {isLoading ? "Generating..." : "Generate"}
+        </button>
+      </div>
+    </section>
+  );
+};
 
 export default CentralPrompt;
