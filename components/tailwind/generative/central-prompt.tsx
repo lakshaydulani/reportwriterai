@@ -63,7 +63,6 @@ const CentralPrompt = () => {
   return (
     <section className="">
       <SectionHeading>Editor:</SectionHeading>
-      <Commands/>
       <div className="relative w-full">
         <svg
           className="absolute top-3 left-3 w-6 h-6"
