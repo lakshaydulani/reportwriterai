@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useCompletion } from "ai/react";
 import { useAtom } from "jotai";
 import SectionHeading from "./../ui/section-heading";
+import removeMarkdown from 'remove-markdown';
 
 const CentralPrompt = () => {
   const [content, setContent] = useAtom(generatedContent);
@@ -26,6 +27,8 @@ const CentralPrompt = () => {
 
   useEffect(() => {
     if (completion.length > 0) {
+        // Remove Markdown to get plain text
+        const plainText = removeMarkdown(completion);
       const newContent = {
         type: "doc",
         content: [
@@ -34,7 +37,7 @@ const CentralPrompt = () => {
             content: [
               {
                 type: "text",
-                text: completion,
+                text: plainText,
               },
             ],
           },
