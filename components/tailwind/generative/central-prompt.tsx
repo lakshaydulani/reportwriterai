@@ -6,6 +6,43 @@ import { toast } from "sonner";
 import { useCompletion } from "ai/react";
 import { useAtom } from "jotai";
 import SectionHeading from "./../ui/section-heading";
+import { Command } from "../ui/command";
+import AISelectorCommands from "./ai-selector-commands";
+
+const Commands = () => {
+
+  // const options = [
+  //   {
+  //     value: "improve",
+  //     label: "Improve writing",
+  //     icon: RefreshCcwDot,
+  //   },
+  
+  //   {
+  //     value: "fix",
+  //     label: "Fix grammar",
+  //     icon: CheckCheck,
+  //   },
+  //   {
+  //     value: "shorter",
+  //     label: "Make shorter",
+  //     icon: ArrowDownWideNarrow,
+  //   },
+  //   {
+  //     value: "longer",
+  //     label: "Make longer",
+  //     icon: WrapText,
+  //   },
+  // ];
+  
+
+  return (
+    <div>
+      Commands:
+      
+    </div>
+  )
+}
 
 const CentralPrompt = () => {
   const [content, setContent] = useAtom(generatedContent);
@@ -58,11 +95,12 @@ const CentralPrompt = () => {
   };
 
   return (
-    <section>
+    <section className="">
       <SectionHeading>Editor:</SectionHeading>
+      <Commands/>
       <div className="relative w-full">
         <svg
-          className="absolute top-3 left-3 w-7 h-7"
+          className="absolute top-3 left-3 w-6 h-6"
           viewBox="0 0 256 256"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -161,7 +199,7 @@ const CentralPrompt = () => {
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="w-full text-xl p-3 pl-14 rounded-lg"
+          className="w-full text-xl p-3 pl-12 rounded-lg"
           rows={5}
           placeholder="Write with AI.."
         ></textarea>
