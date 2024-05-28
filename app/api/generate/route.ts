@@ -64,7 +64,7 @@ export async function POST(req: Request): Promise<Response> {
         role: "system",
         content:
           "You are an AI writing assistant that improves existing text. " +
-          "Limit your response to no more than 200 characters, but make sure to construct complete sentences." +
+          "Make sure to construct complete sentences." +
           "Use Markdown formatting when appropriate.",
       },
       {
@@ -100,7 +100,7 @@ export async function POST(req: Request): Promise<Response> {
         role: "system",
         content:
           "You are an AI writing assistant that fixes grammar and spelling errors in existing text. " +
-          "Limit your response to no more than 200 characters, but make sure to construct complete sentences." +
+          "Make sure to construct complete sentences." +
           "Use Markdown formatting when appropriate.",
       },
       {
