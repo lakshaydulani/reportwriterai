@@ -6,43 +6,7 @@ import { toast } from "sonner";
 import { useCompletion } from "ai/react";
 import { useAtom } from "jotai";
 import SectionHeading from "./../ui/section-heading";
-import { Command } from "../ui/command";
-import AISelectorCommands from "./ai-selector-commands";
-
-const Commands = () => {
-
-  // const options = [
-  //   {
-  //     value: "improve",
-  //     label: "Improve writing",
-  //     icon: RefreshCcwDot,
-  //   },
-  
-  //   {
-  //     value: "fix",
-  //     label: "Fix grammar",
-  //     icon: CheckCheck,
-  //   },
-  //   {
-  //     value: "shorter",
-  //     label: "Make shorter",
-  //     icon: ArrowDownWideNarrow,
-  //   },
-  //   {
-  //     value: "longer",
-  //     label: "Make longer",
-  //     icon: WrapText,
-  //   },
-  // ];
-  
-
-  return (
-    <div>
-      Commands:
-      
-    </div>
-  )
-}
+import removeMarkdown from 'remove-markdown';
 
 const CentralPrompt = () => {
   const [content, setContent] = useAtom(generatedContent);
@@ -63,6 +27,8 @@ const CentralPrompt = () => {
 
   useEffect(() => {
     if (completion.length > 0) {
+        // Remove Markdown to get plain text
+        const plainText = removeMarkdown(completion);
       const newContent = {
         type: "doc",
         content: [
@@ -71,7 +37,7 @@ const CentralPrompt = () => {
             content: [
               {
                 type: "text",
-                text: completion,
+                text: plainText,
               },
             ],
           },
