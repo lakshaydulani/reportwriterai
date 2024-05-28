@@ -14,12 +14,12 @@ export const AppContext = createContext<{
   setFont: () => {},
 });
 
-const ToasterProvider = () => {
-  const { theme } = useTheme() as {
-    theme: "light" | "dark" | "system";
-  };
-  return <Toaster theme={theme} />;
-};
+// const ToasterProvider = () => {
+//   const { theme } = useTheme() as {
+//     theme: "light" | "dark" | "system";
+//   };
+//   return <Toaster theme={theme} />;
+// };
 
 export default function Providers({ children }: { children: ReactNode }) {
   const [font, setFont] = useLocalStorage<string>("novel__font", "Default");
@@ -32,7 +32,7 @@ export default function Providers({ children }: { children: ReactNode }) {
           setFont,
         }}
       >
-        <ToasterProvider />
+        {/* <ToasterProvider /> */}
         {children}
         <Analytics />
       </AppContext.Provider>

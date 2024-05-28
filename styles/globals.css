@@ -4,6 +4,8 @@
 
 @layer base {
   :root {
+    --ey-dark-background: #1a1a24;
+    --white: #fff;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -161,4 +163,12 @@ pre {
   .hljs-strong {
     font-weight: 700;
   }
+}
+
+header{
+  background-color: var(--ey-dark-background);
+}
+
+.uploader{
+  border: 3px dashed var(--white);
 }

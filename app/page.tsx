@@ -12,8 +12,33 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="flex min-h-screen flex-col gap-4 py-2 sm:px-5 bg-zinc-200">
+    <div className="flex min-h-screen flex-col gap-4 bg-zinc-200">
+      <Header />
+      <div className="grid grid-cols-8 gap-8 px-4">
+        <div className="col-span-6">
+          <ScrollArea className="max-h-screen">
+            <TailwindAdvancedEditor />
+          </ScrollArea>
+        </div>
+        <div className="col-span-2">
+          <div className="bg-neutral-400 p-3 rounded-lg shadow-lg gap-5 flex flex-col [&>section]:border [&>section]:border-black [&>section]:border-5 [&>*]:p-3 [&>section]:rounded-lg">            
+            <Uploader />
+            <CentralPrompt />
+            <ReportProcess />
+          </div>
+        </div>
+      </div>
       {/* 
+
+
+[&>*]:border-violet-700
+
+
+      <div className="fixed bottom-0 left-0 w-full h-16 bg-zinc-200 shadow-lg">
+      <CentralPrompt />
+      </div> */}
+
+            {/* 
         <Dialog>
           <DialogTrigger asChild>
             <Button className="ml gap-2">
@@ -40,11 +65,6 @@ export default function Page() {
         <div className="col-span-2">
           <Uploader />
           <ReportProcess />
-          <Link
-            href='/knowledgebase'
-          >
-            <button className="bg-black mt-5 p-5 rounded-full text-white">Knowledge Base</button>
-          </Link>
         </div>
       </div>
 
