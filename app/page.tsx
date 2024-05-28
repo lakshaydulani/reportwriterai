@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="flex min-h-screen flex-col gap-4 py-4 sm:px-5 bg-zinc-200">
+    <div className="flex min-h-screen flex-col gap-4 py-2 sm:px-5 bg-zinc-200">
       {/* 
         <Dialog>
           <DialogTrigger asChild>

@@ -69,6 +69,7 @@ const TailwindAdvancedEditor = () => {
           {charsCount} Words
         </div>
       </div>
+      <div className="max-h-[calc(75vh)]">
       <EditorRoot>
         <EditorContent
           key={JSON.stringify(initialContent)} // Use a key to force re-initialization
@@ -127,6 +128,7 @@ const TailwindAdvancedEditor = () => {
           </GenerativeMenuSwitch>
         </EditorContent>
       </EditorRoot>
+      </div>
     </div>
   );
 };
