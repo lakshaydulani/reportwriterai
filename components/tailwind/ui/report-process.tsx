@@ -19,20 +19,10 @@ const ReportProcess = () => {
     },
   });
 
-  const generateReport = () => {
-    console.log({ completion, complete }, "<<<");
-    if (completion) {
-      const result = complete(completion, {
-        body: { option: "generate", command: prompt },
-      });
-      console.log(result);
-    }
-  };
-
   return (
     <section>
       <SectionHeading helptext="Formatted as per EY Guidelines">Generate Report:</SectionHeading>
-      <button className="bg-sky-600 flex w-full justify-center items-center text-white font-bold py-4 px-8 rounded-lg">
+      <button className="bg-ey-yellow flex w-full justify-center items-center font-bold py-4 px-8 rounded-lg">
         <DownloadIcon className="mx-2" />
         Download
       </button>

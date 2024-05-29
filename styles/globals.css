@@ -6,6 +6,7 @@
   :root {
     --ey-dark-background: #1a1a24;
     --ey-dark1-background: #2e2e38;
+    --ey-yellow:#ffe600;
     --white: #fff;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -172,4 +173,9 @@ header{
 
 .uploader{
   border: 3px dashed var(--white);
+}
+
+.bg-ey-yellow{
+  background-color: var(--ey-yellow);
+  color: var(--ey-dark-background);
 }
