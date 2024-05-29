@@ -12,17 +12,6 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 
 
-const Commands = () => {
-  return (
-    <div className="mt-2 mb-4 flex flex-wrap gap-2">
-    {options.map((item)=>{
-      return <Button size="sm" variant="aihelper"><item.icon className="h-4 w-4 mr-2 text-purple-500" /> {item.label}</Button>
-          })}
-    </div>
-  )
-
-}
-
 
 const CentralPrompt = () => {
   const [content, setContent] = useAtom(generatedContent);
@@ -40,6 +29,53 @@ const CentralPrompt = () => {
       toast.error(e.message);
     },
   });
+
+  const Commands = () => {
+    return (
+      <div className="mt-2 mb-4 flex flex-wrap gap-2">
+        {options.map((item) => (
+          <Button
+            key={item.value}
+            size="sm"
+            variant="aihelper"
+            onClick={() => handleButtonClick(item.value)}
+          >
+            <item.icon className="h-4 w-4 mr-2 text-purple-500" />
+            {item.label}
+          </Button>
+        ))}
+      </div>
+    );
+  }
+  
+  // Function to handle button clicks
+  const handleButtonClick = (value) => {
+    switch (value) {
+      case 'improve':
+        complete(completion, {
+          body: { option: "improve"},
+        })
+        break;
+      case 'fix':
+        complete(completion, {
+          body: { option: "fix"},
+        })
+        break;
+      case 'shorter':
+        complete(completion, {
+          body: { option: "shorter" },
+        })
+        break;
+      case 'longer':
+        complete(completion, {
+          body: { option: "longer" },
+        })
+        break;
+      default:
+        break;
+    }
+  };
+  
 
   useEffect(() => {
     if (completion.length > 0) {
