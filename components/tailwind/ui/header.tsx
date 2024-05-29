@@ -6,7 +6,7 @@ const Header
         return (
             <header className="p-4 text-white flex items-center">
             <div className="flex items-center">
-              <Image src="/images/eylogo.svg" alt="Logo" width={50} height={50} className="mr-4" />
+              <Image src="/images/eylogo.png" alt="Logo" width={50} height={50} className="mr-4" />
               <h1 className="text-3xl font-bold">{HEADER_TITLE}</h1>
             </div>
           </header>          
