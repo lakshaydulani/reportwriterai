@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SectionHeading = ({ children, helptext }) => {
+const SectionHeading = ({ children, helptext='' }) => {
   return (
     <div className='mb-3 text-xl font-bold'>
       <i>{children}</i>
