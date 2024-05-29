@@ -6,7 +6,21 @@ import { toast } from "sonner";
 import { useCompletion } from "ai/react";
 import { useAtom } from "jotai";
 import SectionHeading from "./../ui/section-heading";
-import removeMarkdown from 'remove-markdown';
+// import removeMarkdown from 'remove-markdown';
+import {aiOptions as options} from "./ai-selector-options";
+import { Button } from "../ui/button";
+
+const Commands = () => {
+  return (
+    <div className="mt-2 mb-4 flex flex-wrap gap-2">
+    {options.map((item)=>{
+      return <Button size="sm" variant="aihelper"><item.icon className="h-4 w-4 mr-2 text-purple-500" /> {item.label}</Button>
+    })}
+    </div>
+  )
+
+}
+
 
 const CentralPrompt = () => {
   const [content, setContent] = useAtom(generatedContent);
@@ -28,7 +42,7 @@ const CentralPrompt = () => {
   useEffect(() => {
     if (completion.length > 0) {
         // Remove Markdown to get plain text
-        const plainText = removeMarkdown(completion);
+        const plainText = completion; //removeMarkdown(completion);
       const newContent = {
         type: "doc",
         content: [
@@ -63,6 +77,7 @@ const CentralPrompt = () => {
   return (
     <section className="">
       <SectionHeading>Editor:</SectionHeading>
+      <Commands />
       <div className="relative w-full">
         <svg
           className="absolute top-3 left-3 w-6 h-6"
@@ -165,7 +180,7 @@ const CentralPrompt = () => {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           className="w-full text-xl p-3 pl-12 rounded-lg"
-          rows={5}
+          rows={2}
           placeholder="Write with AI.."
         ></textarea>
 
@@ -177,6 +192,8 @@ const CentralPrompt = () => {
           <SparklesIcon className="mx-2" />
           {isLoading ? "Generating..." : "Generate"}
         </button>
+       
+
       </div>
     </section>
   );

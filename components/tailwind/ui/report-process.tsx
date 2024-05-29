@@ -31,7 +31,7 @@ const ReportProcess = () => {
 
   return (
     <section>
-      <SectionHeading>Generate Report as per EY Guidelines:</SectionHeading>
+      <SectionHeading helptext="Formatted as per EY Guidelines">Generate Report:</SectionHeading>
       <button className="bg-sky-600 flex w-full justify-center items-center text-white font-bold py-4 px-8 rounded-lg">
         <DownloadIcon className="mx-2" />
         Download

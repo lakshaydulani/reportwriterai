@@ -69,13 +69,14 @@ const TailwindAdvancedEditor = () => {
           {charsCount} Words
         </div>
       </div>
-      <div className="max-h-[calc(75vh)]">
+      {/* className="max-h-[calc(75vh)]" */}
+      <div className="">
       <EditorRoot>
         <EditorContent
           key={JSON.stringify(initialContent)} // Use a key to force re-initialization
           initialContent={initialContent}
           extensions={extensions}
-          className="relative min-h-[500px] w-full shadow-blue-900 border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
+          className="relative h-full min-h-[500px] w-full shadow-blue-900 border-muted bg-background sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -119,7 +120,6 @@ const TailwindAdvancedEditor = () => {
             <Separator orientation="vertical" />
             <NodeSelector open={openNode} onOpenChange={setOpenNode} />
             <Separator orientation="vertical" />
-
             <LinkSelector open={openLink} onOpenChange={setOpenLink} />
             <Separator orientation="vertical" />
             <TextButtons />

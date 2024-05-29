@@ -1,31 +1,7 @@
-import { ArrowDownWideNarrow, CheckCheck, RefreshCcwDot, StepForward, WrapText } from "lucide-react";
 import { useEditor } from "novel";
 import { getPrevText } from "novel/utils";
 import { CommandGroup, CommandItem, CommandSeparator } from "../ui/command";
-
-const options = [
-  {
-    value: "improve",
-    label: "Improve writing",
-    icon: RefreshCcwDot,
-  },
-
-  {
-    value: "fix",
-    label: "Fix grammar",
-    icon: CheckCheck,
-  },
-  {
-    value: "shorter",
-    label: "Make shorter",
-    icon: ArrowDownWideNarrow,
-  },
-  {
-    value: "longer",
-    label: "Make longer",
-    icon: WrapText,
-  },
-];
+import { aiOptions as options } from "./ai-selector-options";
 
 interface AISelectorCommandsProps {
   onSelect: (value: string, option: string) => void;
