@@ -1,6 +1,7 @@
 import { CommandGroup, CommandItem, CommandSeparator } from "../ui/command";
 import { useEditor } from "novel";
 import { Check, TextQuote, TrashIcon } from "lucide-react";
+import { ClipboardCheckIcon } from "lucide-react";
 
 const AICompletionCommands = ({
   completion,
@@ -34,6 +35,21 @@ const AICompletionCommands = ({
         >
           <Check className="h-4 w-4 text-muted-foreground" />
           Replace selection
+        </CommandItem>
+        <CommandItem
+          className="gap-2 px-4"
+          value="append"
+          onSelect={() => {
+            const selection = editor.view.state.selection;
+            editor
+              .chain()
+              .focus()
+              .insertContentAt(selection.to, ' ' + completion)
+              .run();
+          }}
+        >
+          <ClipboardCheckIcon className="h-4 w-4 text-muted-foreground" />
+          Append Text
         </CommandItem>
         <CommandItem
           className="gap-2 px-4"

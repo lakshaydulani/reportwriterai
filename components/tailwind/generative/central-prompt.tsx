@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { SparklesIcon } from "lucide-react";
+import { Settings, SparklesIcon } from "lucide-react";
 import { generatedContent } from "@/lib/atom";
 import { toast } from "sonner";
 import { useCompletion } from "ai/react";
@@ -9,6 +9,7 @@ import SectionHeading from "./../ui/section-heading";
 // import removeMarkdown from 'remove-markdown';
 import {aiOptions as options} from "./ai-selector-options";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 
 const Commands = () => {
@@ -77,7 +78,14 @@ const CentralPrompt = () => {
 
   return (
     <section className="">
-      <SectionHeading>Editor:</SectionHeading>
+      <div className="flex">
+        <SectionHeading>Editor:</SectionHeading>
+        <Link href="/advanceSetting" className="ml-[230px]" title="Advance Setting">
+          <button>
+            <Settings  />
+          </button>
+        </Link>
+      </div>
       <Commands />
       <div className="relative w-full">
         <svg

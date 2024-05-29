@@ -70,7 +70,7 @@ const TailwindAdvancedEditor = () => {
         </div>
       </div>
       {/* className="max-h-[calc(75vh)]" */}
-      <div className="">
+      <div className="overflow-y-auto max-h-[calc(75vh)]"> {/*scrollbar in editor*/}
       <EditorRoot>
         <EditorContent
           key={JSON.stringify(initialContent)} // Use a key to force re-initialization
