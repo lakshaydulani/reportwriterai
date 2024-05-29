@@ -2,6 +2,7 @@ import { useEditor } from "novel";
 import { getPrevText } from "novel/utils";
 import { CommandGroup, CommandItem, CommandSeparator } from "../ui/command";
 import { aiOptions as options } from "./ai-selector-options";
+import { StepForward } from "lucide-react";
 
 interface AISelectorCommandsProps {
   onSelect: (value: string, option: string) => void;

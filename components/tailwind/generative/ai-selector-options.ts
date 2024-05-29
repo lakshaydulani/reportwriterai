@@ -1,4 +1,4 @@
-import { ArrowDownWideNarrow, CheckCheck, RefreshCcwDot, StepForward, WrapText } from "lucide-react";
+import { ArrowDownWideNarrow, CheckCheck, RefreshCcwDot, WrapText } from "lucide-react";
 
 export const aiOptions = [
     {
