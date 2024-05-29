@@ -17,7 +17,7 @@ const Commands = () => {
     <div className="mt-2 mb-4 flex flex-wrap gap-2">
     {options.map((item)=>{
       return <Button size="sm" variant="aihelper"><item.icon className="h-4 w-4 mr-2 text-purple-500" /> {item.label}</Button>
-    })}
+          })}
     </div>
   )
 
@@ -44,7 +44,7 @@ const CentralPrompt = () => {
   useEffect(() => {
     if (completion.length > 0) {
         // Remove Markdown to get plain text
-        const plainText = completion; //removeMarkdown(completion);
+      const plainText = completion; //removeMarkdown(completion);
       const newContent = {
         type: "doc",
         content: [
@@ -80,7 +80,7 @@ const CentralPrompt = () => {
     <section className="">
       <div className="flex">
         <SectionHeading>Editor:</SectionHeading>
-        <Link href="/advanceSetting" className="ml-[230px]" title="Advance Setting">
+        <Link href="/advanceSetting" className="float-end ml-auto" title="Advance Setting">
           <button>
             <Settings  />
           </button>
