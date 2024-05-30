@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Settings, SparklesIcon } from "lucide-react";
-import { generatedContent } from "@/lib/atom";
+import { generatedContent, initialEditorContent } from "@/lib/atom";
 import { toast } from "sonner";
 import { useCompletion } from "ai/react";
 import { useAtom } from "jotai";
@@ -10,11 +10,23 @@ import SectionHeading from "./../ui/section-heading";
 import {aiOptions as options} from "./ai-selector-options";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import {
+  EditorCommand,
+  EditorCommandEmpty,
+  EditorCommandItem,
+  EditorCommandList,
+  EditorContent,
+  type EditorInstance,
+  EditorRoot,
+  type JSONContent,
+} from "novel";
 
+import { defaultEditorContent } from "@/lib/content";
 
 
 const CentralPrompt = () => {
   const [content, setContent] = useAtom(generatedContent);
+  const [initialEditContent, setInitialEditorContent] = useAtom(initialEditorContent);
   const [prompt, setPrompt] = useState("");
 
   const { completion, complete, isLoading } = useCompletion({
@@ -111,6 +123,11 @@ const CentralPrompt = () => {
       body: { option: "zap", command: "generate report" },
     });
   };
+
+  useEffect(() => {
+    if (content) setInitialEditorContent(content);
+    else setInitialEditorContent(defaultEditorContent);
+  }, []);
 
   return (
     <section className="">
