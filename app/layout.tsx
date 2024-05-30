@@ -4,6 +4,7 @@ import "@/styles/prosemirror.css";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import Providers from "./providers";
+import Header from "@/components/tailwind/ui/header";
 
 const title = "EY AI Report Writer";
 const description =
@@ -33,7 +34,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+      <div className="flex min-h-screen flex-col gap-4 bg-zinc-200">
+        <Header />
         <Providers>{children}</Providers>
+      </div>
       </body>
     </html>
   );
