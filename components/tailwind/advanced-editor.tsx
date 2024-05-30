@@ -26,6 +26,9 @@ import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 import { useAtom } from 'jotai';
 import { generatedContent } from "@/lib/atom";
+import CrazySpinner from "@/components/tailwind/ui/icons/crazy-spinner";
+
+
 const extensions = [...defaultExtensions, slashCommand];
 
 const TailwindAdvancedEditor = () => {
@@ -44,6 +47,7 @@ const TailwindAdvancedEditor = () => {
     window.localStorage.setItem("html-content", editor.getHTML());
     window.localStorage.setItem("novel-content", JSON.stringify(json));
     window.localStorage.setItem("markdown", editor.storage.markdown.getMarkdown());
+    if(json) setContent(json.content);
     setSaveStatus("Saved");
   }, 500);
 
@@ -57,21 +61,24 @@ const TailwindAdvancedEditor = () => {
     } 
   }, []);
 
-  useEffect(() => {
-    if (content) {
-      // Create a new object reference to ensure re-render
-      setInitialContent({ ...content });
-    }
-  }, [content]);
+  // useEffect(() => {
+  //   if (content) {
+  //     // Create a new object reference to ensure re-render
+  //     setInitialContent({ ...content });
+  //   }
+  // }, [content]);
   if (!initialContent) return null;
 
   return (
     <div className="relative w-full">
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
+      <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div>
+
         <div className="bg-accent px-2 py-1 text-sm text-muted-foreground">{saveStatus}</div>
         <div className={charsCount ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground" : "hidden"}>
           {charsCount} Words
         </div>
+
       </div>
       {/* className="max-h-[calc(75vh)]" */}
       <div className="overflow-y-auto max-h-[calc(75vh)]"> {/*scrollbar in editor*/}
