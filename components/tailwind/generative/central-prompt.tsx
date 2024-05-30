@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Settings, SparklesIcon } from "lucide-react";
-import { generatedContent, initialEditorContent } from "@/lib/atom";
+import { generatedContent } from "@/lib/atom";
 import { toast } from "sonner";
 import { useCompletion } from "ai/react";
 import { useAtom } from "jotai";
@@ -26,7 +26,6 @@ import { defaultEditorContent } from "@/lib/content";
 
 const CentralPrompt = () => {
   const [content, setContent] = useAtom(generatedContent);
-  const [initialEditContent, setInitialEditorContent] = useAtom(initialEditorContent);
   const [prompt, setPrompt] = useState("");
 
   const { completion, complete, isLoading } = useCompletion({
@@ -64,22 +63,22 @@ const CentralPrompt = () => {
   const handleButtonClick = (value) => {
     switch (value) {
       case 'improve':
-        complete(completion, {
+        complete(content?.content[0]?.content[0]?.text, {
           body: { option: "improve"},
         })
         break;
       case 'fix':
-        complete(completion, {
+        complete(content?.content[0]?.content[0]?.text, {
           body: { option: "fix"},
         })
         break;
       case 'shorter':
-        complete(completion, {
+        complete(content?.content[0]?.content[0]?.text, {
           body: { option: "shorter" },
         })
         break;
       case 'longer':
-        complete(completion, {
+        complete(content?.content[0]?.content[0]?.text, {
           body: { option: "longer" },
         })
         break;
@@ -124,10 +123,6 @@ const CentralPrompt = () => {
     });
   };
 
-  useEffect(() => {
-    if (content) setInitialEditorContent(content);
-    else setInitialEditorContent(defaultEditorContent);
-  }, []);
 
   return (
     <section className="">

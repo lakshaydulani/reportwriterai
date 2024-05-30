@@ -25,7 +25,7 @@ import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 import { useAtom } from 'jotai';
-import { generatedContent,initialEditorContent } from "@/lib/atom";
+import { generatedContent } from "@/lib/atom";
 const extensions = [...defaultExtensions, slashCommand];
 
 const TailwindAdvancedEditor = () => {
@@ -38,7 +38,6 @@ const TailwindAdvancedEditor = () => {
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
   const [content, setContent] = useAtom(generatedContent);
-  const [initialEditContent, setInitialEditorContent] = useAtom(initialEditorContent);
   const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
     setCharsCount(editor.storage.characterCount.words());
@@ -52,11 +51,9 @@ const TailwindAdvancedEditor = () => {
     const content = window.localStorage.getItem("novel-content");
     if (content){
       setInitialContent(JSON.parse(content));
-      setInitialEditorContent(JSON.parse(content));
     } 
     else{
       setInitialContent(defaultEditorContent);
-      setInitialEditorContent(defaultEditorContent);
     } 
   }, []);
 
@@ -64,7 +61,6 @@ const TailwindAdvancedEditor = () => {
     if (content) {
       // Create a new object reference to ensure re-render
       setInitialContent({ ...content });
-      setInitialEditorContent({ ...content });
     }
   }, [content]);
   if (!initialContent) return null;
