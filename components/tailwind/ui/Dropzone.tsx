@@ -6,7 +6,6 @@ interface DropzoneProps {
   className?: string;
 }
 
-// Define the type for the file object including the preview property
 type FileWithPreview = File & {
   preview: string;
 };
@@ -15,30 +14,54 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
   const [file, setFile] = useState<FileWithPreview | null>(null);
   const [uploadStatus, setUploadStatus] = useState<'success' | 'failure' | null>(null);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [base64URL, setBase64URL] = useState<string | null>(null);
+  const [response, setResponse] = useState(null);
 
-  const onDrop = useCallback((acceptedFile) => {
-    if (acceptedFile?.length) {
-      const uploadedFile = acceptedFile[0] as FileWithPreview;
+  const onDrop = useCallback((acceptedFiles) => {
+    if (acceptedFiles.length) {
+      const uploadedFile = acceptedFiles[0] as FileWithPreview;
       if (uploadedFile.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
         setFile(uploadedFile);
-        uploadFile(uploadedFile);
+        convertToBase64(uploadedFile);
       } else {
-        // File type is not .docx, display an alert
         setAlertMessage('Please select a .docx file');
       }
     }
   }, []);
 
-  const uploadFile = (file: FileWithPreview) => {
-    // Simulating an asynchronous file upload process
-    setTimeout(() => {
-      // Simulate upload success
-      setUploadStatus('success');
+  const convertToBase64 = (file: File) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = async () => {
+      try {
+        const base64String = reader.result as string;
+        const base64URL = base64String.split(',')[1];
+        setBase64URL(base64URL);
 
-      // Here, you can perform actual upload logic to your server
+        const res = await fetch('/api/upload-file', {
+          method: 'POST',
+          body: JSON.stringify({ file: base64URL })
+        });
 
-      console.log('Upload successful:', file.name);
-    }, 2000);
+        if (!res.ok) {
+          throw new Error(`Error: ${res.statusText}`);
+        }
+
+        const data = await res.json();
+        console.log(data);
+        setResponse(data);
+        setUploadStatus('success');
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        setAlertMessage(`Error uploading file: ${error.message}`);
+        setUploadStatus('failure');
+      }
+    };
+
+    reader.onerror = (error) => {
+      console.error('Error converting file to base64:', error);
+      setAlertMessage('Error converting file to base64');
+    };
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -46,26 +69,24 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
       'application/msword': ['.doc'],
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
     },
-    // maxSize: 1024 * 1000,
-    maxFiles:1,
+    maxFiles: 1,
     onDrop
-  })
+  });
 
   const removeFile = () => {
     setFile(null);
     setUploadStatus(null);
     setAlertMessage(null);
+    setBase64URL(null);
   };
 
   return (
-    <div
-      {...getRootProps({ className: `${className} ${uploadStatus === 'success' ? 'bg-green-200' : uploadStatus === 'failure' ? 'bg-red-900' : ''}` })}
-    >
+    <div {...getRootProps({ className: `${className} ${uploadStatus === 'success' ? 'bg-green-200' : uploadStatus === 'failure' ? 'bg-red-900' : ''}` })}>
       <input {...getInputProps({ multiple: false })} />
       {isDragActive ? (
         <p>Drop your .docx file here ...</p>
-      ) : (
-        file ? (
+      ) : file ? (
+        <div>
           <p>
             {uploadStatus === 'success' ? 'Upload successful: ' : uploadStatus === 'failure' ? 'Upload failed. ' : ''}
             {file.name}
@@ -73,18 +94,14 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
               <button onClick={removeFile} className="ml-2 text-red">Remove</button>
             )}
           </p>
-        ) : (
-          <div>
+        </div>
+      ) : (
+        <div>
+          <p>Drag 'n' drop your .docx file here, or click to select a file</p>
           <p>
-            Drag 'n' drop your .docx file here, or click to select a file
-            </p>
-            <p>
-            {alertMessage && (
-              <span className="text-red-500 ml-2">{alertMessage}</span>
-            )}
+            {alertMessage && <span className="text-red-500 ml-2">{alertMessage}</span>}
           </p>
-          </div>
-        )
+        </div>
       )}
     </div>
   );
