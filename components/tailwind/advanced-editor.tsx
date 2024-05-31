@@ -18,21 +18,19 @@ import { ColorSelector } from "./selectors/color-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { NodeSelector } from "./selectors/node-selector";
 import { Separator } from "./ui/separator";
-
 import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 import { useAtom } from 'jotai';
-import { generatedContent } from "@/lib/atom";
+import { generatedContent, initialContent as initialContentAtom } from "@/lib/atom";
 import CrazySpinner from "@/components/tailwind/ui/icons/crazy-spinner";
-
 
 const extensions = [...defaultExtensions, slashCommand];
 
 const TailwindAdvancedEditor = () => {
-  const [initialContent, setInitialContent] = useState<null | JSONContent>(null);
+  const [initialContent, setInitialContent] = useAtom(initialContentAtom); // useState<null | JSONContent>(null);
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
 
@@ -67,6 +65,8 @@ const TailwindAdvancedEditor = () => {
   //     setInitialContent({ ...content });
   //   }
   // }, [content]);
+
+
   if (!initialContent) return null;
 
   return (

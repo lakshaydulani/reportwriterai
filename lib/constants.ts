@@ -1,1 +1,1 @@
-export const HEADER_TITLE = 'EY AI Report Writer';
+export const HEADER_TITLE = 'AI Report Writer';

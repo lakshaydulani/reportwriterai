@@ -1,31 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Settings, SparklesIcon } from "lucide-react";
-import { generatedContent } from "@/lib/atom";
+import {
+  generatedContent,
+  initialContent as initialContentAtom,
+} from "@/lib/atom";
 import { toast } from "sonner";
 import { useCompletion } from "ai/react";
 import { useAtom } from "jotai";
 import SectionHeading from "./../ui/section-heading";
 // import removeMarkdown from 'remove-markdown';
-import {aiOptions as options} from "./ai-selector-options";
+import { aiOptions as options } from "./ai-selector-options";
 import { Button } from "../ui/button";
-import Link from "next/link";
 import {
-  EditorCommand,
-  EditorCommandEmpty,
-  EditorCommandItem,
-  EditorCommandList,
-  EditorContent,
-  type EditorInstance,
-  EditorRoot,
-  type JSONContent,
-} from "novel";
-
-import { defaultEditorContent } from "@/lib/content";
-
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/tailwind/ui/popover";
+import Link from "next/link";
+import { Check, ChevronDown } from "lucide-react";
 
 const CentralPrompt = () => {
-  const [content, setContent] = useAtom(generatedContent);
+  const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [prompt, setPrompt] = useState("");
 
   const { completion, complete, isLoading } = useCompletion({
@@ -40,6 +36,80 @@ const CentralPrompt = () => {
       toast.error(e.message);
     },
   });
+
+  const Section = () => {
+    const [open, onOpenChange] = useState(false);
+
+    const appendSection = (value) => () => {
+      const newContent = {
+        type: "doc",
+        content: [
+          {
+            type: "heading",
+            attrs: { level: 1 },
+            content: [
+              {
+                type: "text",
+                text: value,
+              },
+            ],
+          },
+        ],
+      };
+      initialContent.content.push(newContent);
+      setInitialContent(initialContent);
+      // setInitialContent(newContent);
+      onOpenChange(false);
+    };
+
+    const options = [
+      "Header",
+      "Background",
+      "Issue Summary",
+      "Detailed observation",
+      "Risk/ Impact",
+      "Root cause",
+      "Recommendation",
+      "Management Comment",
+    ];
+    return (
+      <div className="my-3 flex flex-wrap gap-2">
+        <Popover modal={true} open={open} onOpenChange={onOpenChange}>
+          <PopoverTrigger asChild>
+            <Button
+              size="lg"
+              className="gap-2 rounded-xl w-full"
+              variant="default"
+            >
+              <span className="rounded-sm px-1">Add Section</span>
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </PopoverTrigger>
+
+          <PopoverContent
+            sideOffset={5}
+            className="flex max-h-100 w-72 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
+            align="start"
+          >
+            {options.map((item) => {
+              return (
+                <div className="my-1 px-2 text-sm font-semibold">
+                  <Button
+                    onClick={appendSection(item)}
+                    size="sm"
+                    className="rounded-xl w-full border-black"
+                    variant="outline"
+                  >
+                    {item}
+                  </Button>
+                </div>
+              );
+            })}
+          </PopoverContent>
+        </Popover>
+      </div>
+    );
+  };
 
   const Commands = () => {
     return (
@@ -57,40 +127,18 @@ const CentralPrompt = () => {
         ))}
       </div>
     );
-  }
-  
+  };
+
   // Function to handle button clicks
   const handleButtonClick = (value) => {
-    switch (value) {
-      case 'improve':
-        complete(content?.content[0]?.content[0]?.text, {
-          body: { option: "improve"},
-        })
-        break;
-      case 'fix':
-        complete(content?.content[0]?.content[0]?.text, {
-          body: { option: "fix"},
-        })
-        break;
-      case 'shorter':
-        complete(content?.content[0]?.content[0]?.text, {
-          body: { option: "shorter" },
-        })
-        break;
-      case 'longer':
-        complete(content?.content[0]?.content[0]?.text, {
-          body: { option: "longer" },
-        })
-        break;
-      default:
-        break;
-    }
+    complete(initialContent?.content[0]?.content[0]?.text, {
+      body: { option: value },
+    });
   };
-  
 
   useEffect(() => {
     if (completion.length > 0) {
-        // Remove Markdown to get plain text
+      // Remove Markdown to get plain text
       const plainText = completion; //removeMarkdown(completion);
       const newContent = {
         type: "doc",
@@ -106,7 +154,7 @@ const CentralPrompt = () => {
           },
         ],
       };
-      setContent(newContent);
+      setInitialContent(newContent);
       setPrompt("");
     }
   }, [completion]);
@@ -123,18 +171,24 @@ const CentralPrompt = () => {
     });
   };
 
-
   return (
     <section className="">
       <div className="flex">
         <SectionHeading>Editor:</SectionHeading>
-        <Link href="/advanceSetting" className="float-end ml-auto" title="Advance Setting">
+        <Link
+          href="/advanceSetting"
+          className="float-end ml-auto"
+          title="Advance Setting"
+        >
           <button>
-            <Settings  />
+            <Settings />
           </button>
         </Link>
       </div>
       <Commands />
+      <hr />
+      <Section />
+      <hr className="mb-2" />
       <div className="relative w-full">
         <svg
           className="absolute top-3 left-3 w-6 h-6"
@@ -249,8 +303,6 @@ const CentralPrompt = () => {
           <SparklesIcon className="mx-2" />
           {isLoading ? "Generating..." : "Generate"}
         </button>
-       
-
       </div>
     </section>
   );

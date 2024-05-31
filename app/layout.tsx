@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 import Providers from "./providers";
 import Header from "@/components/tailwind/ui/header";
 
-const title = "EY AI Report Writer";
+const title = "AI Report Writer";
 const description =
   "POC app developed by Lakshay Dulani";
 

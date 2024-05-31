@@ -10,7 +10,7 @@ const Uploader = () => {
       <SectionHeading>
         {/* <UploadIcon /> */}
         Upload your current report:</SectionHeading>
-        <Dropzone className='uploader bg-zinc-600 p-3 text-white' />
+        <Dropzone className='uploader p-3 text-white' />
     </section>
   );
 };
