@@ -2,6 +2,11 @@ import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Trash2 as DeleteIcon } from "lucide-react";
+import { useAtom } from "jotai";
+import {
+  generatedContent,
+  initialContent as initialContentAtom,
+} from "@/lib/atom";
 
 interface DropzoneProps {
   className?: string;
@@ -19,6 +24,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [base64URL, setBase64URL] = useState<string | null>(null);
   const [response, setResponse] = useState(null);
+  const [initialContent, setInitialContent] = useAtom(initialContentAtom);
 
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length) {
@@ -54,7 +60,8 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
         }
 
         const data = await res.json();
-        console.log(data);
+        setInitialContent(data.content);
+
         setResponse(data);
         setUploadStatus("success");
       } catch (error) {
