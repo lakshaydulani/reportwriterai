@@ -62,7 +62,7 @@ const CentralPrompt = () => {
       onOpenChange(false);
     };
 
-    const options = [
+    const option = [
       "Header",
       "Background",
       "Issue Summary",
@@ -91,7 +91,7 @@ const CentralPrompt = () => {
             className="flex max-h-100 w-72 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
             align="start"
           >
-            {options.map((item) => {
+            {option.map((item) => {
               return (
                 <div className="my-1 px-2 text-sm font-semibold">
                   <Button
@@ -129,9 +129,20 @@ const CentralPrompt = () => {
     );
   };
 
+  const getTextFromInitialContent = (initialContent) => {
+    if (initialContent && initialContent?.content?.[0]?.content?.[0]?.text) {
+      return initialContent.content[0].content[0].text;
+    } else if (initialContent?.text) {
+      return initialContent.text;
+    }else if(initialContent && typeof(initialContent))
+      return initialContent;
+    return '';
+  };
+
   // Function to handle button clicks
   const handleButtonClick = (value) => {
-    complete(initialContent?.content[0]?.content[0]?.text, {
+    const text = getTextFromInitialContent(initialContent);
+    complete(text, {
       body: { option: value },
     });
   };

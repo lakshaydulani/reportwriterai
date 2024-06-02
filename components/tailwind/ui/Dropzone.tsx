@@ -1,12 +1,13 @@
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Trash2 as DeleteIcon } from "lucide-react";
+import { Trash2 as DeleteIcon, UploadIcon } from "lucide-react";
 import { useAtom } from "jotai";
 import {
   generatedContent,
   initialContent as initialContentAtom,
 } from "@/lib/atom";
+import SectionHeading from "./section-heading";
 
 interface DropzoneProps {
   className?: string;
@@ -95,46 +96,53 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
   };
 
   return (
-    <div
-      {...getRootProps({
-        className: `${className} ${
-          uploadStatus === "success"
-            ? "bg-green-600"
-            : uploadStatus === "failure"
-            ? "bg-red-900"
-            : "bg-zinc-600"
-        }`,
-      })}
-    >
-      <input {...getInputProps({ multiple: false })} />
-      {isDragActive ? (
-        <p>Drop your .docx file here ...</p>
-      ) : file ? (
-        <div>
-          <p>
-            {uploadStatus === "success"
-              ? "Upload successful: "
+    <section >
+      <SectionHeading>
+        Upload your current report:
+        {uploadStatus && (
+          <button onClick={removeFile} className="float-end ml-auto">
+            <DeleteIcon />
+          </button>
+        )}
+      </SectionHeading>
+      <div
+        {...getRootProps({
+          className: `${className} ${
+            uploadStatus === "success"
+              ? "bg-green-600"
               : uploadStatus === "failure"
-              ? "Upload failed. "
-              : ""}
-            {file.name}
-            {uploadStatus && (
-              <button onClick={removeFile} className="ml-2">
-                <DeleteIcon />
-              </button>
-            )}
-          </p>
-        </div>
-      ) : (
-        <div>
-          <p>Drag 'n' drop your .docx file here, or click to select a file</p>
-          <p>
-            {alertMessage && (
-              <span className="text-red-500 ml-2">{alertMessage}</span>
-            )}
-          </p>
-        </div>
-      )}
-    </div>
+              ? "bg-red-900"
+              : "bg-zinc-600"
+          }`,
+        })}
+      >
+        <input {...getInputProps({ multiple: false })} />
+        {isDragActive ? (
+          <p>Drop your .docx file here ...</p>
+        ) : file ? (
+          <div>
+            <p>
+              {uploadStatus === "success"
+                ? "Upload successful: "
+                : uploadStatus === "failure"
+                ? "Upload failed. "
+                : ""}
+              {file.name}
+              
+            </p>
+          </div>
+        ) : (
+          <div>
+            <UploadIcon className="text-center"/>
+            <p>Drag 'n' drop your .docx file here, or click to select a file</p>
+            <p>
+              {alertMessage && (
+                <span className="text-red-500 ml-2">{alertMessage}</span>
+              )}
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
