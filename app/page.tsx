@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/tailwind/ui/scroll-area";
 import Uploader from "@/components/tailwind/ui/uploader";
 import CentralPrompt from "@/components/tailwind/generative/central-prompt";
 import { useAtom } from "jotai";
+import { useState } from 'react';
 import {
   generatedContent,
   initialContent as initialContentAtom,
@@ -14,11 +15,12 @@ import Animation from "@/components/tailwind/ui/animation";
 export default function Page() {
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [content, setContent] = useAtom(generatedContent);
+  const [welcomeScreenVisible, setWelcomeScreenVisible] = useState(true);
 
   return (
     <section>
-      <Animation />
-      <div className="grid grid-cols-8 gap-8 px-4">
+      {welcomeScreenVisible && <Animation setWelcomeScreenVisible={setWelcomeScreenVisible} />}
+      <div className="grid grid-cols-8 gap-8 px-4" style={{ opacity: welcomeScreenVisible ? 0 : 1, transition: 'opacity 1s' }}>
         <div className="col-span-6">
           <ScrollArea className="max-h-screen">
             <TailwindAdvancedEditor />

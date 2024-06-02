@@ -19,10 +19,25 @@ import {
 } from "@/components/tailwind/ui/popover";
 import Link from "next/link";
 import { Check, ChevronDown } from "lucide-react";
+import Popup from "../ui/popup";
 
 const CentralPrompt = () => {
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [prompt, setPrompt] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handleSubmitPopup = (inputValue) => {
+    console.log('Input value:', inputValue);
+    setIsPopupOpen(false);
+  };
 
   const { completion, complete, isLoading } = useCompletion({
     api: "/api/generate",
@@ -186,15 +201,12 @@ const CentralPrompt = () => {
     <section className="">
       <div className="flex">
         <SectionHeading>Editor:</SectionHeading>
-        <Link
-          href="/advanceSetting"
-          className="float-end ml-auto"
-          title="Advance Setting"
-        >
-          <button>
+          <button className="float-end ml-auto" title="Advance Setting" onClick={handleOpenPopup}>
             <Settings />
           </button>
-        </Link>
+          {isPopupOpen && (
+            <Popup onClose={handleClosePopup} onSubmit={handleSubmitPopup} />
+          )}
       </div>
       <Commands />
       <hr />

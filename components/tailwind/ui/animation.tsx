@@ -1,12 +1,20 @@
 import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect } from 'react';
 
-const Animation = () => {
+const Animation = ({ setWelcomeScreenVisible }) => {
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setWelcomeScreenVisible(false);
+      }, 3000); // Duration for which the welcome screen is visible
+  
+      return () => clearTimeout(timer);
+    }, [setWelcomeScreenVisible]);
   return (
     <AnimatePresence>
         <motion.div
         initial={{ opacity: 1, y: 0 }}
         animate={{ opacity: 0, y: -100 }}
-        transition={{ duration: 1, delay: 0 }}
+        transition={{ duration: 1, delay: 2.5 }}
         style={{
             position: 'fixed',
             top: 0,
