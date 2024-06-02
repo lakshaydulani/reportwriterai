@@ -9,30 +9,34 @@ import {
   generatedContent,
   initialContent as initialContentAtom,
 } from "@/lib/atom";
-
+import { motion, AnimatePresence } from "framer-motion";
+import Animation from "@/components/tailwind/ui/animation";
 export default function Page() {
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [content, setContent] = useAtom(generatedContent);
 
   return (
-    <div className="grid grid-cols-8 gap-8 px-4">
-      <div className="col-span-6">
-        <ScrollArea className="max-h-screen">
-          <TailwindAdvancedEditor />
-        </ScrollArea>
-        {/* content - <br />
-        {JSON.stringify(content)}
-        <br />
-        initial content - <br />
-        {JSON.stringify(initialContent)} */}
-      </div>
-      <div className="col-span-2">
-        <div className="p-0 rounded-lg gap-5 flex flex-col [&>section]:border-5 [&>*]:p-3 [&>section]:rounded-lg [&>section]:bg-gradient-to-br [&>section]:from-zinc-400 [&>section]:to-zinc-300">
-          <Uploader />
-          <CentralPrompt />
-          <ReportProcess />
+    <section>
+      <Animation />
+      <div className="grid grid-cols-8 gap-8 px-4">
+        <div className="col-span-6">
+          <ScrollArea className="max-h-screen">
+            <TailwindAdvancedEditor />
+          </ScrollArea>
+          {/* content - <br />
+          {JSON.stringify(content)}
+          <br />
+          initial content - <br />
+          {JSON.stringify(initialContent)} */}
+        </div>
+        <div className="col-span-2">
+          <div className="p-0 rounded-lg gap-5 flex flex-col [&>section]:border-5 [&>*]:p-3 [&>section]:rounded-lg [&>section]:bg-gradient-to-br [&>section]:from-zinc-400 [&>section]:to-zinc-300">
+            <Uploader />
+            <CentralPrompt />
+            <ReportProcess />
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
