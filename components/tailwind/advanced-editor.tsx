@@ -112,41 +112,21 @@ const TailwindAdvancedEditor = () => {
       "Management Comment",
     ];
     return (
-      <div className="my-1 flex flex-wrap gap-5">
-        <Popover modal={true} open={open} onOpenChange={onOpenChange}>
-          <PopoverTrigger asChild>
-            <Button
-              size="lg"
-              className="gap-5 rounded-xl w-full"
-              variant="default"
-            >
-              <span className="rounded-sm px-1">Add Section</span>
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </PopoverTrigger>
-
-          <PopoverContent
-            sideOffset={5}
-            className="flex max-h-100 w-72 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
-            align="start"
+      <section>
+        <div className="mt-2 mb-4 flex flex-wrap gap-2">
+        {option.map((item) => (
+          <Button
+            key={item}
+            size="sm"
+            variant="aihelper"
+            onClick={() => appendSection(item)}
           >
-            {option.map((item) => {
-              return (
-                <div className="ml-3 px-2 text-sm font-semibold">
-                  <Button
-                    onClick={appendSection(item)}
-                    size="sm"
-                    className="rounded-xl w-full border-black"
-                    variant="outline"
-                  >
-                    {item}
-                  </Button>
-                </div>
-              );
-            })}
-          </PopoverContent>
-        </Popover>
+            {/* <item.icon className="h-4 w-4 mr-2 text-purple-500" /> */}
+            {item}
+          </Button>
+        ))}
       </div>
+      </section>
     );
   };
 
