@@ -19,10 +19,25 @@ import {
 } from "@/components/tailwind/ui/popover";
 import Link from "next/link";
 import { Check, ChevronDown } from "lucide-react";
+import Popup from "../ui/popup";
 
 const CentralPrompt = () => {
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [prompt, setPrompt] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handleSubmitPopup = (inputValue) => {
+    console.log('Input value:', inputValue);
+    setIsPopupOpen(false);
+  };
 
   const { completion, complete, isLoading } = useCompletion({
     api: "/api/generate",
@@ -62,7 +77,7 @@ const CentralPrompt = () => {
       onOpenChange(false);
     };
 
-    const options = [
+    const option = [
       "Header",
       "Background",
       "Issue Summary",
@@ -91,7 +106,7 @@ const CentralPrompt = () => {
             className="flex max-h-100 w-72 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
             align="start"
           >
-            {options.map((item) => {
+            {option.map((item) => {
               return (
                 <div className="my-1 px-2 text-sm font-semibold">
                   <Button
@@ -129,9 +144,20 @@ const CentralPrompt = () => {
     );
   };
 
+  const getTextFromInitialContent = (initialContent) => {
+    if (initialContent && initialContent?.content?.[0]?.content?.[0]?.text) {
+      return initialContent.content[0].content[0].text;
+    } else if (initialContent?.text) {
+      return initialContent.text;
+    }else if(initialContent && typeof(initialContent))
+      return initialContent;
+    return '';
+  };
+
   // Function to handle button clicks
   const handleButtonClick = (value) => {
-    complete(initialContent?.content[0]?.content[0]?.text, {
+    const text = getTextFromInitialContent(initialContent);
+    complete(text, {
       body: { option: value },
     });
   };
@@ -175,15 +201,12 @@ const CentralPrompt = () => {
     <section className="">
       <div className="flex">
         <SectionHeading>Editor:</SectionHeading>
-        <Link
-          href="/advanceSetting"
-          className="float-end ml-auto"
-          title="Advance Setting"
-        >
-          <button>
+          <button className="float-end ml-auto" title="Advance Setting" onClick={handleOpenPopup}>
             <Settings />
           </button>
-        </Link>
+          {isPopupOpen && (
+            <Popup onClose={handleClosePopup} onSubmit={handleSubmitPopup} />
+          )}
       </div>
       <Commands />
       <hr />

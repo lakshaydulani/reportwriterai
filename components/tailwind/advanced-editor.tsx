@@ -72,7 +72,7 @@ const TailwindAdvancedEditor = () => {
   return (
     <div className="relative w-full">
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
-      <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div>
+      {/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
 
         <div className="bg-accent px-2 py-1 text-sm text-muted-foreground">{saveStatus}</div>
         <div className={charsCount ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground" : "hidden"}>
