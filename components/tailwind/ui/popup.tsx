@@ -28,7 +28,7 @@ const Popup = ({ onClose, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-8 rounded shadow-md w-auto" ref={popupRef}>
+      <div className="bg-white p-8 rounded shadow-md w-96" ref={popupRef}>
         <textarea
           placeholder="Enter Your Persona"
           value={inputValue}

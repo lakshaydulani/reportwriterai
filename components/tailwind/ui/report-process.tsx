@@ -8,6 +8,9 @@ import { useAtom } from "jotai";
 import {
   initialContent as initialContentAtom,
 } from "@/lib/atom";
+import { saveAs } from 'file-saver';
+import { Buffer } from 'buffer';
+
 
 
 const ReportProcess = () => {
@@ -50,7 +53,23 @@ const ReportProcess = () => {
         }
         
         const data = await res.json();
-        console.log("Response of Download api: ", data);
+        const base64URL = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + data.file;
+        console.log("base64URL is : \n",base64URL);
+        try {
+          const base64String = base64URL.split(',')[1];
+          const binaryString = atob(base64String);
+          const len = binaryString.length;
+          const bytes = new Uint8Array(len);
+          
+          for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+    
+          const blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+          saveAs(blob, 'downloaded_file.docx');
+        } catch (error) {
+          console.error('Error downloading the file:', error);
+        }
     } catch (error) {
         console.error("Error during download:", error);
     }
