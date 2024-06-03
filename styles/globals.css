@@ -167,9 +167,10 @@ pre {
   }
 }
 
-header{
-  background-color: var(--ey-dark1-background);
+header, .animation{
+  background-color: var(--ey-dark1-background) !important;
 }
+
 
 .uploader{
   border: 3px dashed var(--white);
