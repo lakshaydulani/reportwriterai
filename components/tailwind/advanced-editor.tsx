@@ -30,6 +30,12 @@ import { aiOptions as options } from "@/components/tailwind/generative/ai-select
 import { Button } from "./ui/button";
 import { useCompletion } from "ai/react";
 import { toast } from "sonner";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/tailwind/ui/popover";
+import { Check, ChevronDown } from "lucide-react";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -69,6 +75,80 @@ const TailwindAdvancedEditor = () => {
   //     setInitialContent({ ...content });
   //   }
   // }, [content]);
+
+  const Section = () => {
+    const [open, onOpenChange] = useState(false);
+
+    const appendSection = (value) => () => {
+      const newContent = {
+        type: "doc",
+        content: [
+          {
+            type: "heading",
+            attrs: { level: 1 },
+            content: [
+              {
+                type: "text",
+                text: value,
+              },
+            ],
+          },
+        ],
+      };
+      initialContent.content.push(newContent);
+      setInitialContent(initialContent);
+      // setInitialContent(newContent);
+      onOpenChange(false);
+    };
+
+    const option = [
+      "Header",
+      "Background",
+      "Issue Summary",
+      "Detailed observation",
+      "Risk/ Impact",
+      "Root cause",
+      "Recommendation",
+      "Management Comment",
+    ];
+    return (
+      <div className="my-1 flex flex-wrap gap-5">
+        <Popover modal={true} open={open} onOpenChange={onOpenChange}>
+          <PopoverTrigger asChild>
+            <Button
+              size="lg"
+              className="gap-5 rounded-xl w-full"
+              variant="default"
+            >
+              <span className="rounded-sm px-1">Add Section</span>
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </PopoverTrigger>
+
+          <PopoverContent
+            sideOffset={5}
+            className="flex max-h-100 w-72 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
+            align="start"
+          >
+            {option.map((item) => {
+              return (
+                <div className="ml-3 px-2 text-sm font-semibold">
+                  <Button
+                    onClick={appendSection(item)}
+                    size="sm"
+                    className="rounded-xl w-full border-black"
+                    variant="outline"
+                  >
+                    {item}
+                  </Button>
+                </div>
+              );
+            })}
+          </PopoverContent>
+        </Popover>
+      </div>
+    );
+  };
 
   
   const Commands = () => {
@@ -142,7 +222,14 @@ const TailwindAdvancedEditor = () => {
 
   return (
     <div className="relative w-full">
-      <Commands />
+      <div className="flex m-auto">
+        <div>
+          <Commands />
+        </div>
+        <div className="float-end">
+          <Section />
+        </div>
+      </div>
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
       {/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
 
