@@ -26,6 +26,10 @@ import { slashCommand, suggestionItems } from "./slash-command";
 import { useAtom } from 'jotai';
 import { generatedContent, initialContent as initialContentAtom } from "@/lib/atom";
 import CrazySpinner from "@/components/tailwind/ui/icons/crazy-spinner";
+import { aiOptions as options } from "@/components/tailwind/generative/ai-selector-options";
+import { Button } from "./ui/button";
+import { useCompletion } from "ai/react";
+import { toast } from "sonner";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -66,11 +70,79 @@ const TailwindAdvancedEditor = () => {
   //   }
   // }, [content]);
 
+  
+  const Commands = () => {
+    const { completion, complete, isLoading } = useCompletion({
+      api: "/api/generate",
+      onResponse: (response) => {
+        if (response.status === 429) {
+          toast.error("You have reached your request limit for the day.");
+          return;
+        }
+      },
+      onError: (e) => {
+        toast.error(e.message);
+      },
+    });
+  
+    const getTextFromInitialContent = (initialContent) => {
+      if (initialContent && initialContent?.content?.[0]?.content?.[0]?.text) {
+        return initialContent.content[0].content[0].text;
+      } else if (initialContent?.text) {
+        return initialContent.text;
+      }else if(initialContent && typeof(initialContent))
+        return initialContent;
+      return '';
+    };
+  
+    // Function to handle button clicks
+    const handleButtonClick = (value) => {
+      const text = getTextFromInitialContent(initialContent);
+      complete(text, {
+        body: { option: value },
+      });
+    };
+    if(completion.length > 0){
+      const plainText = completion; //removeMarkdown(completion);
+      const newContent = {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+            content: [
+              {
+                type: "text",
+                text: plainText,
+              },
+            ],
+          },
+        ],
+      };
+      setInitialContent(newContent);
+    }
+    return (
+      <div className="mt-2 mb-4 flex flex-wrap gap-2">
+        {options.map((item) => (
+          <Button
+            key={item.value}
+            size="sm"
+            variant="aihelper"
+            onClick={() => handleButtonClick(item.value)}
+          >
+            <item.icon className="h-4 w-4 mr-2 text-purple-500" />
+            {item.label}
+          </Button>
+        ))}
+      </div>
+    );
+  };
+
 
   if (!initialContent) return null;
 
   return (
     <div className="relative w-full">
+      <Commands />
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
       {/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
 
