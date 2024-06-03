@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Trash2 as DeleteIcon, UploadIcon } from "lucide-react";
+import { Trash2 as DeleteIcon, UploadIcon, UploadCloud } from "lucide-react";
 import { useAtom } from "jotai";
 import {
   generatedContent,
@@ -133,8 +133,8 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
           </div>
         ) : (
           <div>
-            <UploadIcon className="text-center"/>
-            <p>Drag 'n' drop your .docx file here, or click to select a file</p>
+            <UploadCloud className="m-auto"/>
+            <p className="m-auto text-center">Drag and Drop Document or browse.</p>
             <p>
               {alertMessage && (
                 <span className="text-red-500 ml-2">{alertMessage}</span>
