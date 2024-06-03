@@ -7,7 +7,7 @@ export async function POST(request: Request) {
         const req  = requestBody;
         const text = req.text;
 
-        const apiURL = 'https://functionappupload.azurewebsites.net/api/functiondownloadtest?';
+        const apiURL = 'https://functionappupload.azurewebsites.net/api/functiondownoladtest?';
 
         const apiResponse = await fetch(apiURL, {
             method: 'POST',
