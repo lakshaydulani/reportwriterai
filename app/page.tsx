@@ -27,11 +27,11 @@ export default function Page() {
           <ScrollArea className="max-h-screen">
             <TailwindAdvancedEditor />
           </ScrollArea>
-          content - <br />
+          {/* content - <br />
           {JSON.stringify(content)}
           <br />
           initial content - <br />
-          {JSON.stringify(initialContent)}
+          {JSON.stringify(initialContent)} */}
         </div>
         <div className="col-span-2">
           <div className="p-0 rounded-lg gap-5 flex flex-col [&>section]:border-5 [&>*]:p-3 [&>section]:rounded-lg [&>section]:bg-gradient-to-br [&>section]:from-zinc-400 [&>section]:to-zinc-300">
