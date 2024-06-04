@@ -136,7 +136,7 @@ const CentralPrompt = () => {
             <Popup onClose={handleClosePopup} onSubmit={handleSubmitPopup} />
           )}
       </div>
-      {/* <Commands / */}
+      <Commands />
       {/* <hr /> */}
       {/* <Section /> */}
       <hr className="mb-2" />
