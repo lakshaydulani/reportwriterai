@@ -88,7 +88,7 @@ const TailwindAdvancedEditor = () => {
             content: [
               {
                 type: "text",
-                text: initialContent?.content?.[0]?.content?.[0]?.text,
+                text: initialContent?.content?.[0]?.content?.[0]?.text + " " + value,
               },
             ],
           },
@@ -113,13 +113,14 @@ const TailwindAdvancedEditor = () => {
     ];
     return (
       <section>
-        <div className="ml-3 mt-3 mb-3 flex flex-wrap gap-4">
+        <div className="ml-3 mt-3 mb-3 flex flex-wrap gap-4 ">
         {option.map((item) => (
           <Button
             key={item}
             size="sm"
             variant="headers"
             onClick={appendSection(item)}
+            className="custom-pl"
           >
             {/* <item.icon className="h-4 w-4 mr-2 text-purple-500" /> */}
             {item}
