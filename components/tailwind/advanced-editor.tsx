@@ -78,7 +78,6 @@ const TailwindAdvancedEditor = () => {
 
   const Section = () => {
     const [open, onOpenChange] = useState(false);
-
     const appendSection = (value) => () => {
       const newContent = {
         type: "doc",
@@ -89,14 +88,15 @@ const TailwindAdvancedEditor = () => {
             content: [
               {
                 type: "text",
-                text: value,
+                text: initialContent?.content?.[0]?.content?.[0]?.text,
               },
             ],
           },
         ],
       };
-      initialContent.content.push(newContent);
-      setInitialContent(initialContent);
+      // let xyz = initialContent?.content?.[0]?.content?.[0]?.text + " " + value;
+      const newObject = {...initialContent, ...newContent}
+      setInitialContent(newObject);
       // setInitialContent(newContent);
       onOpenChange(false);
     };
@@ -119,7 +119,7 @@ const TailwindAdvancedEditor = () => {
             key={item}
             size="sm"
             variant="headers"
-            onClick={() => appendSection(item)}
+            onClick={appendSection(item)}
           >
             {/* <item.icon className="h-4 w-4 mr-2 text-purple-500" /> */}
             {item}
