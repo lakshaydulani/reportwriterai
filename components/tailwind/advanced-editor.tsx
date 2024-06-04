@@ -113,12 +113,12 @@ const TailwindAdvancedEditor = () => {
     ];
     return (
       <section>
-        <div className="mt-2 mb-4 flex flex-wrap gap-2">
+        <div className="ml-3 mt-3 mb-3 flex flex-wrap gap-4">
         {option.map((item) => (
           <Button
             key={item}
             size="sm"
-            variant="aihelper"
+            variant="headers"
             onClick={() => appendSection(item)}
           >
             {/* <item.icon className="h-4 w-4 mr-2 text-purple-500" /> */}
@@ -134,7 +134,7 @@ const TailwindAdvancedEditor = () => {
 
   return (
     <div className="relative w-full">
-      <div className="flex m-auto">
+      <div className="bg-custom-gradient rounded flex m-auto mb-2">
         <Section />
       </div>
       {/* className="max-h-[calc(75vh)]" */}

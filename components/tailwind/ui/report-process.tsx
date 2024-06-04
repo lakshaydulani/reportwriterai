@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useState } from "react";
 import { DownloadIcon, SendIcon as MailIcon, SparklesIcon } from "lucide-react";
 import { useCompletion } from "ai/react";
 import { toast } from "sonner";
@@ -14,6 +15,7 @@ import { Buffer } from 'buffer';
 
 
 const ReportProcess = () => {
+  const [isLoad, setIsLoading] = useState(false);
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const { completion, complete, isLoading } = useCompletion({
     api: "/api/generate",
@@ -39,6 +41,7 @@ const ReportProcess = () => {
   };
 
   const handleDownloadClick = async () => {
+    setIsLoading(true);
     try {
         const res = await fetch("/api/download-file", {
             method: "POST",
@@ -73,6 +76,7 @@ const ReportProcess = () => {
     } catch (error) {
         console.error("Error during download:", error);
     }
+    setIsLoading(false);
 };
   return (
     <section>
@@ -81,7 +85,7 @@ const ReportProcess = () => {
               onClick={handleDownloadClick}
       >
         <DownloadIcon className="mx-2"/>
-        Download
+        {isLoad ? "Downloading..." : "Download"}
       </button>
     </section>
   );
