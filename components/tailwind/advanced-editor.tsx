@@ -130,94 +130,12 @@ const TailwindAdvancedEditor = () => {
     );
   };
 
-  
-  const Commands = () => {
-    const { completion, complete, isLoading } = useCompletion({
-      api: "/api/generate",
-      onResponse: (response) => {
-        if (response.status === 429) {
-          toast.error("You have reached your request limit for the day.");
-          return;
-        }
-      },
-      onError: (e) => {
-        toast.error(e.message);
-      },
-    });
-  
-    const getTextFromInitialContent = (initialContent) => {
-      if (initialContent && initialContent?.content?.[0]?.content?.[0]?.text) {
-        return initialContent.content[0].content[0].text;
-      } else if (initialContent?.text) {
-        return initialContent.text;
-      }else if(initialContent && typeof(initialContent))
-        return initialContent;
-      return '';
-    };
-  
-    // Function to handle button clicks
-    const handleButtonClick = (value) => {
-      const text = getTextFromInitialContent(initialContent);
-      complete(text, {
-        body: { option: value },
-      });
-    };
-    if(completion.length > 0){
-      const plainText = completion; //removeMarkdown(completion);
-      const newContent = {
-        type: "doc",
-        content: [
-          {
-            type: "paragraph",
-            content: [
-              {
-                type: "text",
-                text: plainText,
-              },
-            ],
-          },
-        ],
-      };
-      setInitialContent(newContent);
-    }
-    return (
-      <div className="mt-2 mb-4 flex flex-wrap gap-2">
-        {options.map((item) => (
-          <Button
-            key={item.value}
-            size="sm"
-            variant="aihelper"
-            onClick={() => handleButtonClick(item.value)}
-          >
-            <item.icon className="h-4 w-4 mr-2 text-purple-500" />
-            {item.label}
-          </Button>
-        ))}
-      </div>
-    );
-  };
-
-
   if (!initialContent) return null;
 
   return (
     <div className="relative w-full">
       <div className="flex m-auto">
-        <div>
-          <Commands />
-        </div>
-        <div className="float-end">
-          <Section />
-        </div>
-      </div>
-      <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
-      {/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
-
-        <div className="bg-accent px-2 py-1 text-sm text-muted-foreground">{saveStatus}</div>
-        <div className={charsCount ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground" : "hidden"}>
-          {charsCount} Words
-        </div>
-
+        <Section />
       </div>
       {/* className="max-h-[calc(75vh)]" */}
       <div className="overflow-y-auto max-h-[calc(75vh)]"> {/*scrollbar in editor*/}
@@ -244,6 +162,15 @@ const TailwindAdvancedEditor = () => {
           }}
           slotAfter={<ImageResizer />}
         >
+          <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
+      {/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
+
+        <div className="bg-accent px-2 py-1 text-sm text-muted-foreground">{saveStatus}</div>
+        <div className={charsCount ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground" : "hidden"}>
+          {charsCount} Words
+        </div>
+
+      </div>
           <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
             <EditorCommandEmpty className="px-2 text-muted-foreground">No results</EditorCommandEmpty>
             <EditorCommandList>
