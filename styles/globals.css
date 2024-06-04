@@ -97,6 +97,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  .bg-custom-gradient{
+    @apply bg-gradient-to-br from-zinc-400 to-zinc-300;
+  }
 }
 
 
@@ -180,3 +183,5 @@ header, .animation{
   background-color: var(--ey-yellow);
   color: var(--ey-dark-background);
 }
+
+
