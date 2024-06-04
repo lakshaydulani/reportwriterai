@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-
+import { useAtom } from "jotai";
+import { persona, isEYFontRequired } from "@/lib/atom";
+import useLocalStorage from "@/hooks/use-local-storage";
 const Popup = ({ onClose, onSubmit }) => {
-  const [inputValue, setInputValue] = useState('');
-  const [isEyFormatingRequired, setIsEyFormatingRequired] = useState(false);
+  const [inputValue, setInputValue] = useAtom(persona);
+  const [isEyFormatingRequired, setIsEyFormatingRequired] = useAtom(isEYFontRequired);
   const popupRef = useRef(null);
 
   const handleInputChange = (e) => {
@@ -49,7 +51,7 @@ const Popup = ({ onClose, onSubmit }) => {
               onChange={handleCheckboxChange}
               className="mr-2"
             />
-            Text Reuired in EY Formating?
+            Use EY Font
           </label>
         </div>
         <div className="flex justify-end">

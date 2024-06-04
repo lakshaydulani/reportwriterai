@@ -4,6 +4,7 @@ import { Settings, SparklesIcon } from "lucide-react";
 import {
   generatedContent,
   initialContent as initialContentAtom,
+  persona, isEYFontRequired
 } from "@/lib/atom";
 import { toast } from "sonner";
 import { useCompletion } from "ai/react";
@@ -118,10 +119,10 @@ const CentralPrompt = () => {
   const handleCick = () => {
     if (completion)
       return complete(prompt, {
-        body: { option: "zap", command: "generate report" },
+        body: { option: "zap", command: persona },
       });
     complete(prompt, {
-      body: { option: "zap", command: "generate report" },
+      body: { option: "zap", command: persona },
     });
   };
 
