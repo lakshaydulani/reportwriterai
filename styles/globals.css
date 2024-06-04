@@ -184,4 +184,8 @@ header, .animation{
   color: var(--ey-dark-background);
 }
 
+.custom-pl{
+  padding-left: 0.85rem;
+}
+
 
