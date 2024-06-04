@@ -15,12 +15,14 @@ import Animation from "@/components/tailwind/ui/animation";
 export default function Page() {
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [content, setContent] = useAtom(generatedContent);
-  const [welcomeScreenVisible, setWelcomeScreenVisible] = useState(true);
+  // const [welcomeScreenVisible, setWelcomeScreenVisible] = useState(true);
 
   return (
     <section>
-      {welcomeScreenVisible && <Animation setWelcomeScreenVisible={setWelcomeScreenVisible} />}
-      <div className="grid grid-cols-8 gap-8 px-4" style={{ opacity: welcomeScreenVisible ? 0 : 1, transition: 'opacity 1s' }}>
+      <Animation />
+      {/* style={{ opacity: welcomeScreenVisible ? 0 : 1, transition: 'opacity 1s' }} */}
+      
+      <div className="grid grid-cols-8 gap-8 px-4">
         <div className="col-span-6">
           <ScrollArea className="max-h-screen">
             <TailwindAdvancedEditor />
