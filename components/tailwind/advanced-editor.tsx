@@ -78,6 +78,14 @@ const TailwindAdvancedEditor = () => {
 
   const Section = () => {
     const [open, onOpenChange] = useState(false);
+
+    const mergeContent = (initial: any, additional: any): any => {
+      return {
+        ...initial,
+        content: [...initial.content, ...additional.content],
+      };
+    }
+
     const appendSection = (value) => () => {
       const newContent = {
         type: "doc",
@@ -94,14 +102,10 @@ const TailwindAdvancedEditor = () => {
           },
         ],
       };
-      // let xyz = initialContent?.content?.[0]?.content?.[0]?.text + " " + value;
-      const newObject = {...initialContent, ...content}
-      console.log("new object after merging is : \n ",newObject?.content?.[0]?.content?.[0]?.text);
-      setTimeout(()=>{
-        setInitialContent(newObject);
-      },1000);
-      
-      // setInitialContent(newContent);
+      // const newww = {...initialContent, ...content}
+      const newObject = mergeContent(initialContent, newContent)
+      // console.log("new object after merging is : \n ",newObject?.content?.[0]?.content?.[0]?.text);      
+      setInitialContent(newObject);
       onOpenChange(false);
     };
 
