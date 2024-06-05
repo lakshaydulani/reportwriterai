@@ -117,12 +117,13 @@ const CentralPrompt = () => {
   const hasCompletion = completion.length > 0;
 
   const handleCick = () => {
+    console.log("persona is ",persona.init);
     if (completion)
       return complete(prompt, {
-        body: { option: "zap", command: persona },
+        body: { option: "zap", command: persona.init },
       });
     complete(prompt, {
-      body: { option: "zap", command: persona },
+      body: { option: "zap", command: persona.init },
     });
   };
 

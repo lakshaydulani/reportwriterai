@@ -43,8 +43,8 @@ const Popup = ({ onClose, onSubmit }) => {
           onChange={handleInputChange}
           className="w-full p-4 mb-2 border border-gray-300 rounded h-3/4"
         />
-        <div className="mb-6">
-          <label className="flex items-center">
+        <div className="mb-6 grid grid-cols-2">
+          <div className="flex items-center">
             <input
               type="checkbox"
               checked={isEyFormatingRequired}
@@ -52,9 +52,8 @@ const Popup = ({ onClose, onSubmit }) => {
               className="mr-2"
             />
             Use EY Font
-          </label>
-        </div>
-        <div className="flex justify-end">
+          </div>
+          <div className="flex justify-end">
           <button
             onClick={handleSubmit}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mr-2"
@@ -68,6 +67,8 @@ const Popup = ({ onClose, onSubmit }) => {
             Close
           </button>
         </div>
+        </div>
+        
       </div>
     </div>
   );

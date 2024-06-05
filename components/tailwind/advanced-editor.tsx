@@ -55,7 +55,7 @@ const TailwindAdvancedEditor = () => {
     window.localStorage.setItem("html-content", editor.getHTML());
     window.localStorage.setItem("novel-content", JSON.stringify(json));
     window.localStorage.setItem("markdown", editor.storage.markdown.getMarkdown());
-    if(json) setContent(json.content);
+    if(json) setContent(JSON.parse(window.localStorage.getItem("novel-content")));
     setSaveStatus("Saved");
   }, 500);
 
@@ -88,15 +88,19 @@ const TailwindAdvancedEditor = () => {
             content: [
               {
                 type: "text",
-                text: initialContent?.content?.[0]?.content?.[0]?.text + " " + value,
+                text: value,
               },
             ],
           },
         ],
       };
       // let xyz = initialContent?.content?.[0]?.content?.[0]?.text + " " + value;
-      const newObject = {...initialContent, ...newContent}
-      setInitialContent(newObject);
+      const newObject = {...initialContent, ...content}
+      console.log("new object after merging is : \n ",newObject?.content?.[0]?.content?.[0]?.text);
+      setTimeout(()=>{
+        setInitialContent(newObject);
+      },1000);
+      
       // setInitialContent(newContent);
       onOpenChange(false);
     };
