@@ -60,6 +60,7 @@ const TailwindAdvancedEditor = () => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [base64URL, setBase64URL] = useState<string | null>(null);
   const [response, setResponse] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
@@ -88,77 +89,12 @@ const TailwindAdvancedEditor = () => {
   //   }
   // }, [content]);
 
-  const Section = () => {
-    const [open, onOpenChange] = useState(false);
-
-    const mergeContent = (initial: any, additional: any): any => {
-      return {
-        ...initial,
-        content: [...initial.content, ...additional.content],
-      };
-    }
-
-    const appendSection = (value) => () => {
-      const newContent = {
-        type: "doc",
-        content: [
-          {
-            type: "heading",
-            attrs: { level: 1 },
-            content: [
-              {
-                type: "text",
-                text: value,
-              },
-            ],
-          },
-        ],
-      };
-      // const newww = {...initialContent, ...content}
-      const newObject = mergeContent(initialContent, newContent)
-      // console.log("new object after merging is : \n ",newObject?.content?.[0]?.content?.[0]?.text);      
-      setInitialContent(newObject);
-      onOpenChange(false);
-    };
-
-    const option = [
-      "Header",
-      "Background",
-      "Issue Summary",
-      "Detailed observation",
-      "Risk/ Impact",
-      "Root cause",
-      "Recommendation",
-      "Management Comment",
-    ];
-    return (
-      <section>
-        <div className="ml-3 mt-3 mb-3 flex flex-wrap gap-4 ">
-        {option.map((item) => (
-          <Button
-            key={item}
-            size="sm"
-            variant="headers"
-            onClick={appendSection(item)}
-            className="custom-pl"
-          >
-            {/* <item.icon className="h-4 w-4 mr-2 text-purple-500" /> */}
-            {item}
-          </Button>
-        ))}
-      </div>
-      </section>
-    );
-  };
-
+  
   const Dropzone = () => {
     const onDrop = useCallback((acceptedFiles) => {
       if (acceptedFiles.length) {
-        const uploadedFile = acceptedFiles[0] as FileWithPreview;
-        if (
-          uploadedFile.type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ) {
+        const uploadedFile = acceptedFiles[0];
+        if (uploadedFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
           setFile(uploadedFile);
           convertToBase64(uploadedFile);
         } else {
@@ -166,8 +102,9 @@ const TailwindAdvancedEditor = () => {
         }
       }
     }, []);
-
-    const convertToBase64 = (file: File) => {
+  
+    const convertToBase64 = (file) => {
+      setIsLoading(true);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = async () => {
@@ -179,6 +116,9 @@ const TailwindAdvancedEditor = () => {
           const res = await fetch("/api/upload-file", {
             method: "POST",
             body: JSON.stringify({ file: base64URL }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
           });
   
           if (!res.ok) {
@@ -194,42 +134,41 @@ const TailwindAdvancedEditor = () => {
           console.error("Error uploading file:", error);
           setAlertMessage(`Error uploading file: ${error.message}`);
           setUploadStatus("failure");
+        } finally {
+          setIsLoading(false);
         }
       };
   
       reader.onerror = (error) => {
         console.error("Error converting file to base64:", error);
         setAlertMessage("Error converting file to base64");
+        setIsLoading(false);
       };
     };
-
+  
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       accept: {
         "application/msword": [".doc"],
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-          [".docx"],
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
       },
       maxFiles: 1,
       onDrop,
     });
-
+  
     return (
-      <section >
-        <div
-        {...getRootProps()}
-      >
-        <button className="bg-ey-yellow flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg">
-        <input {...getInputProps({ multiple: false })} />
-        Import Files
-        </button>
-          
-          </div>
-    </section>
-    )
-  }
-
-  const handleImportClick = () => {
-    <Dropzone />
+      <section>
+        <div {...getRootProps()}>
+          <button
+            className="bg-gray-500 flex w-full justify-center items-center text-white py-1 px-6 rounded-lg"
+            disabled={isLoading}
+          >
+            <input {...getInputProps({ multiple: false })} />
+            {isLoading ? "Importing..." : "Import"}
+          </button>
+        </div>
+        {alertMessage && <div className="alert">{alertMessage}</div>}
+      </section>
+    );
   }
 
   if (!initialContent) return null;
