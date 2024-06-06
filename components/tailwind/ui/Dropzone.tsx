@@ -97,14 +97,14 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
 
   return (
     <section >
-      <SectionHeading>
+      {/* <SectionHeading>
         Upload your current report:
         {uploadStatus && (
           <button onClick={removeFile} className="float-end ml-auto">
             <DeleteIcon />
           </button>
         )}
-      </SectionHeading>
+      </SectionHeading> */}
       <div
         {...getRootProps({
           className: `${className} ${
@@ -116,8 +116,12 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
           }`,
         })}
       >
-        <input {...getInputProps({ multiple: false })} />
-        {isDragActive ? (
+        <button className="bg-ey-yellow flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg">
+          <input {...getInputProps({ multiple: false })} />
+          Import File
+        </button>
+        
+        {/* {isDragActive ? (
           <p>Drop your .docx file here ...</p>
         ) : file ? (
           <div>
@@ -141,7 +145,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
               )}
             </p>
           </div>
-        )}
+        )} */}
       </div>
     </section>
   );
