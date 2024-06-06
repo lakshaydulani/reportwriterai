@@ -116,10 +116,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ className }) => {
           }`,
         })}
       >
-        <button className="bg-ey-yellow flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg">
           <input {...getInputProps({ multiple: false })} />
-          Import File
-        </button>
         
         {/* {isDragActive ? (
           <p>Drop your .docx file here ...</p>

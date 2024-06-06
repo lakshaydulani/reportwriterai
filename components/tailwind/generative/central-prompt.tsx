@@ -251,7 +251,7 @@ const CentralPrompt = () => {
       <textarea
           value={sectionPrompt}
           onChange={(e) => setSectionPrompt(e.target.value)}
-          className="w-full text-xl p-3 pl-12 rounded-lg mt-2"
+          className="w-full text-xl p-3 pl-2 rounded-lg mt-2"
           rows={7}
           placeholder="Enter your IA observation"
         ></textarea>
