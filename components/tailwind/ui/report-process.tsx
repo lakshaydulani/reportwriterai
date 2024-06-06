@@ -6,9 +6,7 @@ import { useCompletion } from "ai/react";
 import { toast } from "sonner";
 import SectionHeading from "./section-heading";
 import { useAtom } from "jotai";
-import {
-  initialContent as initialContentAtom,
-} from "@/lib/atom";
+import { initialContent as initialContentAtom, generatedContent} from "@/lib/atom";
 import { saveAs } from 'file-saver';
 import { Buffer } from 'buffer';
 
@@ -17,6 +15,7 @@ import { Buffer } from 'buffer';
 const ReportProcess = () => {
   const [isLoad, setIsLoading] = useState(false);
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
+  const [content, setContent] = useAtom(generatedContent);
   const { completion, complete, isLoading } = useCompletion({
     api: "/api/generate",
     onResponse: (response) => {
@@ -42,14 +41,13 @@ const ReportProcess = () => {
 
   const handleDownloadClick = async () => {
     setIsLoading(true);
-    const xyz = initialContent?.content;
     try {
       const res = await fetch("/api/download-file", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(initialContent.content), 
+        body: JSON.stringify(content.content), 
       });
 
         if (!res.ok) {
