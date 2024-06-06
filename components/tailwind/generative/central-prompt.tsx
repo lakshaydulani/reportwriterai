@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Atom, Bug, Settings, SparklesIcon, AlignJustify, FerrisWheel, SquareAsterisk, CassetteTape, ShieldMinus, MessageSquareMore } from "lucide-react";
+import { Atom, Bug, Settings, SparklesIcon, AlignJustify, FerrisWheel, SquareAsterisk } from "lucide-react";
 import {
   generatedContent,
   initialContent as initialContentAtom,
