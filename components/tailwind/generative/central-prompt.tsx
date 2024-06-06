@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Settings, SparklesIcon } from "lucide-react";
+import { Atom, Bug, Settings, SparklesIcon, AlignJustify, FerrisWheel, SquareAsterisk, CassetteTape, ShieldMinus, MessageSquareMore } from "lucide-react";
 import {
   generatedContent,
   initialContent as initialContentAtom,
@@ -25,6 +25,7 @@ import Popup from "../ui/popup";
 const CentralPrompt = () => {
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [prompt, setPrompt] = useState("");
+  const [sectionPrompt, setSectionPrompt] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleOpenPopup = () => {
@@ -161,17 +162,41 @@ const CentralPrompt = () => {
     };
 
     const option = [
-      "Header",
-      "Background",
-      "Issue Summary",
-      "Detailed observation",
-      "Risk/ Impact",
-      "Root cause",
-      "Recommendation",
-      "Management Comment",
+      {
+        lable : "Header",
+        icon : AlignJustify
+      },
+      {
+        lable : "Background",
+        icon : Atom
+      },
+      {
+        lable : "Issue Summary",
+        icon : Bug
+      },
+      {
+        lable : "Detailed observation",
+        icon : FerrisWheel
+      },
+      {
+        lable : "Risk/ Impact",
+        icon : SquareAsterisk
+      },
+      {
+        lable : "Root cause",
+        icon : SquareAsterisk
+      },
+      {
+        lable : "Recommendation",
+        icon : SquareAsterisk
+      },
+      {
+        lable : "Management Comment",
+        icon : SquareAsterisk
+      },
     ];
     return (
-        <div className="my-3 flex flex-wrap gap-2">
+        <div className="my-3 flex flex-wrap gap-1">
           <Popover modal={true} open={open} onOpenChange={onOpenChange}>
             <PopoverTrigger asChild>
               <Button
@@ -190,15 +215,17 @@ const CentralPrompt = () => {
               align="start"
             >
               {option.map((item) => {
+                debugger
                 return (
                   <div className="my-1 px-2 text-sm font-semibold">
                     <Button
-                      onClick={appendSection(item)}
+                      onClick={appendSection(item.lable)}
                       size="sm"
                       className="rounded-xl w-full border-black"
                       variant="outline"
                     >
-                      {item}
+                      <item.icon className="float-left"/>
+                      {item.lable}
                     </Button>
                   </div>
                 );
@@ -222,6 +249,13 @@ const CentralPrompt = () => {
       </div>
       <Commands />
       <hr />
+      <textarea
+          value={prompt}
+          onChange={(e) => setSectionPrompt(e.target.value)}
+          className="w-full text-xl p-3 pl-12 rounded-lg mt-2"
+          rows={7}
+          placeholder="Section text Area.."
+        ></textarea>
       <Section />
       <hr className="mb-2" />
       <div className="relative w-full">
