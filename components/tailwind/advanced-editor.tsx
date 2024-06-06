@@ -76,9 +76,11 @@ const TailwindAdvancedEditor = () => {
     const content = window.localStorage.getItem("novel-content");
     if (content){
       setInitialContent(JSON.parse(content));
+      setContent(JSON.parse(content));
     } 
     else{
       setInitialContent(defaultEditorContent);
+      setContent(defaultEditorContent);
     } 
   }, []);
 
@@ -159,7 +161,9 @@ const TailwindAdvancedEditor = () => {
       <section>
         <div {...getRootProps()}>
           <button
-            className="bg-gray-500 flex w-full justify-center items-center text-white py-1 px-6 rounded-lg"
+            className="bg-gray-500 flex w-full justify-center items-center text-white py-1 px-6 rounded-lg ${
+              isLoad ? 'cursor-not-allowed' : ''
+            }`"
             disabled={isLoading}
           >
             <input {...getInputProps({ multiple: false })} />
