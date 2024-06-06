@@ -144,7 +144,7 @@ const TailwindAdvancedEditor = () => {
   return (
     <div className="relative w-full">
       <div className="bg-custom-gradient rounded flex m-auto mb-2">
-        <Section />
+        {/* <Section /> */}
       </div>
       {/* className="max-h-[calc(75vh)]" */}
       <div className="overflow-y-auto max-h-[calc(75vh)]"> {/*scrollbar in editor*/}

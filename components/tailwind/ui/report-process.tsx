@@ -80,7 +80,7 @@ const ReportProcess = () => {
 };
   return (
     <section>
-      <SectionHeading helptext="Formatted as per EY Guidelines">Generate Report:</SectionHeading>
+      {/* <SectionHeading helptext="Formatted as per EY Guidelines">Generate Report:</SectionHeading> */}
       <button className="bg-ey-yellow flex w-full justify-center items-center font-bold py-4 px-8 rounded-lg"
               onClick={handleDownloadClick}
       >

@@ -127,6 +127,88 @@ const CentralPrompt = () => {
     });
   };
 
+  const Section = () => {
+    const [open, onOpenChange] = useState(false);
+
+    const mergeContent = (initial: any, additional: any): any => {
+      return {
+        ...initial,
+        content: [...initial.content, ...additional.content],
+      };
+    }
+
+    const appendSection = (value) => () => {
+      const newContent = {
+        type: "doc",
+        content: [
+          {
+            type: "heading",
+            attrs: { level: 1 },
+            content: [
+              {
+                type: "text",
+                text: value,
+              },
+            ],
+          },
+        ],
+      };
+      // const newww = {...initialContent, ...content}
+      const newObject = mergeContent(initialContent, newContent)
+      // console.log("new object after merging is : \n ",newObject?.content?.[0]?.content?.[0]?.text);      
+      setInitialContent(newObject);
+      onOpenChange(false);
+    };
+
+    const option = [
+      "Header",
+      "Background",
+      "Issue Summary",
+      "Detailed observation",
+      "Risk/ Impact",
+      "Root cause",
+      "Recommendation",
+      "Management Comment",
+    ];
+    return (
+        <div className="my-3 flex flex-wrap gap-2">
+          <Popover modal={true} open={open} onOpenChange={onOpenChange}>
+            <PopoverTrigger asChild>
+              <Button
+                size="lg"
+                className="gap-2 rounded-xl w-full"
+                variant="default"
+              >
+                <span className="rounded-sm px-1">Add Section</span>
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </PopoverTrigger>
+  
+            <PopoverContent
+              sideOffset={5}
+              className="flex max-h-100 w-72 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
+              align="start"
+            >
+              {option.map((item) => {
+                return (
+                  <div className="my-1 px-2 text-sm font-semibold">
+                    <Button
+                      onClick={appendSection(item)}
+                      size="sm"
+                      className="rounded-xl w-full border-black"
+                      variant="outline"
+                    >
+                      {item}
+                    </Button>
+                  </div>
+                );
+              })}
+            </PopoverContent>
+          </Popover>
+        </div>
+    );
+  };
+
   return (
     <section className="">
       <div className="flex">
@@ -139,8 +221,8 @@ const CentralPrompt = () => {
           )}
       </div>
       <Commands />
-      {/* <hr /> */}
-      {/* <Section /> */}
+      <hr />
+      <Section />
       <hr className="mb-2" />
       <div className="relative w-full">
         <svg
