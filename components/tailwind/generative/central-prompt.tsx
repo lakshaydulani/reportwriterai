@@ -156,10 +156,10 @@ const CentralPrompt = () => {
           },
         ],
       };
-      // const newww = {...initialContent, ...content}
-      const newObject = mergeContent(content, newContent)
+      const newInitialContent= {...initialContent, ...content}
+      const newObject = mergeContent(newInitialContent, newContent)
       // console.log("new object after merging is : \n ",newObject?.content?.[0]?.content?.[0]?.text);      
-      setContent(newObject);
+      setInitialContent(newObject);
       onOpenChange(false);
     };
 
