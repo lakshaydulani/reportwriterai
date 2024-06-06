@@ -5,16 +5,16 @@ export async function POST(request: Request) {
         const requestBody = await request.json();
         // console.log("Request Body:", requestBody);
         const req  = requestBody;
-        const text = req.text;
-
-        const apiURL = 'https://functionappupload.azurewebsites.net/api/functiondownoladtest?';
+        const content = req.content;
+        console.log('request content is ........\n',req);
+        const apiURL = 'https://functionappupload.azurewebsites.net/api/downloadmodification?';
 
         const apiResponse = await fetch(apiURL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ text }),
+            body: JSON.stringify({ content }),
         });
 
         if (!apiResponse.ok) {

@@ -42,13 +42,14 @@ const ReportProcess = () => {
 
   const handleDownloadClick = async () => {
     setIsLoading(true);
+    const xyz = initialContent?.content;
     try {
         const res = await fetch("/api/download-file", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ text: getTextFromInitialContent(initialContent) }),
+            body: JSON.stringify({ xyz }),
         });
 
         if (!res.ok) {
@@ -56,6 +57,7 @@ const ReportProcess = () => {
         }
         
         const data = await res.json();
+        console.log("response from api",data);
         const base64URL = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + data.file;
         console.log("base64URL is : \n",base64URL);
         try {
