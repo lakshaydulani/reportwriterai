@@ -11,7 +11,8 @@ import {
   type JSONContent,
 } from "novel";
 import { ImageResizer, handleCommandNavigation } from "novel/extensions";
-import { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { useEffect, useState, useCallback } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { defaultExtensions } from "./extensions";
 import { ColorSelector } from "./selectors/color-selector";
@@ -36,7 +37,9 @@ import {
   PopoverTrigger,
 } from "@/components/tailwind/ui/popover";
 import { Check, ChevronDown } from "lucide-react";
-import { Dropzone } from "./ui/Dropzone";
+type FileWithPreview = File & {
+  preview: string;
+};
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -50,6 +53,14 @@ const TailwindAdvancedEditor = () => {
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
   const [content, setContent] = useAtom(generatedContent);
+  const [file, setFile] = useState<FileWithPreview | null>(null);
+  const [uploadStatus, setUploadStatus] = useState<
+    "success" | "failure" | null
+  >(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [base64URL, setBase64URL] = useState<string | null>(null);
+  const [response, setResponse] = useState(null);
+
   const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
     setCharsCount(editor.storage.characterCount.words());
@@ -139,6 +150,87 @@ const TailwindAdvancedEditor = () => {
       </section>
     );
   };
+
+  const Dropzone = () => {
+    const onDrop = useCallback((acceptedFiles) => {
+      if (acceptedFiles.length) {
+        const uploadedFile = acceptedFiles[0] as FileWithPreview;
+        if (
+          uploadedFile.type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ) {
+          setFile(uploadedFile);
+          convertToBase64(uploadedFile);
+        } else {
+          setAlertMessage("Please select a .docx file");
+        }
+      }
+    }, []);
+
+    const convertToBase64 = (file: File) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        try {
+          const base64String = reader.result as string;
+          const base64URL = base64String.split(",")[1];
+          setBase64URL(base64URL);
+  
+          const res = await fetch("/api/upload-file", {
+            method: "POST",
+            body: JSON.stringify({ file: base64URL }),
+          });
+  
+          if (!res.ok) {
+            throw new Error(`Error: ${res.statusText}`);
+          }
+  
+          const data = await res.json();
+          setInitialContent(data.content);
+  
+          setResponse(data);
+          setUploadStatus("success");
+        } catch (error) {
+          console.error("Error uploading file:", error);
+          setAlertMessage(`Error uploading file: ${error.message}`);
+          setUploadStatus("failure");
+        }
+      };
+  
+      reader.onerror = (error) => {
+        console.error("Error converting file to base64:", error);
+        setAlertMessage("Error converting file to base64");
+      };
+    };
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      accept: {
+        "application/msword": [".doc"],
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+          [".docx"],
+      },
+      maxFiles: 1,
+      onDrop,
+    });
+
+    return (
+      <section >
+        <div
+        {...getRootProps()}
+      >
+        <button className="bg-ey-yellow flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg">
+        <input {...getInputProps({ multiple: false })} />
+        Import Files
+        </button>
+          
+          </div>
+    </section>
+    )
+  }
+
+  const handleImportClick = () => {
+    <Dropzone />
+  }
 
   if (!initialContent) return null;
 
