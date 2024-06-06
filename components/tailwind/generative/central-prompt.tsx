@@ -1,25 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Atom, Bug, Settings, SparklesIcon, AlignJustify, FerrisWheel, SquareAsterisk } from "lucide-react";
-import {
-  generatedContent,
-  initialContent as initialContentAtom,
-  persona, isEYFontRequired
-} from "@/lib/atom";
+import { Atom, Bug, Settings, SparklesIcon, AlignJustify, FerrisWheel, SquareAsterisk, Check, ChevronDown } from "lucide-react";
+import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
 import { toast } from "sonner";
 import { useCompletion } from "ai/react";
 import { useAtom } from "jotai";
 import SectionHeading from "./../ui/section-heading";
-// import removeMarkdown from 'remove-markdown';
 import { aiOptions as options } from "./ai-selector-options";
 import { Button } from "../ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/tailwind/ui/popover";
-import Link from "next/link";
-import { Check, ChevronDown } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/tailwind/ui/popover";
 import Popup from "../ui/popup";
 
 const CentralPrompt = () => {

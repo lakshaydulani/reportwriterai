@@ -40,23 +40,11 @@ const Popup = ({ onClose, onSubmit }) => {
     };
   }, []);
 
+  
+
   const Section = () => {
     const appendSection = (value) => () => {
-      const newContent = {
-        type: "doc",
-        content: [
-          {
-            type: "heading",
-            attrs: { level: 1 },
-            content: [
-              {
-                type: "text",
-                text: value,
-              },
-            ],
-          },
-        ],
-      };
+      setInputValue(value+" is clicked")
     };
 
     const option = [
