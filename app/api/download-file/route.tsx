@@ -2,11 +2,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     try {
-        const requestBody = await request.json();
-        // console.log("Request Body:", requestBody);
-        const req  = requestBody;
-        const content = req.content;
-        console.log('request content is ........\n',req);
+        const content = await request.json(); // Directly get the content array
+        // console.log('Request content is:', content);
+
         const apiURL = 'https://functionappupload.azurewebsites.net/api/downloadmodification?';
 
         const apiResponse = await fetch(apiURL, {
@@ -14,7 +12,7 @@ export async function POST(request: Request) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ content }),
+            body: JSON.stringify(content),  // Send content array to external API
         });
 
         if (!apiResponse.ok) {

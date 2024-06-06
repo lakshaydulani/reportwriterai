@@ -44,13 +44,13 @@ const ReportProcess = () => {
     setIsLoading(true);
     const xyz = initialContent?.content;
     try {
-        const res = await fetch("/api/download-file", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ xyz }),
-        });
+      const res = await fetch("/api/download-file", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(initialContent.content), 
+      });
 
         if (!res.ok) {
             throw new Error(`Error: ${res.statusText}`);
