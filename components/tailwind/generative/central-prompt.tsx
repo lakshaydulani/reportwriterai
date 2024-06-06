@@ -215,7 +215,6 @@ const CentralPrompt = () => {
               align="start"
             >
               {option.map((item) => {
-                debugger
                 return (
                   <div className="my-1 px-2 text-sm font-semibold">
                     <Button
