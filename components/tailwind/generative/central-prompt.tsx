@@ -23,6 +23,7 @@ import { Check, ChevronDown } from "lucide-react";
 import Popup from "../ui/popup";
 
 const CentralPrompt = () => {
+  const [content, setContent] = useAtom(generatedContent);
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [prompt, setPrompt] = useState("");
   const [sectionPrompt, setSectionPrompt] = useState("");
@@ -86,7 +87,7 @@ const CentralPrompt = () => {
 
   // Function to handle button clicks
   const handleButtonClick = (value) => {
-    const text = getTextFromInitialContent(initialContent);
+    const text = getTextFromInitialContent(content);
     complete(text, {
       body: { option: value },
     });
@@ -110,6 +111,7 @@ const CentralPrompt = () => {
           },
         ],
       };
+      setContent(newContent);
       setInitialContent(newContent);
       setPrompt("");
     }
@@ -155,9 +157,9 @@ const CentralPrompt = () => {
         ],
       };
       // const newww = {...initialContent, ...content}
-      const newObject = mergeContent(initialContent, newContent)
+      const newObject = mergeContent(content, newContent)
       // console.log("new object after merging is : \n ",newObject?.content?.[0]?.content?.[0]?.text);      
-      setInitialContent(newObject);
+      setContent(newObject);
       onOpenChange(false);
     };
 

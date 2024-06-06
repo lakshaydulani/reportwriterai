@@ -143,7 +143,7 @@ const Popup = ({ onClose, onSubmit }) => {
           <div className="flex">
             <button
               onClick={handleSubmit}
-              className="bg-ey-yellow py-2 px-4 rounded hover:bg-blue-600 mr-2"
+              className="bg-ey-yellow py-2 px-4 rounded mr-2"
             >
               Save
             </button>

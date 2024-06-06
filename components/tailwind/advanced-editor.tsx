@@ -76,9 +76,11 @@ const TailwindAdvancedEditor = () => {
     const content = window.localStorage.getItem("novel-content");
     if (content){
       setInitialContent(JSON.parse(content));
+      setContent(JSON.parse(content));
     } 
     else{
       setInitialContent(defaultEditorContent);
+      setContent(defaultEditorContent);
     } 
   }, []);
 
