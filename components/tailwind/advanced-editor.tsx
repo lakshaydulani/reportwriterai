@@ -143,7 +143,7 @@ const TailwindAdvancedEditor = () => {
 
   return (
     <div className="relative w-full">
-      <div className="bg-custom-gradient rounded flex m-auto mb-2">
+      <div className="bg-custom-gradient rounded flex m-auto">
         {/* <Section /> */}
       </div>
       {/* className="max-h-[calc(75vh)]" */}
