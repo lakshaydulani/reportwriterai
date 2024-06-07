@@ -82,20 +82,18 @@ const Popup = ({ onClose, onSubmit }) => {
       },
     ];
     return (
-      <div className="my-3 flex flex-wrap gap-1">
+      <div className="m-2 flex flex-wrap gap-2">
         {option.map((item) => {
           return (
-            <div className="my-1 px-2 text-sm font-semibold">
+           
               <Button
                 onClick={appendSection(item.lable)}
-                size="sm"
-                className="rounded-xl w-full border-black"
-                variant="outline"
+                className="w-full rounded-xl"                
               >
-                <item.icon className="float-left" />
+                <item.icon className="float-left mr-auto" />
                 {item.lable}
               </Button>
-            </div>
+           
           );
         })}
       </div>
@@ -131,13 +129,13 @@ const Popup = ({ onClose, onSubmit }) => {
           <div className="flex">
             <button
               onClick={handleSubmit}
-              className="bg-ey-yellow py-2 px-4 rounded mr-2"
+              className="bg-ey-yellow py-2 px-4 rounded mr-2 border border-black"
             >
               Save
             </button>
             <button
               onClick={onClose}
-              className="bg-black text-white py-2 px-4 rounded hover:bg-red-600"
+              className="bg-black text-white py-2 px-4 rounded hover:bg-red-600 "
             >
               Close
             </button>
