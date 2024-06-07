@@ -197,7 +197,7 @@ const TailwindAdvancedEditor = () => {
           }}
           slotAfter={<ImageResizer />}
         >
-          <div className="flex absolute right-8 top-4 mb-5 gap-2">
+          <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2">
             <Dropzone />
           {/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
             <div className="relative bg-zinc-300 p-1 px-3 text-sm text-black rounded-lg">{saveStatus}</div>

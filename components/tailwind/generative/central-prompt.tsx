@@ -74,7 +74,7 @@ const CentralPrompt = () => {
         {options.map((item) => (
           <Button
             key={item.value}
-            size="sm"
+            size="aihelper"
             variant="aihelper"
             onClick={() => handleButtonClick(item.value)}
           >
