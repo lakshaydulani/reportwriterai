@@ -22,7 +22,7 @@ export default function Page() {
       <Animation />
       {/* style={{ opacity: welcomeScreenVisible ? 0 : 1, transition: 'opacity 1s' }} */}
       
-      <div className="grid grid-cols-8 gap-8 px-4">
+      <div className="grid grid-cols-8 gap-3 px-4">
         
         <div className="col-span-3">
           <div className="p-0 rounded-lg gap-5 flex flex-col [&>section]:border-5 [&>*]:p-3 [&>section]:rounded-lg [&>section]:bg-custom-gradient">

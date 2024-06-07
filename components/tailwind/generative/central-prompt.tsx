@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Atom, Bug, Settings, SparklesIcon, AlignJustify, FerrisWheel, SquareAsterisk, Check, ChevronDown } from "lucide-react";
+import { Atom, Bug, Settings, SparklesIcon, AlignJustify, FerrisWheel, SquareAsterisk, Check, ChevronDown, Heading } from "lucide-react";
 import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
 import { toast } from "sonner";
 import { useCompletion } from "ai/react";
@@ -8,7 +8,12 @@ import { useAtom } from "jotai";
 import SectionHeading from "./../ui/section-heading";
 import { aiOptions as options } from "./ai-selector-options";
 import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/tailwind/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/tailwind/ui/popover";
+import Link from "next/link";
 import Popup from "../ui/popup";
 
 const CentralPrompt = () => {
@@ -155,7 +160,7 @@ const CentralPrompt = () => {
     const option = [
       {
         lable : "Header",
-        icon : AlignJustify
+        icon : Heading
       },
       {
         lable : "Background",
@@ -202,7 +207,7 @@ const CentralPrompt = () => {
   
             <PopoverContent
               sideOffset={5}
-              className="flex max-h-100 w-72 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
+              className="flex max-h-100 w-full flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
               align="start"
             >
               {option.map((item) => {

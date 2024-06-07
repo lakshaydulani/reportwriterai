@@ -183,13 +183,14 @@ const TailwindAdvancedEditor = () => {
         {/* <Section /> */}
       </div>
       {/* className="max-h-[calc(75vh)]" */}
-      <div className="overflow-y-auto max-h-[calc(75vh)]"> {/*scrollbar in editor*/}
+      <div className="overflow-y-auto"> {/*scrollbar in editor*/}
       <EditorRoot>
         <EditorContent
           key={JSON.stringify(initialContent)} // Use a key to force re-initialization
           initialContent={initialContent}
           extensions={extensions}
-          className="relative h-full min-h-[500px] w-full shadow-blue-900 border-muted bg-background sm:rounded-lg sm:border sm:shadow-lg"
+          className="border-muted bg-background rounded-lg h-[calc(100vh-100px)]"
+          // className="relative h-full w-full shadow-blue-900 border-muted bg-background sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
