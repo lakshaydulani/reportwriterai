@@ -188,4 +188,10 @@ header, .animation{
   padding-left: 0.85rem;
 }
 
+hr{
+  border-color: #000000;
+  border-width: 1.5px;
+  margin: 5px 0;
+}
+
 

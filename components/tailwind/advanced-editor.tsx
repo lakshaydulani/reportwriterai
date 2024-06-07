@@ -84,13 +84,6 @@ const TailwindAdvancedEditor = () => {
     } 
   }, []);
 
-  // useEffect(() => {
-  //   if (content) {
-  //     // Create a new object reference to ensure re-render
-  //     setInitialContent({ ...content });
-  //   }
-  // }, [content]);
-
   
   const Dropzone = () => {
     const onDrop = useCallback((acceptedFiles) => {
@@ -179,15 +172,12 @@ const TailwindAdvancedEditor = () => {
 
   return (
     <div className="relative w-full">
-      <div className="bg-custom-gradient rounded flex m-auto">
-        {/* <Section /> */}
-      </div>
       <EditorRoot>
         <EditorContent
           key={JSON.stringify(initialContent)} // Use a key to force re-initialization
           initialContent={initialContent}
           extensions={extensions}
-          className="border-muted bg-background rounded-lg h-[calc(100vh-100px)] overflow-y-auto"
+          className="border-muted bg-background rounded-lg max-w-[62vw] h-[calc(100vh-100px)] overflow-auto"
           // className="relative h-full w-full shadow-blue-900 border-muted bg-background sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
@@ -206,11 +196,11 @@ const TailwindAdvancedEditor = () => {
           }}
           slotAfter={<ImageResizer />}
         >
-          <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
+          <div className="flex absolute right-8 top-4 mb-5 gap-2">
             <Dropzone />
           {/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
-            <div className="relative bg-accent px-2 py-1 text-sm text-muted-foreground">{saveStatus}</div>
-            <div className={charsCount ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground" : "hidden"}>
+            <div className="relative bg-zinc-300 p-1 px-3 text-sm text-black rounded-lg">{saveStatus}</div>
+            <div className={charsCount ? "rounded-lg bg-zinc-300 p-1 px-3 text-sm text-black" : "hidden"}>
               {charsCount} Words
             </div>
           </div>

@@ -11,7 +11,7 @@ import {
   Check,
   ChevronDown,
   Heading,
-  Boxes,
+  Pen as PencilLine,
 } from "lucide-react";
 import {
   generatedContent,
@@ -206,12 +206,12 @@ const CentralPrompt = () => {
       },
     ];
     return (
-      <div className="my-3 flex flex-wrap gap-1">
+      <div className="my-3 flex flex-wrap">
         <Popover modal={true} open={open} onOpenChange={onOpenChange}>
           <PopoverTrigger asChild>
             <Button
               size="lg"
-              className="gap-2 rounded-xl w-full"
+              className="rounded-xl w-full"
               variant="default"
             >
               <span className="rounded-sm px-1">Add Section</span>
@@ -221,22 +221,19 @@ const CentralPrompt = () => {
 
           <PopoverContent
             sideOffset={5}
-            className="flex max-h-100 w-full flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
+            className="flex max-h-100 w-[35vw] flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2 "
             align="start"
           >
             {option.map((item) => {
               return (
-                <div className="my-1 px-2 text-sm font-semibold">
                   <Button
                     onClick={appendSection(item.lable)}
-                    size="sm"
-                    className="rounded-xl w-full border-black"
                     variant="outline"
+                    className="rounded-xl w-full border-black"
                   >
-                    <item.icon className="float-left" />
+                    <item.icon className="float-left mr-auto" />
                     {item.lable}
                   </Button>
-                </div>
               );
             })}
           </PopoverContent>
@@ -263,7 +260,7 @@ const CentralPrompt = () => {
       <Commands />
       <hr />
       <div className="relative w-full">
-        <Boxes className="absolute top-5 left-3 w-6 h-6 color" />
+        <PencilLine className="absolute top-5 left-3 w-6 h-6 color" />
         <textarea
           value={sectionPrompt}
           onChange={(e) => setSectionPrompt(e.target.value)}
