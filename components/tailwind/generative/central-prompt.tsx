@@ -1,7 +1,24 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Atom, Bug, Settings, SparklesIcon, AlignJustify, FerrisWheel, SquareAsterisk, Check, ChevronDown, Heading } from "lucide-react";
-import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
+import {
+  Atom,
+  Bug,
+  Settings,
+  SparklesIcon,
+  AlignJustify,
+  FerrisWheel,
+  SquareAsterisk,
+  Check,
+  ChevronDown,
+  Heading,
+  Boxes,
+} from "lucide-react";
+import {
+  generatedContent,
+  initialContent as initialContentAtom,
+  persona,
+  isEYFontRequired,
+} from "@/lib/atom";
 import { toast } from "sonner";
 import { useCompletion } from "ai/react";
 import { useAtom } from "jotai";
@@ -14,6 +31,7 @@ import {
   PopoverTrigger,
 } from "@/components/tailwind/ui/popover";
 import Link from "next/link";
+import Image from "next/image";
 import Popup from "../ui/popup";
 
 const CentralPrompt = () => {
@@ -32,7 +50,7 @@ const CentralPrompt = () => {
   };
 
   const handleSubmitPopup = (inputValue) => {
-    console.log('Input value:', inputValue);
+    console.log("Input value:", inputValue);
     setIsPopupOpen(false);
   };
 
@@ -48,8 +66,6 @@ const CentralPrompt = () => {
       toast.error(e.message);
     },
   });
-
-  
 
   const Commands = () => {
     return (
@@ -74,9 +90,8 @@ const CentralPrompt = () => {
       return initialContent.content[0].content[0].text;
     } else if (initialContent?.text) {
       return initialContent.text;
-    }else if(initialContent && typeof(initialContent))
-      return initialContent;
-    return '';
+    } else if (initialContent && typeof initialContent) return initialContent;
+    return "";
   };
 
   // Function to handle button clicks
@@ -114,7 +129,7 @@ const CentralPrompt = () => {
   const hasCompletion = completion.length > 0;
 
   const handleCick = () => {
-    console.log("persona is ",persona.init);
+    console.log("persona is ", persona.init);
     if (completion)
       return complete(prompt, {
         body: { option: "zap", command: persona.init },
@@ -132,7 +147,7 @@ const CentralPrompt = () => {
         ...initial,
         content: [...initial.content, ...additional.content],
       };
-    }
+    };
 
     const appendSection = (value) => () => {
       const newContent = {
@@ -150,84 +165,83 @@ const CentralPrompt = () => {
           },
         ],
       };
-      const newInitialContent= {...initialContent, ...content}
-      const newObject = mergeContent(newInitialContent, newContent)
-      // console.log("new object after merging is : \n ",newObject?.content?.[0]?.content?.[0]?.text);      
+      const newInitialContent = { ...initialContent, ...content };
+      const newObject = mergeContent(newInitialContent, newContent);
       setInitialContent(newObject);
       onOpenChange(false);
     };
 
     const option = [
       {
-        lable : "Header",
-        icon : Heading
+        lable: "Header",
+        icon: Heading,
       },
       {
-        lable : "Background",
-        icon : Atom
+        lable: "Background",
+        icon: Atom,
       },
       {
-        lable : "Issue Summary",
-        icon : Bug
+        lable: "Issue Summary",
+        icon: Bug,
       },
       {
-        lable : "Detailed observation",
-        icon : FerrisWheel
+        lable: "Detailed observation",
+        icon: FerrisWheel,
       },
       {
-        lable : "Risk/ Impact",
-        icon : SquareAsterisk
+        lable: "Risk/ Impact",
+        icon: SquareAsterisk,
       },
       {
-        lable : "Root cause",
-        icon : SquareAsterisk
+        lable: "Root cause",
+        icon: SquareAsterisk,
       },
       {
-        lable : "Recommendation",
-        icon : SquareAsterisk
+        lable: "Recommendation",
+        icon: SquareAsterisk,
       },
       {
-        lable : "Management Comment",
-        icon : SquareAsterisk
+        lable: "Management Comment",
+        icon: SquareAsterisk,
       },
     ];
     return (
-        <div className="my-3 flex flex-wrap gap-1">
-          <Popover modal={true} open={open} onOpenChange={onOpenChange}>
-            <PopoverTrigger asChild>
-              <Button
-                size="lg"
-                className="gap-2 rounded-xl w-full"
-                variant="default"
-              >
-                <span className="rounded-sm px-1">Add Section</span>
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-  
-            <PopoverContent
-              sideOffset={5}
-              className="flex max-h-100 w-full flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
-              align="start"
+      <div className="my-3 flex flex-wrap gap-1">
+        <Popover modal={true} open={open} onOpenChange={onOpenChange}>
+          <PopoverTrigger asChild>
+            <Button
+              size="lg"
+              className="gap-2 rounded-xl w-full"
+              variant="default"
             >
-              {option.map((item) => {
-                return (
-                  <div className="my-1 px-2 text-sm font-semibold">
-                    <Button
-                      onClick={appendSection(item.lable)}
-                      size="sm"
-                      className="rounded-xl w-full border-black"
-                      variant="outline"
-                    >
-                      <item.icon className="float-left"/>
-                      {item.lable}
-                    </Button>
-                  </div>
-                );
-              })}
-            </PopoverContent>
-          </Popover>
-        </div>
+              <span className="rounded-sm px-1">Add Section</span>
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </PopoverTrigger>
+
+          <PopoverContent
+            sideOffset={5}
+            className="flex max-h-100 w-full flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl "
+            align="start"
+          >
+            {option.map((item) => {
+              return (
+                <div className="my-1 px-2 text-sm font-semibold">
+                  <Button
+                    onClick={appendSection(item.lable)}
+                    size="sm"
+                    className="rounded-xl w-full border-black"
+                    variant="outline"
+                  >
+                    <item.icon className="float-left" />
+                    {item.lable}
+                  </Button>
+                </div>
+              );
+            })}
+          </PopoverContent>
+        </Popover>
+      </div>
     );
   };
 
@@ -235,132 +249,50 @@ const CentralPrompt = () => {
     <section className="">
       <div className="flex">
         <SectionHeading>Editor:</SectionHeading>
-          <button className="float-end ml-auto" title="Advance Setting" onClick={handleOpenPopup}>
-            <Settings />
-          </button>
-          {isPopupOpen && (
-            <Popup onClose={handleClosePopup} onSubmit={handleSubmitPopup} />
-          )}
+        <button
+          className="float-end ml-auto"
+          title="Advance Setting"
+          onClick={handleOpenPopup}
+        >
+          <Settings />
+        </button>
+        {isPopupOpen && (
+          <Popup onClose={handleClosePopup} onSubmit={handleSubmitPopup} />
+        )}
       </div>
       <Commands />
       <hr />
-      <textarea
+      <div className="relative w-full">
+        <Boxes className="absolute top-5 left-3 w-6 h-6 color" />
+        <textarea
           value={sectionPrompt}
           onChange={(e) => setSectionPrompt(e.target.value)}
-          className="w-full text-xl p-3 pl-2 rounded-lg mt-2"
+          className="w-full text-xl p-3 pl-12 rounded-lg mt-2"
           rows={7}
           placeholder="Enter your IA observation"
         ></textarea>
-      <Section />
+        <Section />
+      </div>
       <hr className="mb-2" />
       <div className="relative w-full">
-        <svg
+        <Image
+          alt="AI icon"
+          src="images/ailogo.svg"
           className="absolute top-3 left-3 w-6 h-6"
-          viewBox="0 0 256 256"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect fill="none" height="256" width="256" />
-          <line
-            fill="none"
-            stroke="purple"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
-            x1="216"
-            x2="216"
-            y1="128"
-            y2="176"
-          />
-          <line
-            fill="none"
-            stroke="purple"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
-            x1="192"
-            x2="240"
-            y1="152"
-            y2="152"
-          />
-          <line
-            fill="none"
-            stroke="purple"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
-            x1="84"
-            x2="84"
-            y1="40"
-            y2="80"
-          />
-          <line
-            fill="none"
-            stroke="purple"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
-            x1="64"
-            x2="104"
-            y1="60"
-            y2="60"
-          />
-          <line
-            fill="none"
-            stroke="purple"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
-            x1="168"
-            x2="168"
-            y1="184"
-            y2="216"
-          />
-          <line
-            fill="none"
-            stroke="purple"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
-            x1="152"
-            x2="184"
-            y1="200"
-            y2="200"
-          />
-          <rect
-            fill="none"
-            height="45.25"
-            rx="8"
-            stroke="purple"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
-            transform="translate(-53 128) rotate(-45)"
-            width="226.3"
-            x="14.9"
-            y="105.4"
-          />
-          <line
-            fill="none"
-            stroke="purple"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
-            x1="144"
-            x2="176"
-            y1="80"
-            y2="112"
-          />
-        </svg>
+          width={50}
+          height={50}
+        />
+
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           className="w-full text-xl p-3 pl-12 rounded-lg"
-          rows={2}
+          rows={4}
           placeholder="Write with AI.."
         ></textarea>
 
         <button
-          className="w-full mt-2 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+          className="absolute bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
           onClick={handleCick}
           disabled={isLoading}
         >

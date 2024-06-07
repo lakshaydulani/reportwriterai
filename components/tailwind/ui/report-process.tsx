@@ -88,7 +88,7 @@ const ReportProcess = () => {
               disabled={isLoad}
       >
         <DownloadIcon className="mx-2"/>
-        {isLoad ? "Downloading..." : "Download"}
+        {isLoad ? "Downloading..." : "Download Report"}
       </button>
     </section>
   );

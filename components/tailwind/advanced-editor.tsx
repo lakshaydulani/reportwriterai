@@ -28,7 +28,7 @@ import { useAtom } from 'jotai';
 import { generatedContent, initialContent as initialContentAtom } from "@/lib/atom";
 import CrazySpinner from "@/components/tailwind/ui/icons/crazy-spinner";
 import { aiOptions as options } from "@/components/tailwind/generative/ai-selector-options";
-import { Button } from "./ui/button";
+import { Button } from "@/components/tailwind/ui/button";
 import { useCompletion } from "ai/react";
 import { toast } from "sonner";
 import {
@@ -182,14 +182,12 @@ const TailwindAdvancedEditor = () => {
       <div className="bg-custom-gradient rounded flex m-auto">
         {/* <Section /> */}
       </div>
-      {/* className="max-h-[calc(75vh)]" */}
-      <div className="overflow-y-auto"> {/*scrollbar in editor*/}
       <EditorRoot>
         <EditorContent
           key={JSON.stringify(initialContent)} // Use a key to force re-initialization
           initialContent={initialContent}
           extensions={extensions}
-          className="border-muted bg-background rounded-lg h-[calc(100vh-100px)]"
+          className="border-muted bg-background rounded-lg h-[calc(100vh-100px)] overflow-y-auto"
           // className="relative h-full w-full shadow-blue-900 border-muted bg-background sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
@@ -250,7 +248,6 @@ const TailwindAdvancedEditor = () => {
           </GenerativeMenuSwitch>
         </EditorContent>
       </EditorRoot>
-      </div>
     </div>
   );
 };
