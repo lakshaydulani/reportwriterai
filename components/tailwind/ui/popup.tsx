@@ -1,18 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAtom } from "jotai";
 import { persona, isEYFontRequired } from "@/lib/atom";
-import useLocalStorage from "@/hooks/use-local-storage";
 import { Button } from './button';
 import { Atom, Bug, Settings, SparklesIcon, AlignJustify, FerrisWheel, SquareAsterisk } from "lucide-react";
 import {
   generatedContent,
   initialContent as initialContentAtom,
 } from "@/lib/atom";
+
 const Popup = ({ onClose, onSubmit }) => {
   const [inputValue, setInputValue] = useAtom(persona);
   const [isEyFormatingRequired, setIsEyFormatingRequired] = useAtom(isEYFontRequired);
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const popupRef = useRef(null);
+  const [selectedButton, setSelectedButton] = useState('');
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -24,6 +25,7 @@ const Popup = ({ onClose, onSubmit }) => {
 
   const handleSubmit = () => {
     onSubmit(inputValue, isEyFormatingRequired);
+    setSelectedButton(inputValue);
   };
 
   useEffect(() => {
@@ -40,41 +42,79 @@ const Popup = ({ onClose, onSubmit }) => {
     };
   }, []);
 
+  const handleSave = async () => {
+    try {
+        let obj = {};
+        obj[selectedButton.toLowerCase()] = inputValue;
+        console.log("obj is ", obj);
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 seconds timeout
+
+        const res = await fetch("/api/settings", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(obj),
+            signal: controller.signal,
+        });
+
+        clearTimeout(timeoutId);
+
+        console.log("Request sent, awaiting response...");
+
+        if (!res.ok) {
+            throw new Error(`Error: ${res.statusText}`);
+        }
+
+        const data = await res.json();
+        console.log("Response data:", data);
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            console.error("Request timed out");
+        } else {
+            console.error("Error during download:", error);
+        }
+    }
+}
+
   
 
   const Section = () => {
     const appendSection = (value) => () => {
-      setInputValue(value+" is clicked")
+      setInputValue(value);
+      setSelectedButton(value); // Set the selected button
     };
 
     const option = [
       {
-        lable : "Header",
-        icon : AlignJustify
+        label: "Header",
+        icon: AlignJustify
       },
       {
-        lable : "Background",
-        icon : Atom
+        label: "Background",
+        icon: Atom
       },
       {
-        lable : "Issue Summary",
-        icon : Bug
+        label: "Issue Summary",
+        icon: Bug
       },
       {
-        lable : "Detailed observation",
-        icon : FerrisWheel
+        label: "Detailed observation",
+        icon: FerrisWheel
       },
       {
-        lable : "Risk/ Impact",
-        icon : SquareAsterisk
+        label: "Risk/ Impact",
+        icon: SquareAsterisk
       },
       {
-        lable : "Root cause",
-        icon : SquareAsterisk
+        label: "Root cause",
+        icon: SquareAsterisk
       },
       {
-        lable : "Recommendation",
-        icon : SquareAsterisk
+        label: "Recommendation",
+        icon: SquareAsterisk
       },
       {
         lable : "Management Comment",
@@ -84,26 +124,26 @@ const Popup = ({ onClose, onSubmit }) => {
     return (
       <div className="m-2 flex flex-wrap gap-2">
         {option.map((item) => {
+          const isSelected = selectedButton === item.label;
           return (
-           
-              <Button
-                onClick={appendSection(item.lable)}
-                className="w-full rounded-xl"                
-              >
-                <item.icon className="float-left mr-auto" />
-                {item.lable}
-              </Button>
-           
+            <Button
+              key={item.label}
+              onClick={appendSection(item.label)}
+              className={`w-full rounded-xl ${isSelected ? 'bg-ey-yellow hover:bg-ey-yellow' : ''}`}
+            >
+              <item.icon className="float-left mr-auto" />
+              {item.label}
+            </Button>
           );
         })}
       </div>
     );
   };
-
+console.log("selectedButton",selectedButton)
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded shadow-md w-3/4 h-3/4 max-h-screen" ref={popupRef}>
-        <h2 className="text-2xl font-bold mb-4">Persona</h2>
+        <h2 className="text-2xl font-bold mb-4">Setting</h2>
         <div className="flex flex-1 overflow-hidden h-[calc(100%-100px)]">
           <div className="flex flex-col mr-2 p-2 border border-gray-300 w-1/4 overflow-y-auto">
             <Section />
@@ -128,7 +168,7 @@ const Popup = ({ onClose, onSubmit }) => {
           </div>
           <div className="flex">
             <button
-              onClick={handleSubmit}
+              onClick={handleSave}
               className="bg-ey-yellow py-2 px-4 rounded mr-2 border border-black"
             >
               Save
