@@ -46,21 +46,14 @@ const Popup = ({ onClose, onSubmit }) => {
     try {
         let obj = {};
         obj[selectedButton.toLowerCase()] = inputValue;
-        console.log("obj is ", obj);
-
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 seconds timeout
 
         const res = await fetch("/api/settings", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(obj),
-            signal: controller.signal,
+            body: JSON.stringify(obj),  // Ensure the payload is stringified
         });
-
-        clearTimeout(timeoutId);
 
         console.log("Request sent, awaiting response...");
 
@@ -74,10 +67,10 @@ const Popup = ({ onClose, onSubmit }) => {
         if (error.name === 'AbortError') {
             console.error("Request timed out");
         } else {
-            console.error("Error during download:", error);
+            console.error("Error encountered:", error);
         }
     }
-}
+};
 
   
 
