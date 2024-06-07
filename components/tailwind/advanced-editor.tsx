@@ -36,7 +36,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/tailwind/ui/popover";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, FileUp } from "lucide-react";
 type FileWithPreview = File & {
   preview: string;
 };
@@ -159,6 +159,7 @@ const TailwindAdvancedEditor = () => {
             }`"
             disabled={isLoading}
           >
+            <FileUp className="mr-2"/>
             <input {...getInputProps({ multiple: false })} />
             {isLoading ? "Importing..." : "Import"}
           </button>

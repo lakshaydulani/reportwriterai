@@ -12,6 +12,7 @@ import {
   ChevronDown,
   Heading,
   Pen as PencilLine,
+  FileUp
 } from "lucide-react";
 import {
   generatedContent,
@@ -168,6 +169,7 @@ const CentralPrompt = () => {
       const newInitialContent = { ...initialContent, ...content };
       const newObject = mergeContent(newInitialContent, newContent);
       setInitialContent(newObject);
+      setContent(newObject);
       onOpenChange(false);
     };
 
