@@ -42,6 +42,32 @@ const Popup = ({ onClose, onSubmit }) => {
     };
   }, []);
 
+  const getSettings = async (value) => {
+    try {
+        const response = await fetch(`/api/settings?field=${value}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const keys = Object.keys(data);
+        const result = data[keys[0]];
+        setTimeout((result) => {
+            setInputValue(result);
+        }, 1000, result);
+        
+    } catch (error) {
+        console.error('Error fetching settings:', error);
+    }
+};
+
+
   const handleSave = async () => {
     try {
         let obj = {};
@@ -76,8 +102,8 @@ const Popup = ({ onClose, onSubmit }) => {
 
   const Section = () => {
     const appendSection = (value) => () => {
-      setInputValue(value);
       setSelectedButton(value); // Set the selected button
+      getSettings(value);
     };
 
     const option = [
