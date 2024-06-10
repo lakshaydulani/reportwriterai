@@ -1,6 +1,6 @@
 "use client";
 import TailwindAdvancedEditor from "@/components/tailwind/advanced-editor";
-import ReportProcess from "@/components/tailwind/ui/report-process";
+import DownloadReport from "@/components/tailwind/ui/report-process";
 import { ScrollArea } from "@/components/tailwind/ui/scroll-area";
 import Uploader from "@/components/tailwind/ui/uploader";
 import CentralPrompt from "@/components/tailwind/generative/central-prompt";

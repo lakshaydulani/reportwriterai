@@ -100,6 +100,15 @@
   .bg-custom-gradient{
     @apply bg-gradient-to-br from-zinc-400 to-zinc-300;
   }
+
+  button{
+    @apply hover:shadow-2xl; 
+  }
+  
+  .editor-button{
+  @apply flex w-full justify-center items-center text-white py-1 px-4 rounded-lg;
+}
+
 }
 
 
@@ -170,7 +179,8 @@ pre {
   }
 }
 
-header, .animation{
+/* header, */
+ .animation{
   background-color: var(--ey-dark1-background) !important;
 }
 
@@ -193,5 +203,6 @@ hr{
   border-width: 1.5px;
   margin: 5px 0;
 }
+
 
 

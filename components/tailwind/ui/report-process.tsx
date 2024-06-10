@@ -12,7 +12,7 @@ import { Buffer } from 'buffer';
 
 
 
-const ReportProcess = () => {
+const DownloadReport = () => {
   const [isLoad, setIsLoading] = useState(false);
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [content, setContent] = useAtom(generatedContent);
@@ -81,7 +81,7 @@ const ReportProcess = () => {
   return (
     <section>
       {/* <SectionHeading helptext="Formatted as per EY Guidelines">Generate Report:</SectionHeading> */}
-      <button className="bg-ey-yellow flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
+      <button className="bg-ey-yellow border border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
             isLoad ? 'cursor-not-allowed' : ''
           }`"
               onClick={handleDownloadClick}
@@ -94,4 +94,4 @@ const ReportProcess = () => {
   );
 };
 
-export default ReportProcess;
+export default DownloadReport;

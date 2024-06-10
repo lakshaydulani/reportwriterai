@@ -31,6 +31,8 @@ import { aiOptions as options } from "@/components/tailwind/generative/ai-select
 import { Button } from "@/components/tailwind/ui/button";
 import { useCompletion } from "ai/react";
 import { toast } from "sonner";
+import Magic from "@/components/tailwind/ui/icons/magic";
+
 import {
   Popover,
   PopoverContent,
@@ -154,12 +156,12 @@ const TailwindAdvancedEditor = () => {
       <section>
         <div {...getRootProps()}>
           <button
-            className="bg-gray-500 flex w-full justify-center items-center text-white py-1 px-6 rounded-lg ${
+            className="bg-gray-500 editor-button ${
               isLoad ? 'cursor-not-allowed' : ''
             }`"
             disabled={isLoading}
           >
-            <FileUp className="mr-2"/>
+            <FileUp className="mr-1 h-5 w-5"/>
             <input {...getInputProps({ multiple: false })} />
             {isLoading ? "Importing..." : "Import"}
           </button>
@@ -167,6 +169,19 @@ const TailwindAdvancedEditor = () => {
         {alertMessage && <div className="alert">{alertMessage}</div>}
       </section>
     );
+  }
+
+  const AskAI = () => {
+    return (<>
+       <button
+            className="bg-purple-700 editor-button ${
+              isLoad ? 'cursor-not-allowed' : ''
+            }`"
+          >
+            <Magic className="mr-1 h-5 w-5"/>
+            Ask AI
+          </button>
+    </>);
   }
 
   if (!initialContent) return null;
@@ -198,10 +213,11 @@ const TailwindAdvancedEditor = () => {
           slotAfter={<ImageResizer />}
         >
           <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2">
+            <AskAI />
             <Dropzone />
           {/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
-            <div className="relative bg-zinc-300 p-1 px-3 text-sm text-black rounded-lg">{saveStatus}</div>
-            <div className={charsCount ? "rounded-lg bg-zinc-300 p-1 px-3 text-sm text-black" : "hidden"}>
+            <div className="relative flex items-center justify-center w-fit px-3 bg-zinc-300 text-sm text-black rounded-lg">{saveStatus}</div>
+            <div className={charsCount ? "rounded-lg flex items-center justify-center w-fit px-3 bg-zinc-300 text-sm text-black" : "hidden"}>
               {charsCount} Words
             </div>
           </div>

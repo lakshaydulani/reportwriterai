@@ -32,13 +32,12 @@ import {
   PopoverTrigger,
 } from "@/components/tailwind/ui/popover";
 import Link from "next/link";
-import Image from "next/image";
 import Popup from "../ui/popup";
+import {Separator} from "@/components/tailwind/ui/separator";
 
 const CentralPrompt = () => {
   const [content, setContent] = useAtom(generatedContent);
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
-  const [prompt, setPrompt] = useState("");
   const [sectionPrompt, setSectionPrompt] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -123,22 +122,11 @@ const CentralPrompt = () => {
       };
       setContent(newContent);
       setInitialContent(newContent);
-      setPrompt("");
+      // setPrompt("");
     }
   }, [completion]);
 
-  const hasCompletion = completion.length > 0;
-
-  const handleCick = () => {
-    console.log("persona is ", persona.init);
-    if (completion)
-      return complete(prompt, {
-        body: { option: "zap", command: persona.init },
-      });
-    complete(prompt, {
-      body: { option: "zap", command: persona.init },
-    });
-  };
+ 
 
   const Section = () => {
     const [open, onOpenChange] = useState(false);
@@ -260,7 +248,7 @@ const CentralPrompt = () => {
         )}
       </div>
       <Commands />
-      <hr />
+      <Separator orientation="horizontal" />
       <div className="relative w-full">
         <PencilLine className="absolute top-5 left-3 w-6 h-6 color" />
         <textarea
@@ -272,33 +260,8 @@ const CentralPrompt = () => {
         ></textarea>
         <Section />
       </div>
-      <hr className="mb-2" />
-      <div className="relative w-full">
-        <Image
-          alt="AI icon"
-          src="images/ailogo.svg"
-          className="absolute top-3 left-3 w-6 h-6"
-          width={50}
-          height={50}
-        />
-
-        <textarea
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          className="w-full text-xl p-3 pl-12 rounded-lg"
-          rows={4}
-          placeholder="Write with AI.."
-        ></textarea>
-
-        <button
-          className="absolute bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
-          onClick={handleCick}
-          disabled={isLoading}
-        >
-          <SparklesIcon className="mx-2" />
-          {isLoading ? "Generating..." : "Generate"}
-        </button>
-      </div>
+      <Separator orientation="horizontal" />
+     
     </section>
   );
 };
