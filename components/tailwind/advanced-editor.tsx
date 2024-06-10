@@ -216,8 +216,8 @@ const TailwindAdvancedEditor = () => {
             <AskAI />
             <Dropzone />
           {/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
-            <div className="relative flex items-center justify-center w-fit px-3 bg-zinc-300 text-sm text-black rounded-lg">{saveStatus}</div>
-            <div className={charsCount ? "rounded-lg flex items-center justify-center w-fit px-3 bg-zinc-300 text-sm text-black" : "hidden"}>
+            <div className="relative flex items-center justify-center min-w-24 px-3 bg-zinc-300 text-sm text-black rounded-lg">{saveStatus}</div>
+            <div className={charsCount ? "rounded-lg flex items-center justify-center min-w-28 px-3 bg-zinc-300 text-sm text-black" : "hidden"}>
               {charsCount} Words
             </div>
           </div>
