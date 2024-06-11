@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAtom } from "jotai";
 import { persona, isEYFontRequired } from "@/lib/atom";
 import { Button } from './button';
-import { Atom, Bug, AlignJustify, FerrisWheel, SquareAsterisk } from "lucide-react";
+import { sectionOptions as option} from '@/components/tailwind/generative/ai-selector-options';
 import {
   initialContent as initialContentAtom,
 } from "@/lib/atom";
@@ -28,6 +28,7 @@ const Popup = ({ onClose, onSubmit }) => {
   };
 
   useEffect(() => {
+    getSettings(selectedButton);
     const handleOutsideClick = (e) => {
       if (popupRef.current && !popupRef.current.contains(e.target)) {
         e.stopPropagation();
@@ -39,11 +40,6 @@ const Popup = ({ onClose, onSubmit }) => {
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
-  }, []);
-
-  useEffect(() => {
-    // Fetch data for "Header" when the component mounts
-    getSettings("Header");
   }, []);
 
   const getSettings = async (value) => {
@@ -105,48 +101,6 @@ const Popup = ({ onClose, onSubmit }) => {
       getSettings(value);
     };
 
-    const option = [
-      {
-        label: "header",
-        value: "Header",
-        icon: AlignJustify
-      },
-      {
-        label: "background",
-        value: "Background",
-        icon: Atom
-      },
-      {
-        label: "issuesummary",
-        value: "Issue Summary",
-        icon: Bug
-      },
-      {
-        label: "detailedobservation",
-        value: "Detailed observation",
-        icon: FerrisWheel
-      },
-      {
-        label: "riskimpact",
-        value: "Risk/ Impact",
-        icon: SquareAsterisk
-      },
-      {
-        label: "rootcause",
-        value: "Root cause",
-        icon: SquareAsterisk
-      },
-      {
-        label: "recommendation",
-        value: "Recommendation",
-        icon: SquareAsterisk
-      },
-      {
-        label: "managementcomment",
-        value: "Management Comment",
-        icon: SquareAsterisk
-      },
-    ];
     return (
       <div className="m-2 flex flex-wrap gap-2">
         {option.map((item) => {

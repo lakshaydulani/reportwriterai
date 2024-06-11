@@ -1,4 +1,4 @@
-import { ArrowDownWideNarrow, CheckCheck, RefreshCcwDot, WrapText } from "lucide-react";
+import { ArrowDownWideNarrow, CheckCheck, RefreshCcwDot, WrapText,Atom, Bug, AlignJustify, FerrisWheel, SquareAsterisk } from "lucide-react";
 
 export const aiOptions = [
     {
@@ -23,4 +23,47 @@ export const aiOptions = [
       icon: WrapText,
     },
   ];
+
+export const sectionOptions = [
+  {
+    label: "header",
+    value: "Header",
+    icon: AlignJustify
+  },
+  {
+    label: "background",
+    value: "Background",
+    icon: Atom
+  },
+  {
+    label: "issuesummary",
+    value: "Issue Summary",
+    icon: Bug
+  },
+  {
+    label: "detailedobservation",
+    value: "Detailed observation",
+    icon: FerrisWheel
+  },
+  {
+    label: "riskimpact",
+    value: "Risk/ Impact",
+    icon: SquareAsterisk
+  },
+  {
+    label: "rootcause",
+    value: "Root cause",
+    icon: SquareAsterisk
+  },
+  {
+    label: "recommendation",
+    value: "Recommendation",
+    icon: SquareAsterisk
+  },
+  {
+    label: "managementcomment",
+    value: "Management Comment",
+    icon: SquareAsterisk
+  },
+];
   
