@@ -11,11 +11,10 @@ import { Button } from "../ui/button";
 import Magic from "../ui/icons/magic";
 
 export const AskAI = () => {
-
   const [prompt, setPrompt] = useState("");
   const [content, setContent] = useAtom(generatedContent);
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
-  const [open, onOpenChange] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { completion, complete, isLoading } = useCompletion({
     api: "/api/generate",
@@ -50,6 +49,7 @@ export const AskAI = () => {
       setContent(newContent);
       setInitialContent(newContent);
       setPrompt("");
+      setOpen(false); // Close the popover here
     }
   }, [completion]);
 
@@ -65,15 +65,13 @@ export const AskAI = () => {
       body: { option: "zap", command: persona.init },
     });
   };
-
-  return (<>
+  
+  return (
     <div className="flex flex-wrap">
-      <Popover modal={true} open={open} onOpenChange={onOpenChange}>
+      <Popover modal={true} open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
-            className="bg-purple-700 editor-button ${
-                isLoad ? 'cursor-not-allowed' : ''
-              }`"
+            className={`bg-purple-700 editor-button ${isLoading ? 'cursor-not-allowed' : ''}`}
           >
             <Magic className="mr-1 h-4 w-4" />
             Ask AI
@@ -110,5 +108,5 @@ export const AskAI = () => {
         </PopoverContent>
       </Popover>
     </div>
-  </>)
+  )
 }

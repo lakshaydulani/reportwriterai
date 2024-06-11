@@ -29,7 +29,7 @@ const extensions = [...defaultExtensions, slashCommand];
 const TailwindAdvancedEditor = () => {
   const [initialContent, setInitialContent] = useAtom(initialContentAtom); // useState<null | JSONContent>(null);
   const [saveStatus, setSaveStatus] = useState("Saved");
-  const [charsCount, setCharsCount] = useState();
+  const [charsCount, setCharsCount] = useState(0);
 
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
@@ -161,7 +161,7 @@ const TailwindAdvancedEditor = () => {
           initialContent={initialContent}
           extensions={extensions}
           className="border-muted bg-background rounded-lg max-w-[62vw] h-[calc(100vh-100px)] overflow-auto"
-          // className="relative h-full w-full shadow-blue-900 border-muted bg-background sm:rounded-lg sm:border sm:shadow-lg"
+// className="relative h-full w-full shadow-blue-900 border-muted bg-background sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -182,7 +182,7 @@ const TailwindAdvancedEditor = () => {
           <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2">
             <AskAI />
             <Dropzone />
-          {/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
+{/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
             <div className="relative flex items-center justify-center min-w-24 px-3 bg-zinc-300 text-sm text-black rounded-lg">{saveStatus}</div>
             <div className={charsCount ? "rounded-lg flex items-center justify-center min-w-28 px-3 bg-zinc-300 text-sm text-black" : "hidden"}>
               {charsCount} Words
