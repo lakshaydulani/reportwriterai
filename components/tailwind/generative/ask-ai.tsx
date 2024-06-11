@@ -67,7 +67,7 @@ export const AskAI = () => {
   };
 
   return (<>
-    <div className="my-3 flex flex-wrap">
+    <div className="flex flex-wrap">
       <Popover modal={true} open={open} onOpenChange={onOpenChange}>
         <PopoverTrigger asChild>
           <Button
@@ -75,7 +75,7 @@ export const AskAI = () => {
                 isLoad ? 'cursor-not-allowed' : ''
               }`"
           >
-            <Magic className="mr-1 h-5 w-5" />
+            <Magic className="mr-1 h-4 w-4" />
             Ask AI
           </Button>
         </PopoverTrigger>
