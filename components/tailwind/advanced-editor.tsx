@@ -39,6 +39,7 @@ import {
   PopoverTrigger,
 } from "@/components/tailwind/ui/popover";
 import { Check, ChevronDown, FileUp } from "lucide-react";
+import { AskAI } from "./generative/ask-ai";
 type FileWithPreview = File & {
   preview: string;
 };
@@ -171,18 +172,18 @@ const TailwindAdvancedEditor = () => {
     );
   }
 
-  const AskAI = () => {
-    return (<>
-       <button
-            className="bg-purple-700 editor-button ${
-              isLoad ? 'cursor-not-allowed' : ''
-            }`"
-          >
-            <Magic className="mr-1 h-5 w-5"/>
-            Ask AI
-          </button>
-    </>);
-  }
+  // const AskAI = () => {
+  //   return (<>
+  //      <button
+  //           className="bg-purple-700 editor-button ${
+  //             isLoad ? 'cursor-not-allowed' : ''
+  //           }`"
+  //         >
+  //           <Magic className="mr-1 h-5 w-5"/>
+  //           Ask AI
+  //         </button>
+  //   </>);
+  // }
 
   if (!initialContent) return null;
 
