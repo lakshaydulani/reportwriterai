@@ -68,6 +68,29 @@ const CentralPrompt = () => {
     },
   });
 
+  useEffect(() => {
+    if (completion.length > 0) {
+      const plainText = completion;
+      const newContent = {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+            content: [
+              {
+                type: "text",
+                text: plainText,
+              },
+            ],
+          },
+        ],
+      };
+      setContent(newContent);
+      setInitialContent(newContent);
+    }
+  }, [completion]);
+
+
   const Commands = () => {
     return (
       <div className="mt-2 mb-4 flex flex-wrap gap-2">

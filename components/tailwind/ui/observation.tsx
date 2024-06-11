@@ -46,7 +46,7 @@ const ObservationComponent = () => {
       <Button 
         variant="default"
         onClick={addObservation}
-        className="mb-2 mt-2"
+        className="rounded-xl w-full mb-2 mt-2"
       >
         Add New Observation
       </Button>
