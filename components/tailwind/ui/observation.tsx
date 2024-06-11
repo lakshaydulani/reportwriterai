@@ -2,22 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './button';
 
 const ObservationComponent = () => {
-  const [observations, setObservations] = useState(() => {
-    const savedObservations = localStorage.getItem('observations');
-    return savedObservations ? JSON.parse(savedObservations) : [];
-  });
-
-  const [selectedIndex, setSelectedIndex] = useState(() => {
-    const savedIndex = localStorage.getItem('selectedIndex');
-    return savedIndex ? JSON.parse(savedIndex) : null;
-  });
+  const [observations, setObservations] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem('observations', JSON.stringify(observations));
+    if (typeof window !== 'undefined') {
+      const savedObservations = localStorage.getItem('observations');
+      const savedIndex = localStorage.getItem('selectedIndex');
+      
+      if (savedObservations) {
+        setObservations(JSON.parse(savedObservations));
+      }
+      
+      if (savedIndex) {
+        setSelectedIndex(JSON.parse(savedIndex));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('observations', JSON.stringify(observations));
+    }
   }, [observations]);
 
   useEffect(() => {
-    localStorage.setItem('selectedIndex', JSON.stringify(selectedIndex));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('selectedIndex', JSON.stringify(selectedIndex));
+    }
   }, [selectedIndex]);
 
   const addObservation = () => {
