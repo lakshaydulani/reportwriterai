@@ -1,44 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './button';
+import { useAtom } from 'jotai';
+import { generatedContent } from '@/lib/atom';
+import { initialContent } from '@/lib/atom';
 
 const ObservationComponent = () => {
   const [observations, setObservations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedObservations = localStorage.getItem('observations');
-      const savedIndex = localStorage.getItem('selectedIndex');
-      
-      if (savedObservations) {
-        setObservations(JSON.parse(savedObservations));
-      }
-      
-      if (savedIndex) {
-        setSelectedIndex(JSON.parse(savedIndex));
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('observations', JSON.stringify(observations));
-    }
-  }, [observations]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('selectedIndex', JSON.stringify(selectedIndex));
-    }
-  }, [selectedIndex]);
+  const [ content, setContent ]  = useAtom(generatedContent);
+  const [ newInitialContent, setNewInitialContent ]  = useAtom(initialContent);
+  const [contentArray, setContentArray] = useState([]);
+  const globalObservation = {
+    type: "doc",
+    content: [
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text: "Add your observation " + (selectedIndex + 1),
+          },
+        ],
+      },
+    ],
+  };
 
   const addObservation = () => {
+    setContentArray([...contentArray, content]);
+    setContent(globalObservation);
+    setNewInitialContent(globalObservation);
+    setSelectedIndex(observations.length);
     const newObservation = `Observation ${observations.length + 1}`;
-    setObservations([...observations, newObservation]);
+    const newObservations = [...observations, newObservation];
+    setObservations(newObservations);
+
+    // Set the new selected index to the last observation
   };
 
   const handleSelect = (index) => {
+    if(contentArray[index+1]){
+      setNewInitialContent(contentArray[index+1])
+      setContent(contentArray[index+1])
+    }
     setSelectedIndex(index);
+    console.log("content array is ;;;;;;\n", contentArray);
   };
 
   return (
@@ -55,9 +60,7 @@ const ObservationComponent = () => {
           <li
             key={index}
             onClick={() => handleSelect(index)}
-            style={{
-              cursor: 'pointer'
-            }}
+            className='cursor-pointer'
           >
             <Button 
               size="lg"

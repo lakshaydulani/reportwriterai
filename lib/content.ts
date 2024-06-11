@@ -1,16 +1,13 @@
 export const defaultEditorContent = {
   type: "doc",
   content: [
-  
     {
       type: "paragraph",
       content: [
-        
         {
           type: "text",
           text: "Start writing/Paste your content below, Or, Upload your DOCX file (recommended)",
         },
-     
       ],
     },
     // {
