@@ -1,15 +1,6 @@
 "use client";
 import { defaultEditorContent } from "@/lib/content";
-import {
-  EditorCommand,
-  EditorCommandEmpty,
-  EditorCommandItem,
-  EditorCommandList,
-  EditorContent,
-  type EditorInstance,
-  EditorRoot,
-  type JSONContent,
-} from "novel";
+import { EditorCommand, EditorCommandEmpty, EditorCommandItem, EditorCommandList, EditorContent, type EditorInstance, EditorRoot, type JSONContent } from "novel";
 import { ImageResizer, handleCommandNavigation } from "novel/extensions";
 import { useDropzone } from "react-dropzone";
 import { useEffect, useState, useCallback } from "react";
@@ -26,20 +17,9 @@ import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 import { useAtom } from 'jotai';
 import { generatedContent, initialContent as initialContentAtom } from "@/lib/atom";
-import CrazySpinner from "@/components/tailwind/ui/icons/crazy-spinner";
-import { aiOptions as options } from "@/components/tailwind/generative/ai-selector-options";
-import { Button } from "@/components/tailwind/ui/button";
-import { useCompletion } from "ai/react";
-import { toast } from "sonner";
-import Magic from "@/components/tailwind/ui/icons/magic";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/tailwind/ui/popover";
-import { Check, ChevronDown, FileUp } from "lucide-react";
+import { FileUp } from "lucide-react";
 import { AskAI } from "./generative/ask-ai";
+
 type FileWithPreview = File & {
   preview: string;
 };
@@ -57,9 +37,7 @@ const TailwindAdvancedEditor = () => {
   const [openAI, setOpenAI] = useState(false);
   const [content, setContent] = useAtom(generatedContent);
   const [file, setFile] = useState<FileWithPreview | null>(null);
-  const [uploadStatus, setUploadStatus] = useState<
-    "success" | "failure" | null
-  >(null);
+  const [uploadStatus, setUploadStatus] = useState<"success" | "failure" | null>(null);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [base64URL, setBase64URL] = useState<string | null>(null);
   const [response, setResponse] = useState(null);
@@ -172,18 +150,6 @@ const TailwindAdvancedEditor = () => {
     );
   }
 
-  // const AskAI = () => {
-  //   return (<>
-  //      <button
-  //           className="bg-purple-700 editor-button ${
-  //             isLoad ? 'cursor-not-allowed' : ''
-  //           }`"
-  //         >
-  //           <Magic className="mr-1 h-5 w-5"/>
-  //           Ask AI
-  //         </button>
-  //   </>);
-  // }
 
   if (!initialContent) return null;
 
