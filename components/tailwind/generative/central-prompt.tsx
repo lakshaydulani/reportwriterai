@@ -34,6 +34,7 @@ import {
 import Link from "next/link";
 import Popup from "../ui/popup";
 import {Separator} from "@/components/tailwind/ui/separator";
+import Observations from "../ui/observation";
 
 const CentralPrompt = () => {
   const [content, setContent] = useAtom(generatedContent);
@@ -100,33 +101,7 @@ const CentralPrompt = () => {
     complete(text, {
       body: { option: value },
     });
-  };
-
-  useEffect(() => {
-    if (completion.length > 0) {
-      // Remove Markdown to get plain text
-      const plainText = completion; //removeMarkdown(completion);
-      const newContent = {
-        type: "doc",
-        content: [
-          {
-            type: "paragraph",
-            content: [
-              {
-                type: "text",
-                text: plainText,
-              },
-            ],
-          },
-        ],
-      };
-      setContent(newContent);
-      setInitialContent(newContent);
-      // setPrompt("");
-    }
-  }, [completion]);
-
- 
+  }; 
 
   const Section = () => {
     const [open, onOpenChange] = useState(false);
@@ -261,7 +236,7 @@ const CentralPrompt = () => {
         <Section />
       </div>
       <Separator orientation="horizontal" />
-     
+     <Observations />
     </section>
   );
 };
