@@ -56,13 +56,12 @@ const ObservationComponent = () => {
             key={index}
             onClick={() => handleSelect(index)}
             style={{
-              cursor: 'pointer',
-              fontWeight: selectedIndex === index ? 'bold' : 'normal'
+              cursor: 'pointer'
             }}
           >
             <Button 
               size="lg"
-              className="rounded-xl w-full my-2"
+              className={`rounded-xl w-full my-2 hover:bg-yellow-300 ${selectedIndex === index ? 'bg-ey-yellow' : ''}`}
               variant="default"
             >
             {observation}
