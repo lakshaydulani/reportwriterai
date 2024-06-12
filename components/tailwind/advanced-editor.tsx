@@ -132,21 +132,20 @@ const TailwindAdvancedEditor = () => {
     });
   
     return (
-      <section>
-        <div {...getRootProps()}>
+    
+        <div className="flex flex-wrap" {...getRootProps()}>
           <button
             className="bg-gray-500 editor-button ${
               isLoad ? 'cursor-not-allowed' : ''
             }`"
             disabled={isLoading}
           >
-            <FileUp className="mr-1 h-5 w-5"/>
+            <FileUp className="mr-1 h-4 w-4"/>
             <input {...getInputProps({ multiple: false })} />
             {isLoading ? "Importing..." : "Import"}
           </button>
         </div>
-        {alertMessage && <div className="alert">{alertMessage}</div>}
-      </section>
+      
     );
   }
 
@@ -179,15 +178,15 @@ const TailwindAdvancedEditor = () => {
           }}
           slotAfter={<ImageResizer />}
         >
-          <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2">
+          <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2 ">
             <AskAI />
             <Dropzone />
-{/* <div className="mt-3 text-sm text-muted-foreground"><CrazySpinner color="black" /></div> */}
-            <div className="relative flex items-center justify-center min-w-24 px-3 bg-zinc-300 text-sm text-black rounded-lg">{saveStatus}</div>
-            <div className={charsCount ? "rounded-lg flex items-center justify-center min-w-28 px-3 bg-zinc-300 text-sm text-black" : "hidden"}>
+            <div className="relative flex items-center justify-center min-w-24 px-3 text-sm border border-black text-black rounded-lg">{saveStatus}</div>
+            <div className={charsCount ? "rounded-lg flex items-center justify-center min-w-28 px-3 border border-black text-sm text-black" : "hidden"}>
               {charsCount} Words
             </div>
           </div>
+
           <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
             <EditorCommandEmpty className="px-2 text-muted-foreground">No results</EditorCommandEmpty>
             <EditorCommandList>

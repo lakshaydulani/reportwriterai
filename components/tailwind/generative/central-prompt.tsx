@@ -3,16 +3,14 @@ import React, { useEffect, useState } from "react";
 import {
   Atom,
   Bug,
-  Settings,
-  SparklesIcon,
-  AlignJustify,
+  Settings2 as Settings,
   FerrisWheel,
   SquareAsterisk,
   Check,
   ChevronDown,
   Heading,
   Pen as PencilLine,
-  FileUp
+  FileUp,
 } from "lucide-react";
 import {
   generatedContent,
@@ -20,8 +18,9 @@ import {
   persona,
   isEYFontRequired,
 } from "@/lib/atom";
-import { toast } from "sonner";
+
 import { useCompletion } from "ai/react";
+import useCompletionJotai from "@/hooks/use-completion-jotai";
 import { useAtom } from "jotai";
 import SectionHeading from "./../ui/section-heading";
 import { aiOptions as options } from "./ai-selector-options";
@@ -31,9 +30,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/tailwind/ui/popover";
-import Link from "next/link";
-import Popup from "../ui/popup";
-import {Separator} from "@/components/tailwind/ui/separator";
+import Popup from "@/components/tailwind/ui/popup";
+import { Separator } from "@/components/tailwind/ui/separator";
+import DownloadReport from "@/components/tailwind/ui/report-process";
+
 import dynamic from 'next/dynamic';
 
 const Observations = dynamic(() => import('@/components/tailwind/ui/observation'), {
@@ -55,44 +55,11 @@ const CentralPrompt = () => {
   };
 
   const handleSubmitPopup = (inputValue) => {
-    console.log("Input value:", inputValue);
     setIsPopupOpen(false);
   };
 
-  const { completion, complete, isLoading } = useCompletion({
-    api: "/api/generate",
-    onResponse: (response) => {
-      if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
-        return;
-      }
-    },
-    onError: (e) => {
-      toast.error(e.message);
-    },
-  });
-
-  useEffect(() => {
-    if (completion.length > 0) {
-      const plainText = completion;
-      const newContent = {
-        type: "doc",
-        content: [
-          {
-            type: "paragraph",
-            content: [
-              {
-                type: "text",
-                text: plainText,
-              },
-            ],
-          },
-        ],
-      };
-      setContent(newContent);
-      setInitialContent(newContent);
-    }
-  }, [completion]);
+  const { completion, complete, isLoading } =
+    useCompletionJotai();
 
 
   const Commands = () => {
@@ -127,8 +94,25 @@ const CentralPrompt = () => {
     const text = getTextFromInitialContent(content);
     complete(text, {
       body: { option: value },
+    }).then((data) => {
+      const newContent = {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+            content: [
+              {
+                type: "text",
+                text: data,
+              },
+            ],
+          },
+        ],
+      };
+      setContent(newContent);
+      setInitialContent(newContent);
     });
-  }; 
+  };
 
   const Section = () => {
     const [open, onOpenChange] = useState(false);
@@ -201,11 +185,7 @@ const CentralPrompt = () => {
       <div className="my-3 flex flex-wrap">
         <Popover modal={true} open={open} onOpenChange={onOpenChange}>
           <PopoverTrigger asChild>
-            <Button
-              size="lg"
-              className="rounded-xl w-full"
-              variant="default"
-            >
+            <Button size="lg" className="rounded-xl w-full" variant="default">
               <span className="rounded-sm px-1">Add Section</span>
               <ChevronDown className="h-4 w-4" />
             </Button>
@@ -218,14 +198,14 @@ const CentralPrompt = () => {
           >
             {option.map((item) => {
               return (
-                  <Button
-                    onClick={appendSection(item.lable)}
-                    variant="outline"
-                    className="rounded-xl w-full border-black"
-                  >
-                    <item.icon className="float-left mr-auto" />
-                    {item.lable}
-                  </Button>
+                <Button
+                  onClick={appendSection(item.lable)}
+                  variant="outline"
+                  className="rounded-xl w-full border-black"
+                >
+                  <item.icon className="float-left mr-auto" />
+                  {item.lable}
+                </Button>
               );
             })}
           </PopoverContent>
@@ -262,8 +242,12 @@ const CentralPrompt = () => {
         ></textarea>
         <Section />
       </div>
+
       <Separator orientation="horizontal" />
-     <Observations />
+      <Observations />      
+      
+      <Separator orientation="horizontal" />
+      <DownloadReport />
     </section>
   );
 };

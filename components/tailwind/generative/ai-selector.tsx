@@ -2,7 +2,8 @@
 
 import { Command, CommandInput } from "@/components/tailwind/ui/command";
 
-import { useCompletion } from "ai/react";
+import useCompletionJotai from "@/hooks/use-completion-jotai";
+// import { useCompletion } from "ai/react";
 import { ArrowUp } from "lucide-react";
 import { useEditor } from "novel";
 import { addAIHighlight } from "novel/extensions";
@@ -25,19 +26,22 @@ interface AISelectorProps {
 export function AISelector({ onOpenChange }: AISelectorProps) {
   const { editor } = useEditor();
   const [inputValue, setInputValue] = useState("");
-  const { completion, complete, isLoading } = useCompletion({
-    // id: "novel",
-    api: "/api/generate",
-    onResponse: (response) => {
-      if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
-        return;
-      }
-    },
-    onError: (e) => {
-      toast.error(e.message);
-    },
-  });
+  // const { completion, complete, isLoading } = useCompletionJotai();
+
+  const { completion, complete, isLoading } = useCompletionJotai("novel");
+  // ({
+  //   id: "novel",
+  //   api: "/api/generate",
+  //   onResponse: (response) => {
+  //     if (response.status === 429) {
+  //       toast.error("You have reached your request limit for the day.");
+  //       return;
+  //     }
+  //   },
+  //   onError: (e) => {
+  //     toast.error(e.message);
+  //   },
+  // });
 
   const hasCompletion = completion.length > 0;
 

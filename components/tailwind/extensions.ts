@@ -30,38 +30,38 @@ const tiptapLink = TiptapLink.configure({
   },
 });
 
-const tiptapImage = TiptapImage.extend({
-  addProseMirrorPlugins() {
-    return [
-      UploadImagesPlugin({
-        imageClass: cx("opacity-40 rounded-lg border border-stone-200"),
-      }),
-    ];
-  },
-}).configure({
-  allowBase64: true,
-  HTMLAttributes: {
-    class: cx("rounded-lg border border-muted"),
-  },
-});
+// const tiptapImage = TiptapImage.extend({
+//   addProseMirrorPlugins() {
+//     return [
+//       UploadImagesPlugin({
+//         imageClass: cx("opacity-40 rounded-lg border border-stone-200"),
+//       }),
+//     ];
+//   },
+// }).configure({
+//   allowBase64: true,
+//   HTMLAttributes: {
+//     class: cx("rounded-lg border border-muted"),
+//   },
+// });
 
-const updatedImage = UpdatedImage.configure({
-  HTMLAttributes: {
-    class: cx("rounded-lg border border-muted"),
-  },
-});
+// const updatedImage = UpdatedImage.configure({
+//   HTMLAttributes: {
+//     class: cx("rounded-lg border border-muted"),
+//   },
+// });
 
-const taskList = TaskList.configure({
-  HTMLAttributes: {
-    class: cx("not-prose pl-2 "),
-  },
-});
-const taskItem = TaskItem.configure({
-  HTMLAttributes: {
-    class: cx("flex gap-2 items-start my-4"),
-  },
-  nested: true,
-});
+// const taskList = TaskList.configure({
+//   HTMLAttributes: {
+//     class: cx("not-prose pl-2 "),
+//   },
+// });
+// const taskItem = TaskItem.configure({
+//   HTMLAttributes: {
+//     class: cx("flex gap-2 items-start my-4"),
+//   },
+//   nested: true,
+// });
 
 const horizontalRule = HorizontalRule.configure({
   HTMLAttributes: {
@@ -109,18 +109,18 @@ const starterKit = StarterKit.configure({
   gapcursor: false,
 });
 
-const codeBlockLowlight = CodeBlockLowlight.configure({
-  // configure lowlight: common /  all / use highlightJS in case there is a need to specify certain language grammars only
-  // common: covers 37 language grammars which should be good enough in most cases
-  lowlight: createLowlight(common),
-});
+// const codeBlockLowlight = CodeBlockLowlight.configure({
+//   // configure lowlight: common /  all / use highlightJS in case there is a need to specify certain language grammars only
+//   // common: covers 37 language grammars which should be good enough in most cases
+//   lowlight: createLowlight(common),
+// });
 
-const youtube = Youtube.configure({
-  HTMLAttributes: {
-    class: cx("rounded-lg border border-muted"),
-  },
-  inline: false,
-});
+// const youtube = Youtube.configure({
+//   HTMLAttributes: {
+//     class: cx("rounded-lg border border-muted"),
+//   },
+//   inline: false,
+// });
 
 const characterCount = CharacterCount.configure();
 
@@ -128,14 +128,14 @@ export const defaultExtensions = [
   starterKit,
   placeholder,
   tiptapLink,
-  tiptapImage,
-  updatedImage,
-  taskList,
-  taskItem,
+  // tiptapImage,
+  // updatedImage,
+  // taskList,
+  // taskItem,
   horizontalRule,
   aiHighlight,
   // codeBlockLowlight,
-  youtube,
+  // youtube,
   characterCount,
   GlobalDragHandle,
 ];

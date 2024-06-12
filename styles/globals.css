@@ -6,7 +6,7 @@
   :root {
     --ey-dark-background: #1a1a24;
     --ey-dark1-background: #2e2e38;
-    --ey-yellow:#ffe600;
+    --ey-yellow: #ffe600;
     --white: #fff;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -97,20 +97,18 @@
   body {
     @apply bg-background text-foreground;
   }
-  .bg-custom-gradient{
+  .bg-custom-gradient {
     @apply bg-gradient-to-br from-zinc-400 to-zinc-300;
   }
 
-  button{
-    @apply hover:shadow-2xl; 
+  button {
+    @apply hover:shadow-2xl;
   }
-  
-  .editor-button{
-  @apply flex w-full justify-center items-center text-white py-1 px-4 rounded-lg;
-}
 
+  .editor-button {
+    @apply flex w-full justify-center items-center text-white py-1 px-4 rounded-lg;
+  }
 }
-
 
 pre {
   background: #0d0d0d;
@@ -180,29 +178,30 @@ pre {
 }
 
 /* header, */
- .animation{
+.animation {
   background-color: var(--ey-dark1-background) !important;
 }
 
-
-.uploader{
+.uploader {
   border: 3px dashed var(--white);
 }
 
-.bg-ey-yellow{
+.bg-ey-yellow {
   background-color: var(--ey-yellow);
   color: var(--ey-dark-background);
 }
 
-.custom-pl{
+.custom-pl {
   padding-left: 0.85rem;
 }
 
-hr{
+hr {
   border-color: #000000;
   border-width: 1.5px;
   margin: 5px 0;
 }
 
-
-
+.ProseMirror {
+  padding: 5rem 2rem !important; 
+  /* overriden by Lakshay  */
+}

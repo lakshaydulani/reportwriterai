@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useCompletion } from "ai/react";
+import useCompletionJotai from "@/hooks/use-completion-jotai";
 import { toast } from "sonner";
 import { useAtom } from "jotai";
 import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
@@ -16,18 +16,9 @@ export const AskAI = () => {
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [open, setOpen] = useState(false);
 
-  const { completion, complete, isLoading } = useCompletion({
-    api: "/api/generate",
-    onResponse: (response) => {
-      if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
-        return;
-      }
-    },
-    onError: (e) => {
-      toast.error(e.message);
-    },
-  });
+
+  const { completion, complete, isLoading } = useCompletionJotai("askai");
+
 
   useEffect(() => {
     if (completion.length > 0) {
@@ -56,7 +47,6 @@ export const AskAI = () => {
   const hasCompletion = completion.length > 0;
 
   const handleClick = () => {
-    console.log("persona is ", persona.init);
     if (completion)
       return complete(prompt, {
         body: { option: "zap", command: persona.init },
