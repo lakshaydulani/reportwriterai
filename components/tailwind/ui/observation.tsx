@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './button';
 import { useAtom } from 'jotai';
 import { generatedContent, initialContent } from '@/lib/atom';
+import { Trash2 } from 'lucide-react';
 
 const ObservationComponent = () => {
   const [observations, setObservations] = useState(() => {
@@ -88,6 +89,30 @@ const ObservationComponent = () => {
     previousIndex.current = index;
   };
 
+  const handleDelete = (index) => {
+    // Remove the selected observation
+    const updatedObservations = observations.filter((_, i) => i !== index);
+    const updatedContentArray = contentArray.filter((_, i) => i !== index);
+
+    setObservations(updatedObservations);
+    setContentArray(updatedContentArray);
+
+    // Update localStorage
+    window.localStorage.setItem('observations', JSON.stringify(updatedObservations));
+    window.localStorage.setItem('contentArray', JSON.stringify(updatedContentArray));
+
+    // Handle the case when the deleted observation was selected
+    if (index === selectedIndex) {
+      setSelectedIndex(null);
+      setContent(null);
+      setNewInitialContent(null);
+    } else if (index < selectedIndex) {
+      setSelectedIndex(selectedIndex - 1);
+    }
+
+    previousIndex.current = null;
+  };
+
   useEffect(() => {
     // Save the current observation's content when the selected index changes
     if (previousIndex.current !== null && previousIndex.current !== selectedIndex) {
@@ -108,17 +133,23 @@ const ObservationComponent = () => {
       </Button>
       <ol>
         {observations.map((observation, index) => (
-          <li
-            key={index}
-            onClick={() => handleSelect(index)}
-            className="cursor-pointer"
-          >
+          <li key={index} className="cursor-pointer">
             <Button
               size="lg"
-              className={`rounded-xl w-full my-2 hover:bg-yellow-300 ${selectedIndex === index ? 'bg-ey-yellow' : ''}`}
+              className={`flex justify-between items-center rounded-xl w-full my-2 hover:bg-yellow-300 ${selectedIndex === index ? 'bg-ey-yellow' : ''}`}
               variant="default"
+              onClick={() => handleSelect(index)}
             >
               {observation}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent the select handler from being triggered
+                  handleDelete(index);
+                }}
+                className="ml-2 text-red-600"
+              >
+                <Trash2 />
+              </button>
             </Button>
           </li>
         ))}
