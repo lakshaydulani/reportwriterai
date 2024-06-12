@@ -25,8 +25,8 @@ const ObservationComponent = () => {
 
   useEffect(() => {
     console.log('Saving to localStorage:', { observations, contentArray });
-    localStorage.setItem('observations', JSON.stringify(observations));
-    localStorage.setItem('contentArray', JSON.stringify(contentArray));
+    window.localStorage.setItem('observations', JSON.stringify(observations));
+    window.localStorage.setItem('contentArray', JSON.stringify(contentArray));
   }, [observations, contentArray]);
 
   const globalObservation = {
