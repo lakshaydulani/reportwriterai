@@ -23,7 +23,7 @@ import { useCompletion } from "ai/react";
 import useCompletionJotai from "@/hooks/use-completion-jotai";
 import { useAtom } from "jotai";
 import SectionHeading from "./../ui/section-heading";
-import { aiOptions as options } from "./ai-selector-options";
+import { aiOptions as options, sectionOptions as option } from "./ai-selector-options";
 import { Button } from "../ui/button";
 import {
   Popover,
@@ -45,6 +45,7 @@ const CentralPrompt = () => {
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [sectionPrompt, setSectionPrompt] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
@@ -58,9 +59,29 @@ const CentralPrompt = () => {
     setIsPopupOpen(false);
   };
 
-  const { completion, complete, isLoading } =
-    useCompletionJotai();
+  const { completion, complete, isLoading } = useCompletionJotai();
 
+  const isContentEmpty = (content) => {
+    return (
+      content &&
+      content.type === "doc" &&
+      content.content &&
+      content.content.length === 1 &&
+      content.content[0].type === "paragraph" &&
+      !content.content[0].content
+    );
+  };
+
+  useEffect(() => {
+    const checkIfDisabled = () => {
+      if (isContentEmpty(content) || isContentEmpty(initialContent)) {
+        setIsDisabled(true);
+      } else {
+        setIsDisabled(false);
+      }
+    };
+    checkIfDisabled();
+  }, [content, initialContent]);
 
   const Commands = () => {
     return (
@@ -71,6 +92,7 @@ const CentralPrompt = () => {
             size="aihelper"
             variant="aihelper"
             onClick={() => handleButtonClick(item.value)}
+            disabled={isDisabled} // Disable button if content or initialContent is empty
           >
             <item.icon className="h-4 w-4 mr-2 text-purple-500" />
             {item.label}
@@ -85,7 +107,9 @@ const CentralPrompt = () => {
       return initialContent.content[0].content[0].text;
     } else if (initialContent?.text) {
       return initialContent.text;
-    } else if (initialContent && typeof initialContent) return initialContent;
+    } else if (initialContent && typeof initialContent === 'string') {
+      return initialContent;
+    }
     return "";
   };
 
@@ -117,7 +141,7 @@ const CentralPrompt = () => {
   const Section = () => {
     const [open, onOpenChange] = useState(false);
 
-    const mergeContent = (initial: any, additional: any): any => {
+    const mergeContent = (initial, additional) => {
       return {
         ...initial,
         content: [...initial.content, ...additional.content],
@@ -147,40 +171,6 @@ const CentralPrompt = () => {
       onOpenChange(false);
     };
 
-    const option = [
-      {
-        lable: "Header",
-        icon: Heading,
-      },
-      {
-        lable: "Background",
-        icon: Atom,
-      },
-      {
-        lable: "Issue Summary",
-        icon: Bug,
-      },
-      {
-        lable: "Detailed observation",
-        icon: FerrisWheel,
-      },
-      {
-        lable: "Risk/ Impact",
-        icon: SquareAsterisk,
-      },
-      {
-        lable: "Root cause",
-        icon: SquareAsterisk,
-      },
-      {
-        lable: "Recommendation",
-        icon: SquareAsterisk,
-      },
-      {
-        lable: "Management Comment",
-        icon: SquareAsterisk,
-      },
-    ];
     return (
       <div className="my-3 flex flex-wrap">
         <Popover modal={true} open={open} onOpenChange={onOpenChange}>
@@ -199,12 +189,12 @@ const CentralPrompt = () => {
             {option.map((item) => {
               return (
                 <Button
-                  onClick={appendSection(item.lable)}
+                  onClick={appendSection(item.value)}
                   variant="outline"
                   className="rounded-xl w-full border-black"
                 >
                   <item.icon className="float-left mr-auto" />
-                  {item.lable}
+                  {item.value}
                 </Button>
               );
             })}
