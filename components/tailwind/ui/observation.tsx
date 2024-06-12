@@ -4,12 +4,30 @@ import { useAtom } from 'jotai';
 import { generatedContent, initialContent } from '@/lib/atom';
 
 const ObservationComponent = () => {
-  const [observations, setObservations] = useState([]);
+  const [observations, setObservations] = useState(() => {
+    const savedObservations = localStorage.getItem('observations');
+    return savedObservations ? JSON.parse(savedObservations) : [];
+  });
+
+  const [contentArray, setContentArray] = useState(() => {
+    const savedContentArray = localStorage.getItem('contentArray');
+    return savedContentArray ? JSON.parse(savedContentArray) : [];
+  });
+
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [content, setContent] = useAtom(generatedContent);
   const [newInitialContent, setNewInitialContent] = useAtom(initialContent);
-  const [contentArray, setContentArray] = useState([]);
   const previousIndex = useRef(null);
+
+  useEffect(() => {
+    console.log('Loaded from localStorage:', { observations, contentArray });
+  }, []);
+
+  useEffect(() => {
+    console.log('Saving to localStorage:', { observations, contentArray });
+    localStorage.setItem('observations', JSON.stringify(observations));
+    localStorage.setItem('contentArray', JSON.stringify(contentArray));
+  }, [observations, contentArray]);
 
   const globalObservation = {
     type: 'doc',
