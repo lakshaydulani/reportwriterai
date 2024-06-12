@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './button';
 import { useAtom } from 'jotai';
-import { generatedContent } from '@/lib/atom';
-import { initialContent } from '@/lib/atom';
+import { generatedContent, initialContent } from '@/lib/atom';
 
 const ObservationComponent = () => {
   const [observations, setObservations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [ content, setContent ]  = useAtom(generatedContent);
-  const [ newInitialContent, setNewInitialContent ]  = useAtom(initialContent);
+  const [content, setContent] = useAtom(generatedContent);
+  const [newInitialContent, setNewInitialContent] = useAtom(initialContent);
   const [contentArray, setContentArray] = useState([]);
+  const previousIndex = useRef(null);
+
   const globalObservation = {
-    type: "doc",
+    type: 'doc',
     content: [
       {
-        type: "paragraph",
+        type: 'paragraph',
         content: [
           {
-            type: "text",
-            text: "Add your observation " + (selectedIndex + 1),
+            type: 'text',
+            text: 'Add your observation ' + (observations.length + 1),
           },
         ],
       },
@@ -26,29 +27,48 @@ const ObservationComponent = () => {
   };
 
   const addObservation = () => {
-    setContentArray([...contentArray, content]);
+    if (selectedIndex !== null && previousIndex.current !== null) {
+      const newArray = [...contentArray];
+      newArray[previousIndex.current] = content;
+      setContentArray(newArray);
+    }
+
+    setContentArray((contentArray) => [...contentArray, globalObservation]);
+    setSelectedIndex(observations.length);
     setContent(globalObservation);
     setNewInitialContent(globalObservation);
-    setSelectedIndex(observations.length);
-    const newObservation = `Observation ${observations.length + 1}`;
-    const newObservations = [...observations, newObservation];
-    setObservations(newObservations);
-
-    // Set the new selected index to the last observation
+    setObservations((obs) => [...obs, `Observation ${obs.length + 1}`]);
   };
 
   const handleSelect = (index) => {
-    if(contentArray[index+1]){
-      setNewInitialContent(contentArray[index+1])
-      setContent(contentArray[index+1])
+    if (previousIndex.current !== null) {
+      const newArray = [...contentArray];
+      newArray[previousIndex.current] = content;
+      setContentArray(newArray);
+    }
+    previousIndex.current = index;
+
+    if (contentArray[index]) {
+      setNewInitialContent(contentArray[index]);
+      setContent(contentArray[index]);
+    } else {
+      setNewInitialContent(globalObservation);
+      setContent(globalObservation);
     }
     setSelectedIndex(index);
-    console.log("content array is ;;;;;;\n", contentArray);
   };
+
+  useEffect(() => {
+    if (previousIndex.current !== null && previousIndex.current !== selectedIndex) {
+      const newArray = [...contentArray];
+      newArray[previousIndex.current] = content;
+      setContentArray(newArray);
+    }
+  }, [selectedIndex]);
 
   return (
     <div>
-      <Button 
+      <Button
         variant="default"
         onClick={addObservation}
         className="rounded-xl w-full mb-2 mt-2"
@@ -60,14 +80,14 @@ const ObservationComponent = () => {
           <li
             key={index}
             onClick={() => handleSelect(index)}
-            className='cursor-pointer'
+            className="cursor-pointer"
           >
-            <Button 
+            <Button
               size="lg"
               className={`rounded-xl w-full my-2 hover:bg-yellow-300 ${selectedIndex === index ? 'bg-ey-yellow' : ''}`}
               variant="default"
             >
-            {observation}
+              {observation}
             </Button>
           </li>
         ))}
