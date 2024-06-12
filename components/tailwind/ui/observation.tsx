@@ -45,38 +45,51 @@ const ObservationComponent = () => {
   };
 
   const addObservation = () => {
-    if (selectedIndex !== null && previousIndex.current !== null) {
-      const newArray = [...contentArray];
-      newArray[previousIndex.current] = content;
-      setContentArray(newArray);
-    }
+    if (observations.length === 0) {
+      // Adding the first two observations
+      const firstObservation = content;
+      const secondObservation = globalObservation;
 
-    setContentArray((contentArray) => [...contentArray, globalObservation]);
-    setSelectedIndex(observations.length);
-    setContent(globalObservation);
-    setNewInitialContent(globalObservation);
-    setObservations((obs) => [...obs, `Observation ${obs.length + 1}`]);
+      setContentArray([firstObservation, secondObservation]);
+      setObservations(['Observation 1', 'Observation 2']);
+      setSelectedIndex(1); // Select the second observation by default
+      setContent(globalObservation);
+      setNewInitialContent(globalObservation);
+      previousIndex.current = 1;
+    } else {
+      // Save current content before adding a new observation
+      if (selectedIndex !== null) {
+        const newArray = [...contentArray];
+        newArray[selectedIndex] = content;
+        setContentArray(newArray);
+      }
+
+      setContentArray((contentArray) => [...contentArray, globalObservation]);
+      setObservations((obs) => [...obs, `Observation ${obs.length + 1}`]);
+      setSelectedIndex(observations.length); // Select the new observation
+      setContent(globalObservation);
+      setNewInitialContent(globalObservation);
+      previousIndex.current = observations.length; // Update previous index
+    }
   };
 
   const handleSelect = (index) => {
-    if (previousIndex.current !== null) {
+    // Save current content before switching
+    if (selectedIndex !== null) {
       const newArray = [...contentArray];
-      newArray[previousIndex.current] = content;
+      newArray[selectedIndex] = content;
       setContentArray(newArray);
     }
-    previousIndex.current = index;
 
-    if (contentArray[index]) {
-      setNewInitialContent(contentArray[index]);
-      setContent(contentArray[index]);
-    } else {
-      setNewInitialContent(globalObservation);
-      setContent(globalObservation);
-    }
+    // Switch to the selected observation
     setSelectedIndex(index);
+    setContent(contentArray[index]);
+    setNewInitialContent(contentArray[index]);
+    previousIndex.current = index;
   };
 
   useEffect(() => {
+    // Save the current observation's content when the selected index changes
     if (previousIndex.current !== null && previousIndex.current !== selectedIndex) {
       const newArray = [...contentArray];
       newArray[previousIndex.current] = content;
