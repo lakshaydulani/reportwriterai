@@ -103,6 +103,7 @@ const TailwindAdvancedEditor = () => {
   
           const data = await res.json();
           setInitialContent(data.content);
+          setContent(data.content);
   
           setResponse(data);
           setUploadStatus("success");
