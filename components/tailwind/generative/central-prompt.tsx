@@ -34,7 +34,11 @@ import {
 import Link from "next/link";
 import Popup from "../ui/popup";
 import {Separator} from "@/components/tailwind/ui/separator";
-import Observations from "../ui/observation";
+import dynamic from 'next/dynamic';
+
+const Observations = dynamic(() => import('@/components/tailwind/ui/observation'), {
+  ssr: false,
+});
 
 const CentralPrompt = () => {
   const [content, setContent] = useAtom(generatedContent);
