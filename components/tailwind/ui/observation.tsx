@@ -15,20 +15,29 @@ const ObservationComponent = () => {
     return savedContentArray ? JSON.parse(savedContentArray) : [];
   });
 
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(() => {
+    const savedIndex = localStorage.getItem('selectedIndex');
+    return savedIndex !== null ? JSON.parse(savedIndex) : null;
+  });
+
   const [content, setContent] = useAtom(generatedContent);
   const [newInitialContent, setNewInitialContent] = useAtom(initialContent);
   const previousIndex = useRef(null);
 
   useEffect(() => {
-    console.log('Loaded from localStorage:', { observations, contentArray });
+    console.log('Loaded from localStorage:', { observations, contentArray, selectedIndex });
+    if (selectedIndex !== null && contentArray[selectedIndex]) {
+      setContent(contentArray[selectedIndex]);
+      setNewInitialContent(contentArray[selectedIndex]);
+    }
   }, []);
 
   useEffect(() => {
-    console.log('Saving to localStorage:', { observations, contentArray });
+    console.log('Saving to localStorage:', { observations, contentArray, selectedIndex });
     window.localStorage.setItem('observations', JSON.stringify(observations));
     window.localStorage.setItem('contentArray', JSON.stringify(contentArray));
-  }, [observations, contentArray]);
+    window.localStorage.setItem('selectedIndex', JSON.stringify(selectedIndex));
+  }, [observations, contentArray, selectedIndex]);
 
   const globalObservation = {
     type: 'doc',
