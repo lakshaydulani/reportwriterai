@@ -195,7 +195,7 @@ const CentralPrompt = () => {
             className="flex max-h-100 w-[35vw] overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2 "
             align="start"
           >
-            <div className="flex flex-wrap gap-1 justify-between items-center">
+            <div className="flex flex-wrap gap-1 flex-start items-center">
             {option.map((item) => {
               return (
                 <Button
