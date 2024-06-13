@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './button';
 import { useAtom } from 'jotai';
 import { generatedContent, initialContent } from '@/lib/atom';
-import { Trash2 } from 'lucide-react';
+import { OctagonX, Trash2 } from 'lucide-react';
 
 const ObservationComponent = () => {
   const [observations, setObservations] = useState(() => {
@@ -139,31 +139,29 @@ const ObservationComponent = () => {
       >
         Add New Observation
       </Button>
-      <ol>
+      <div className="flex flex-wrap gap-2 justify-between items-center">
         {observations.map((observation, index) => (
-          <li key={index} className="cursor-pointer">
-            <Button
-              size="lg"
-              className={`flex justify-between items-center rounded-xl w-full my-2 hover:bg-yellow-300 ${selectedIndex === index ? 'bg-ey-yellow' : ''}`}
-              variant="default"
-              onClick={() => handleSelect(index)}
-            >
-              {observation}
-              {observations.length > 1 && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(index);
-                  }}
-                  className="ml-2 text-red-600"
-                >
-                  <Trash2 />
-                </button>
-              )}
-            </Button>
-          </li>
+          <Button
+            key={index}
+            className={`w-1/3 my-2 hover:bg-yellow-300 ${selectedIndex === index ? 'bg-ey-yellow' : ''}`}
+            variant="observation"
+            onClick={() => handleSelect(index)}
+          >
+            {observation}
+            {observations.length > 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(index);
+                }}
+                className="ml-2 text-red-600"
+              >
+                <OctagonX />
+              </button>
+            )}
+          </Button>
         ))}
-      </ol>
+      </div>
     </div>
   );
 };
