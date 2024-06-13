@@ -11,6 +11,7 @@ import {
   Heading,
   Pen as PencilLine,
   FileUp,
+  Zap,
 } from "lucide-react";
 import {
   generatedContent,
@@ -147,27 +148,35 @@ const CentralPrompt = () => {
         content: [...initial.content, ...additional.content],
       };
     };
+    
 
     const appendSection = (value) => () => {
-      const newContent = {
-        type: "doc",
-        content: [
-          {
-            type: "heading",
-            attrs: { level: 1 },
-            content: [
-              {
-                type: "text",
-                text: value,
-              },
-            ],
-          },
-        ],
-      };
-      const newInitialContent = { ...initialContent, ...content };
-      const newObject = mergeContent(newInitialContent, newContent);
-      setInitialContent(newObject);
-      setContent(newObject);
+      // make changes here to integrate api from DB
+      complete(sectionPrompt, {
+        body: { option: "zap", command:"You are an auditor tasked with presenting a report for an internal audit. Your role is to clearly lay out the background of the operation under scrutiny and present your observations based on the following evidence collected" },
+      }).then((data) => {
+        const newContent = {
+          type: "doc",
+          content: [
+            {
+              type: "paragraph",
+              content: [
+                {
+                  type: "text",
+                  text: data,
+                },
+              ],
+            },
+          ],
+        };
+        setContent(newContent);
+        setInitialContent(newContent);
+      }
+      );
+      // const newInitialContent = { ...initialContent, ...content };
+      // const newObject = mergeContent(newInitialContent, newContent);
+      // setInitialContent(newObject);
+      // setContent(newObject);
       onOpenChange(false);
     };
 
