@@ -192,21 +192,23 @@ const CentralPrompt = () => {
 
           <PopoverContent
             sideOffset={5}
-            className="flex max-h-100 w-[35vw] flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2 "
+            className="flex max-h-100 w-[35vw] overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2 "
             align="start"
           >
+            <div className="flex flex-wrap gap-1 justify-between items-center">
             {option.map((item) => {
               return (
                 <Button
                   onClick={appendSection(item.value)}
                   variant="outline"
-                  className="rounded-xl w-full border-black"
+                  className="rounded-xl w-1/3 border-black"
                 >
                   <item.icon className="float-left mr-auto" />
                   {item.value}
                 </Button>
               );
             })}
+            </div>
           </PopoverContent>
         </Popover>
       </div>
