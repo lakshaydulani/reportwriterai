@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './button';
 import { useAtom } from 'jotai';
 import { generatedContent, initialContent } from '@/lib/atom';
-import { OctagonX, Trash2 } from 'lucide-react';
+import { BadgeX, OctagonX, Trash2 } from 'lucide-react';
 
 const ObservationComponent = () => {
   const [observations, setObservations] = useState(() => {
@@ -156,7 +156,7 @@ const ObservationComponent = () => {
                 }}
                 className="ml-2 text-red-600"
               >
-                <OctagonX />
+                <BadgeX />
               </button>
             )}
           </Button>
