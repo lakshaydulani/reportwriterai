@@ -15,20 +15,29 @@ const ObservationComponent = () => {
     return savedContentArray ? JSON.parse(savedContentArray) : [];
   });
 
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(() => {
+    const savedIndex = localStorage.getItem('selectedIndex');
+    return savedIndex !== null ? JSON.parse(savedIndex) : null;
+  });
+
   const [content, setContent] = useAtom(generatedContent);
   const [newInitialContent, setNewInitialContent] = useAtom(initialContent);
   const previousIndex = useRef(null);
 
   useEffect(() => {
-    console.log('Loaded from localStorage:', { observations, contentArray });
+    console.log('Loaded from localStorage:', { observations, contentArray, selectedIndex });
+    if (selectedIndex !== null && contentArray[selectedIndex]) {
+      setContent(contentArray[selectedIndex]);
+      setNewInitialContent(contentArray[selectedIndex]);
+    }
   }, []);
 
   useEffect(() => {
-    console.log('Saving to localStorage:', { observations, contentArray });
+    console.log('Saving to localStorage:', { observations, contentArray, selectedIndex });
     window.localStorage.setItem('observations', JSON.stringify(observations));
     window.localStorage.setItem('contentArray', JSON.stringify(contentArray));
-  }, [observations, contentArray]);
+    window.localStorage.setItem('selectedIndex', JSON.stringify(selectedIndex));
+  }, [observations, contentArray, selectedIndex]);
 
   const globalObservation = {
     type: 'doc',
@@ -47,18 +56,16 @@ const ObservationComponent = () => {
 
   const addObservation = () => {
     if (observations.length === 0) {
-      // Adding the first two observations
       const firstObservation = content;
       const secondObservation = globalObservation;
 
       setContentArray([firstObservation, secondObservation]);
       setObservations(['Observation 1', 'Observation 2']);
-      setSelectedIndex(1); // Select the second observation by default
+      setSelectedIndex(1);
       setContent(globalObservation);
       setNewInitialContent(globalObservation);
       previousIndex.current = 1;
     } else {
-      // Save current content before adding a new observation
       if (selectedIndex !== null) {
         const newArray = [...contentArray];
         newArray[selectedIndex] = content;
@@ -67,22 +74,20 @@ const ObservationComponent = () => {
 
       setContentArray((contentArray) => [...contentArray, globalObservation]);
       setObservations((obs) => [...obs, `Observation ${obs.length + 1}`]);
-      setSelectedIndex(observations.length); // Select the new observation
+      setSelectedIndex(observations.length);
       setContent(globalObservation);
       setNewInitialContent(globalObservation);
-      previousIndex.current = observations.length; // Update previous index
+      previousIndex.current = observations.length;
     }
   };
 
   const handleSelect = (index) => {
-    // Save current content before switching
     if (selectedIndex !== null) {
       const newArray = [...contentArray];
       newArray[selectedIndex] = content;
       setContentArray(newArray);
     }
 
-    // Switch to the selected observation
     setSelectedIndex(index);
     setContent(contentArray[index]);
     setNewInitialContent(contentArray[index]);
@@ -90,22 +95,26 @@ const ObservationComponent = () => {
   };
 
   const handleDelete = (index) => {
-    // Remove the selected observation
     const updatedObservations = observations.filter((_, i) => i !== index);
     const updatedContentArray = contentArray.filter((_, i) => i !== index);
 
     setObservations(updatedObservations);
     setContentArray(updatedContentArray);
 
-    // Update localStorage
     window.localStorage.setItem('observations', JSON.stringify(updatedObservations));
     window.localStorage.setItem('contentArray', JSON.stringify(updatedContentArray));
 
-    // Handle the case when the deleted observation was selected
     if (index === selectedIndex) {
-      setSelectedIndex(null);
-      setContent(null);
-      setNewInitialContent(null);
+      const nextIndex = index < updatedObservations.length ? index : index - 1;
+      if (nextIndex >= 0) {
+        setSelectedIndex(nextIndex);
+        setContent(updatedContentArray[nextIndex]);
+        setNewInitialContent(updatedContentArray[nextIndex]);
+      } else {
+        setSelectedIndex(null);
+        setContent(null);
+        setNewInitialContent(null);
+      }
     } else if (index < selectedIndex) {
       setSelectedIndex(selectedIndex - 1);
     }
@@ -114,7 +123,6 @@ const ObservationComponent = () => {
   };
 
   useEffect(() => {
-    // Save the current observation's content when the selected index changes
     if (previousIndex.current !== null && previousIndex.current !== selectedIndex) {
       const newArray = [...contentArray];
       newArray[previousIndex.current] = content;
@@ -141,15 +149,17 @@ const ObservationComponent = () => {
               onClick={() => handleSelect(index)}
             >
               {observation}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent the select handler from being triggered
-                  handleDelete(index);
-                }}
-                className="ml-2 text-red-600"
-              >
-                <Trash2 />
-              </button>
+              {observations.length > 1 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(index);
+                  }}
+                  className="ml-2 text-red-600"
+                >
+                  <Trash2 />
+                </button>
+              )}
             </Button>
           </li>
         ))}
