@@ -182,8 +182,8 @@ const TailwindAdvancedEditor = () => {
           <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2 ">
             <AskAI />
             <Dropzone />
-            <div className="relative flex items-center justify-center min-w-24 px-3 text-sm border border-black text-black rounded-lg">{saveStatus}</div>
-            <div className={charsCount ? "rounded-lg flex items-center justify-center min-w-28 px-3 border border-black text-sm text-black" : "hidden"}>
+            <div className="relative flex items-center justify-center min-w-24 px-3 text-sm text-black rounded-lg">{saveStatus}</div>
+            <div className={charsCount ? "rounded-lg flex items-center justify-center min-w-28 px-3 text-sm text-black" : "hidden"}>
               {charsCount} Words
             </div>
           </div>
