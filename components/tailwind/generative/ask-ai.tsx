@@ -15,14 +15,37 @@ export const AskAI = () => {
   const [content, setContent] = useAtom(generatedContent);
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [open, setOpen] = useState(false);
+  const [localCompletion, setLocalCompletion] = useState("");
 
+  const { completion, complete, isLoading } = useCompletionJotai();
 
-  const { completion, complete, isLoading } = useCompletionJotai("askai");
+  // useEffect(() => {
+  //   if (completion.length > 0) {
+  //     const plainText = completion;
+  //     const newContent = {
+  //       type: "doc",
+  //       content: [
+  //         {
+  //           type: "paragraph",
+  //           content: [
+  //             {
+  //               type: "text",
+  //               text: plainText,
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     };
+  //     setContent(newContent);
+  //     setInitialContent(newContent);
+  //     setPrompt("");
+  //   }
+  // }, [completion]);
 
-
-  useEffect(() => {
-    if (completion.length > 0) {
-      const plainText = completion;
+  const handleClick = () => {
+    complete(prompt, {
+      body: { option: "zap", command: persona.init },
+    }).then((data) => {
       const newContent = {
         type: "doc",
         content: [
@@ -31,7 +54,7 @@ export const AskAI = () => {
             content: [
               {
                 type: "text",
-                text: plainText,
+                text: data,
               },
             ],
           },
@@ -39,23 +62,16 @@ export const AskAI = () => {
       };
       setContent(newContent);
       setInitialContent(newContent);
-      setPrompt("");
-      setOpen(false); // Close the popover here
-    }
-  }, [completion]);
-
-  const hasCompletion = completion.length > 0;
-
-  const handleClick = () => {
-    if (completion)
-      return complete(prompt, {
-        body: { option: "zap", command: persona.init },
-      });
-    complete(prompt, {
-      body: { option: "zap", command: persona.init },
-    });
+      setLocalCompletion(data);
+    });;
   };
-  
+
+  const handleInsert = () => {
+      setPrompt("");
+      setLocalCompletion(""); // Reset local completion state
+      setOpen(false); // Close the popover
+  };
+
   return (
     <div className="flex flex-wrap">
       <Popover modal={true} open={open} onOpenChange={setOpen}>
@@ -70,7 +86,7 @@ export const AskAI = () => {
 
         <PopoverContent
           sideOffset={5}
-          className="flex max-h-100 w-[35vw] flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2 "
+          className="flex max-h-100 w-[35vw] flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2"
           align="start"
         >
           <Image
@@ -84,9 +100,21 @@ export const AskAI = () => {
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             className="w-full text-xl p-3 pl-12 rounded-lg"
-            rows={4}
+            rows={5}
             placeholder="Write with AI.."
           ></textarea>
+          {localCompletion.length > 0 && (
+            <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg">
+              <p>{localCompletion}</p>
+              <button
+                className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+                onClick={handleInsert}
+                disabled={isLoading}
+              >
+                Insert
+              </button>
+            </div>
+          )}
           <button
             className="absolute bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
             onClick={handleClick}
@@ -98,5 +126,5 @@ export const AskAI = () => {
         </PopoverContent>
       </Popover>
     </div>
-  )
-}
+  );
+};
