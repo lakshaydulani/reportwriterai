@@ -6,22 +6,31 @@ import { useAtom } from "jotai";
 import {
   initialContent as initialContentAtom,
   generatedContent,
+  contentArray
 } from "@/lib/atom";
 import { saveAs } from "file-saver";
 
 const DownloadReport = () => {
   const [isLoad, setIsLoading] = useState(false);
   const [content, setContent] = useAtom(generatedContent);
+  const [contentArrayElement, setContentArrayElement] = useAtom(contentArray);
 
   const handleDownloadClick = async () => {
     setIsLoading(true);
+    let Payload = [];
+    if(contentArrayElement.length === 0){
+      Payload = [content];
+    }
+    else{
+      Payload = contentArrayElement;
+    }
     try {
       const res = await fetch("/api/download-file", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(content.content),
+        body: JSON.stringify(Payload),
       });
 
       if (!res.ok) {

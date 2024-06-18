@@ -8,3 +8,4 @@ export const initialContent = atom<JSONContent | null>(defaultEditorContent);
 export const persona = atom("generate report");
 export const isEYFontRequired = atom(false);
 export const isEditorLoading = atom(false);
+export const contentArray = atom([]);
