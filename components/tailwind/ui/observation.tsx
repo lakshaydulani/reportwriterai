@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './button';
 import { useAtom } from 'jotai';
-import { generatedContent, initialContent } from '@/lib/atom';
+import { generatedContent, initialContent, contentArray as contentArrayElements } from '@/lib/atom';
 import { Trash2 } from 'lucide-react';
 
 const ObservationComponent = () => {
@@ -12,6 +12,7 @@ const ObservationComponent = () => {
 
   const [contentArray, setContentArray] = useState(() => {
     const savedContentArray = localStorage.getItem('contentArray');
+
     return savedContentArray ? JSON.parse(savedContentArray) : [];
   });
 
@@ -22,6 +23,7 @@ const ObservationComponent = () => {
 
   const [content, setContent] = useAtom(generatedContent);
   const [newInitialContent, setNewInitialContent] = useAtom(initialContent);
+  const [contentArrayElement, setContentArrayElement] = useAtom(contentArrayElements);
   const previousIndex = useRef(null);
 
   useEffect(() => {
@@ -60,6 +62,7 @@ const ObservationComponent = () => {
       const secondObservation = globalObservation;
 
       setContentArray([firstObservation, secondObservation]);
+      setContentArrayElement([firstObservation, secondObservation]);
       setObservations(['Observation 1', 'Observation 2']);
       setSelectedIndex(1);
       setContent(globalObservation);
@@ -70,9 +73,11 @@ const ObservationComponent = () => {
         const newArray = [...contentArray];
         newArray[selectedIndex] = content;
         setContentArray(newArray);
+        setContentArrayElement(newArray);
       }
 
       setContentArray((contentArray) => [...contentArray, globalObservation]);
+      setContentArrayElement((contentArray) => [...contentArray, globalObservation]);
       setObservations((obs) => [...obs, `Observation ${obs.length + 1}`]);
       setSelectedIndex(observations.length);
       setContent(globalObservation);
@@ -86,6 +91,7 @@ const ObservationComponent = () => {
       const newArray = [...contentArray];
       newArray[selectedIndex] = content;
       setContentArray(newArray);
+      setContentArrayElement(newArray);
     }
 
     setSelectedIndex(index);
@@ -100,6 +106,7 @@ const ObservationComponent = () => {
 
     setObservations(updatedObservations);
     setContentArray(updatedContentArray);
+    setContentArrayElement(updatedContentArray);
 
     window.localStorage.setItem('observations', JSON.stringify(updatedObservations));
     window.localStorage.setItem('contentArray', JSON.stringify(updatedContentArray));
@@ -127,6 +134,7 @@ const ObservationComponent = () => {
       const newArray = [...contentArray];
       newArray[previousIndex.current] = content;
       setContentArray(newArray);
+      setContentArrayElement(newArray);
     }
   }, [selectedIndex]);
 

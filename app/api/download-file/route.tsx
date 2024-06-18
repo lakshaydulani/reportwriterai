@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
     try {
         const content = await request.json(); // Directly get the content array
-        // console.log('Request content is:', content);
+        console.log('Request content is:', content);
 
-        const apiURL = 'https://functionappupload.azurewebsites.net/api/downloadmodification?';
+        const apiURL = 'https://reportwritereygs.azurewebsites.net/api/download_file';
 
         const apiResponse = await fetch(apiURL, {
             method: 'POST',
