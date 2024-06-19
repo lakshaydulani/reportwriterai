@@ -19,11 +19,16 @@ import { SparklesIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import Magic from "../ui/icons/magic";
 import { createParagraph } from "@/app/utils/editor-utils";
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:2156026760.
+import { aiOptions as options, sectionOptions as option } from "./ai-selector-options";
+
+const isDisabled = false;
 
 export const AskAI = ({ setInitialContent, setContent }) => {
   const [prompt, setPrompt] = useState("");
   const [open, setOpen] = useState(false);
   const [localCompletion, setLocalCompletion] = useState("");
+  const [content, setContents] = useAtom(generatedContent);
 
   const { completion, complete, isLoading } = useCompletionJotai();
 
@@ -47,6 +52,59 @@ export const AskAI = ({ setInitialContent, setContent }) => {
     setLocalCompletion(""); // Reset local completion state
     setOpen(false);
   }
+
+  const Commands = () => {
+    const getTextFromInitialContent = (initialContent) => {
+      if (initialContent && initialContent?.content?.[0]?.content?.[0]?.text) {
+        return initialContent.content[0].content[0].text;
+      } else if (initialContent?.text) {
+        return initialContent.text;
+      } else if (initialContent && typeof initialContent === 'string') {
+        return initialContent;
+      }
+      return "";
+    };
+
+    const handleButtonClick = (value) => {
+      const text = getTextFromInitialContent(content);
+      complete(text, {
+        body: { option: value },
+      }).then((data) => {
+        const newContent = {
+          type: "doc",
+          content: [
+            {
+              type: "paragraph",
+              content: [
+                {
+                  type: "text",
+                  text: data,
+                },
+              ],
+            },
+          ],
+        };
+        setContent(newContent);
+        setInitialContent(newContent);
+      });
+    };
+    return (
+      <div className="mt-2 mb-4 flex flex-wrap gap-2">
+        {options.map((item) => (
+          <Button
+            key={item.value}
+            size="aihelper"
+            variant="aihelper"
+            onClick={() => handleButtonClick(item.value)}
+            disabled={isDisabled} // Disable button if content or initialContent is empty
+          >
+            <item.icon className="h-4 w-4 mr-2 text-purple-500" />
+            {item.label}
+          </Button>
+        ))}
+      </div>
+    );
+  };
 
 
 
@@ -96,6 +154,8 @@ export const AskAI = ({ setInitialContent, setContent }) => {
               <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg border border-pink-500">
                 <p>{localCompletion}</p>
               </div>
+              
+              <Commands />
               <button
                 className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
                 onClick={handleInsert}

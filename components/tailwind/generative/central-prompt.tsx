@@ -87,60 +87,12 @@ const CentralPrompt = () => {
     checkIfDisabled();
   }, [content, initialContent]);
 
-  const Commands = () => {
-    return (
-      <div className="mt-2 mb-4 flex flex-wrap gap-2">
-        {options.map((item) => (
-          <Button
-            key={item.value}
-            size="aihelper"
-            variant="aihelper"
-            onClick={() => handleButtonClick(item.value)}
-            disabled={isDisabled} // Disable button if content or initialContent is empty
-          >
-            <item.icon className="h-4 w-4 mr-2 text-purple-500" />
-            {item.label}
-          </Button>
-        ))}
-      </div>
-    );
-  };
+  
 
-  const getTextFromInitialContent = (initialContent) => {
-    if (initialContent && initialContent?.content?.[0]?.content?.[0]?.text) {
-      return initialContent.content[0].content[0].text;
-    } else if (initialContent?.text) {
-      return initialContent.text;
-    } else if (initialContent && typeof initialContent === 'string') {
-      return initialContent;
-    }
-    return "";
-  };
+  
 
   // Function to handle button clicks
-  const handleButtonClick = (value) => {
-    const text = getTextFromInitialContent(content);
-    complete(text, {
-      body: { option: value },
-    }).then((data) => {
-      const newContent = {
-        type: "doc",
-        content: [
-          {
-            type: "paragraph",
-            content: [
-              {
-                type: "text",
-                text: data,
-              },
-            ],
-          },
-        ],
-      };
-      setContent(newContent);
-      setInitialContent(newContent);
-    });
-  };
+  
 
   const Section = () => {
     const [open, onOpenChange] = useState(false);
@@ -237,17 +189,16 @@ const CentralPrompt = () => {
           <Popup onClose={handleClosePopup} onSubmit={handleSubmitPopup} />
         )}
       </div>
-      <Commands />
       <Separator orientation="horizontal" />
       <div className="relative w-full">
         <PencilLine className="absolute top-5 left-3 w-6 h-6 color" />
-        <textarea
+        {/* <textarea
           value={sectionPrompt}
           onChange={(e) => setSectionPrompt(e.target.value)}
           className="w-full text-xl p-3 pl-12 rounded-lg mt-2"
           rows={4}
           placeholder="Enter your IA observation"
-        ></textarea>
+        ></textarea> */}
         <Section />
       </div>
 
