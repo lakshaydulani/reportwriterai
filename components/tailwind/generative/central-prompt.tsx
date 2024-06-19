@@ -12,6 +12,8 @@ import {
   Pen as PencilLine,
   FileUp,
   Zap,
+  ListMinus,
+  Component as ComponentIcon
 } from "lucide-react";
 import {
   generatedContent,
@@ -243,7 +245,7 @@ const CentralPrompt = () => {
           value={sectionPrompt}
           onChange={(e) => setSectionPrompt(e.target.value)}
           className="w-full text-xl p-3 pl-12 rounded-lg mt-2"
-          rows={7}
+          rows={4}
           placeholder="Enter your IA observation"
         ></textarea>
         <Section />
@@ -254,26 +256,24 @@ const CentralPrompt = () => {
       
       <Separator orientation="horizontal" className="mt-2" />
       <button
-        className="mt-3 text-xl bg-ey-yellow border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
+        className="mt-3 shadow-lg text-white bg-zinc-600 border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
             isLoad ? 'cursor-not-allowed' : ''
           }`"
-        onClick={downloadClick}
+        // onClick={downloadClick}
         // disabled={isLoad}
       >
-        <DownloadIcon className="mr-auto" />
-        Download Issues
+        <ListMinus className="mr-auto" />
+        Download Issues List
         {/* {isLoad ? "Downloading..." : "Download Report"} */}
       </button>
       <button
-        className="mt-3 text-xl bg-ey-yellow border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
+        className="mt-3 shadow-lg text-white bg-zinc-700 border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
             isLoad ? 'cursor-not-allowed' : ''
           }`"
-        onClick={downloadClick}
-        // disabled={isLoad}
+        // onClick={downloadClick}
       >
-        <DownloadIcon className="mr-auto" />
-        Download Manager Review
-        {/* {isLoad ? "Downloading..." : "Download Report"} */}
+        <ComponentIcon className="mr-auto" />
+        Download Executive Summary
       </button>
       <DownloadReport />
     </section>
