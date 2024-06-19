@@ -36,6 +36,7 @@ import { Separator } from "@/components/tailwind/ui/separator";
 import DownloadReport from "@/components/tailwind/ui/report-process";
 
 import dynamic from 'next/dynamic';
+import { DownloadIcon } from "lucide-react";
 
 const Observations = dynamic(() => import('@/components/tailwind/ui/observation'), {
   ssr: false,
@@ -215,6 +216,10 @@ const CentralPrompt = () => {
     );
   };
 
+  const downloadClick = () => {
+    alert("Hello friends, this is message.");
+  }
+
   return (
     <section className="">
       <div className="flex">
@@ -248,6 +253,28 @@ const CentralPrompt = () => {
       <Observations />      
       
       <Separator orientation="horizontal" className="mt-2" />
+      <button
+        className="mt-3 text-xl bg-ey-yellow border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
+            isLoad ? 'cursor-not-allowed' : ''
+          }`"
+        onClick={downloadClick}
+        // disabled={isLoad}
+      >
+        <DownloadIcon className="mr-auto" />
+        Download Issues
+        {/* {isLoad ? "Downloading..." : "Download Report"} */}
+      </button>
+      <button
+        className="mt-3 text-xl bg-ey-yellow border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
+            isLoad ? 'cursor-not-allowed' : ''
+          }`"
+        onClick={downloadClick}
+        // disabled={isLoad}
+      >
+        <DownloadIcon className="mr-auto" />
+        Download Manager Review
+        {/* {isLoad ? "Downloading..." : "Download Report"} */}
+      </button>
       <DownloadReport />
     </section>
   );

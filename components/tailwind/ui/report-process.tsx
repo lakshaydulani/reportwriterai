@@ -66,7 +66,7 @@ const DownloadReport = () => {
   return (   
 
       <button
-        className="mt-4 text-xl bg-ey-yellow border border-2 border-black flex w-full justify-center items-center font-bold py-4 px-6 rounded-lg ${
+        className="mt-4 text-xl bg-ey-yellow border border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
             isLoad ? 'cursor-not-allowed' : ''
           }`"
         onClick={handleDownloadClick}
