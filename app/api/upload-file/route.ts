@@ -9,7 +9,7 @@ export async function POST(request: Request) {
             return new Response("base64URL not found", { status: 400 });
         }
 
-        const apiURL = 'https://functionappupload.azurewebsites.net/api/functiontest?';
+        const apiURL = 'https://report-writer.azurewebsites.net/api/upload_file';
 
         const apiResponse = await fetch(apiURL, {
             method: 'POST',
