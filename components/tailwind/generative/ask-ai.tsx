@@ -67,7 +67,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
           <Image
             alt="AI icon"
             src="images/ailogo.svg"
-            className="absolute top-3 left-3 w-6 h-6"
+            className="absolute top-3 left-3 w-6 h-6 my-2"
             width={50}
             height={50}
           />
@@ -79,19 +79,19 @@ export const AskAI = ({ setInitialContent, setContent }) => {
             placeholder="Write with AI.."
           ></textarea>
           {localCompletion.length > 0 && (
-            <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg">
-              <p>{localCompletion}</p>
-              <button
-                className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
-                onClick={handleInsert}
-                disabled={isLoading}
-              >
-                Insert
-              </button>
-            </div>
+            <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg border border-pink-500">
+            <p>{localCompletion}</p>
+            <button
+              className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+              onClick={handleInsert}
+              disabled={isLoading}
+            >
+              Insert
+            </button>
+          </div>          
           )}
           <button
-            className="absolute bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+            className="bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
             onClick={handleClick}
             disabled={isLoading}
           >
