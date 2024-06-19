@@ -10,63 +10,38 @@ import { SparklesIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import Magic from "../ui/icons/magic";
 
-export const AskAI = () => {
+export const AskAI = ({ setInitialContent, setContent }) => {
   const [prompt, setPrompt] = useState("");
-  const [content, setContent] = useAtom(generatedContent);
-  const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [open, setOpen] = useState(false);
   const [localCompletion, setLocalCompletion] = useState("");
 
   const { completion, complete, isLoading } = useCompletionJotai();
 
-  // useEffect(() => {
-  //   if (completion.length > 0) {
-  //     const plainText = completion;
-  //     const newContent = {
-  //       type: "doc",
-  //       content: [
-  //         {
-  //           type: "paragraph",
-  //           content: [
-  //             {
-  //               type: "text",
-  //               text: plainText,
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     };
-  //     setContent(newContent);
-  //     setInitialContent(newContent);
-  //     setPrompt("");
-  //   }
-  // }, [completion]);
-
   const handleClick = () => {
     complete(prompt, {
       body: { option: "zap", command: persona.init },
     }).then((data) => {
-      const newContent = {
-        type: "doc",
-        content: [
-          {
-            type: "paragraph",
-            content: [
-              {
-                type: "text",
-                text: data,
-              },
-            ],
-          },
-        ],
-      };
-      setContent(newContent);
-      setInitialContent(newContent);
       setLocalCompletion(data);
     });;
   };
 
   const handleInsert = () => {
+    const newContent = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text: localCompletion,
+            },
+          ],
+        },
+      ],
+    };
+    setInitialContent(newContent);
+    setContent(newContent);
       setPrompt("");
       setLocalCompletion(""); // Reset local completion state
       setOpen(false); // Close the popover

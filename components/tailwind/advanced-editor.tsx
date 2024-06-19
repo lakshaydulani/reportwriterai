@@ -102,10 +102,11 @@ const TailwindAdvancedEditor = () => {
           }
   
           const data = await res.json();
-          setInitialContent(data.content);
-          setContent(data.content);
+        
+          setInitialContent(data);
+          setContent(data);
   
-          setResponse(data);
+          // setResponse(data);
           setUploadStatus("success");
         } catch (error) {
           console.error("Error uploading file:", error);
@@ -180,12 +181,12 @@ const TailwindAdvancedEditor = () => {
           slotAfter={<ImageResizer />}
         >
           <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2 ">
-            <AskAI />
+            <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/>
             <Dropzone />
-            <div className="relative flex items-center justify-center min-w-24 px-3 text-sm text-black rounded-lg">{saveStatus}</div>
+            {/* <div className="relative flex items-center justify-center min-w-24 px-3 text-sm text-black rounded-lg">{saveStatus}</div>
             <div className={charsCount ? "rounded-lg flex items-center justify-center min-w-28 px-3 text-sm text-black" : "hidden"}>
               {charsCount} Words
-            </div>
+            </div> */}
           </div>
 
           <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
