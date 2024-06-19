@@ -4,11 +4,21 @@ import Image from "next/image";
 import useCompletionJotai from "@/hooks/use-completion-jotai";
 import { toast } from "sonner";
 import { useAtom } from "jotai";
-import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/tailwind/ui/popover";
+import {
+  generatedContent,
+  initialContent as initialContentAtom,
+  persona,
+  isEYFontRequired,
+} from "@/lib/atom";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/tailwind/ui/popover";
 import { SparklesIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import Magic from "../ui/icons/magic";
+import { createParagraph } from "@/app/utils/editor-utils";
 
 export const AskAI = ({ setInitialContent, setContent }) => {
   const [prompt, setPrompt] = useState("");
@@ -22,37 +32,32 @@ export const AskAI = ({ setInitialContent, setContent }) => {
       body: { option: "zap", command: persona.init },
     }).then((data) => {
       setLocalCompletion(data);
-    });;
+    });
   };
 
   const handleInsert = () => {
-    const newContent = {
-      type: "doc",
-      content: [
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              text: localCompletion,
-            },
-          ],
-        },
-      ],
-    };
+    const newContent = createParagraph(localCompletion);
     setInitialContent(newContent);
     setContent(newContent);
-      setPrompt("");
-      setLocalCompletion(""); // Reset local completion state
-      setOpen(false); // Close the popover
+    clearAskAIPopup(setPrompt, setLocalCompletion, setOpen); // Close the popover 
   };
+
+  const clearAskAIPopup = (setPrompt: React.Dispatch<React.SetStateAction<string>>, setLocalCompletion: React.Dispatch<React.SetStateAction<string>>, setOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setPrompt("");
+    setLocalCompletion(""); // Reset local completion state
+    setOpen(false);
+  }
+
+
 
   return (
     <div className="flex flex-wrap">
       <Popover modal={true} open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
-            className={`bg-purple-700 editor-button ${isLoading ? 'cursor-not-allowed' : ''}`}
+            className={`bg-purple-700 editor-button ${
+              isLoading ? "cursor-not-allowed" : ""
+            }`}
           >
             <Magic className="mr-1 h-4 w-4" />
             Ask AI
@@ -80,15 +85,15 @@ export const AskAI = ({ setInitialContent, setContent }) => {
           ></textarea>
           {localCompletion.length > 0 && (
             <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg border border-pink-500">
-            <p>{localCompletion}</p>
-            <button
-              className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
-              onClick={handleInsert}
-              disabled={isLoading}
-            >
-              Insert
-            </button>
-          </div>          
+              <p>{localCompletion}</p>
+              <button
+                className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+                onClick={handleInsert}
+                disabled={isLoading}
+              >
+                Insert
+              </button>
+            </div>
           )}
           <button
             className="bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
@@ -103,3 +108,5 @@ export const AskAI = ({ setInitialContent, setContent }) => {
     </div>
   );
 };
+
+
