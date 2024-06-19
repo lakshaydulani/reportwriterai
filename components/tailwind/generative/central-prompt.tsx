@@ -247,7 +247,7 @@ const CentralPrompt = () => {
       <Separator orientation="horizontal" />
       <Observations />      
       
-      <Separator orientation="horizontal" />
+      <Separator orientation="horizontal" className="mt-2" />
       <DownloadReport />
     </section>
   );
