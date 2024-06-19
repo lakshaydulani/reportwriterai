@@ -28,7 +28,6 @@ export const AskAI = ({ setInitialContent, setContent }) => {
   const [prompt, setPrompt] = useState("");
   const [open, setOpen] = useState(false);
   const [localCompletion, setLocalCompletion] = useState("");
-  const [content, setContents] = useAtom(generatedContent);
 
   const { completion, complete, isLoading } = useCompletionJotai();
 
@@ -66,26 +65,11 @@ export const AskAI = ({ setInitialContent, setContent }) => {
     };
 
     const handleButtonClick = (value) => {
-      const text = getTextFromInitialContent(content);
-      complete(text, {
+      // const text = getTextFromInitialContent(content);
+      complete(localCompletion, {
         body: { option: value },
       }).then((data) => {
-        const newContent = {
-          type: "doc",
-          content: [
-            {
-              type: "paragraph",
-              content: [
-                {
-                  type: "text",
-                  text: data,
-                },
-              ],
-            },
-          ],
-        };
-        setContent(newContent);
-        setInitialContent(newContent);
+        setLocalCompletion(data);
       });
     };
     return (
@@ -96,7 +80,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
             size="aihelper"
             variant="aihelper"
             onClick={() => handleButtonClick(item.value)}
-            disabled={isDisabled} // Disable button if content or initialContent is empty
+            // disabled={isDisabled} // Disable button if content or initialContent is empty
           >
             <item.icon className="h-4 w-4 mr-2 text-purple-500" />
             {item.label}

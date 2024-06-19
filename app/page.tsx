@@ -47,12 +47,12 @@ export default function Page() {
       <Animation />
       
       <div className="grid grid-cols-8 gap-3 px-4">        
-        <div className="col-span-3">
+        <div className="col-span-2">
           <div className="p-0 rounded-lg gap-5 flex flex-col [&>section]:border-5 [&>*]:p-3 [&>section]:rounded-lg [&>section]:bg-custom-gradient">
             <CentralPrompt />
           </div>
         </div>
-        <div className="col-span-5">
+        <div className="col-span-6">
           <ScrollArea className="max-h-screen">
             {isEditorLoading ? <EditorSkeleton/> : <TailwindAdvancedEditor />}            
           </ScrollArea>

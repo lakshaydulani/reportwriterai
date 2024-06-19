@@ -161,7 +161,7 @@ const TailwindAdvancedEditor = () => {
           key={JSON.stringify(initialContent)} // Use a key to force re-initialization
           initialContent={initialContent}
           extensions={extensions}
-          className="border-muted bg-background rounded-lg max-w-[62vw] h-[calc(100vh-100px)] overflow-auto"
+          className="border-muted bg-background rounded-lg h-[calc(100vh-100px)] overflow-auto"
 // className="relative h-full w-full shadow-blue-900 border-muted bg-background sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {

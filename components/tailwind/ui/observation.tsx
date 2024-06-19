@@ -147,11 +147,11 @@ const ObservationComponent = () => {
       >
         Add New Observation
       </Button>
-      <div className="flex flex-wrap gap-2 flex-start items-center">
+      <div className="flex flex-wrap gap-2 flex-start items-center justify-center">
         {observations.map((observation, index) => (
           <Button
             key={index}
-            className={`w-1/4 mt-2 px-1 hover:bg-yellow-300 ${selectedIndex === index ? 'bg-ey-yellow' : ''}`}
+            className={` mt-2 px-4 hover:bg-yellow-300 ${selectedIndex === index ? 'bg-ey-yellow' : ''}`}
             variant="observation"
             onClick={() => handleSelect(index)}
           >
