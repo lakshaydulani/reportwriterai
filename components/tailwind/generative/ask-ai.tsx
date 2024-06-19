@@ -74,13 +74,24 @@ export const AskAI = ({ setInitialContent, setContent }) => {
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            className="w-full text-xl p-3 pl-12 rounded-lg"
+            className="w-full text-xl p-3 pl-12 rounded-lg border-black border"
             rows={5}
             placeholder="Write with AI.."
           ></textarea>
+          <button
+            className="bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+            onClick={handleClick}
+            disabled={isLoading}
+          >
+            <SparklesIcon className="mx-2" />
+            {isLoading ? "Generating..." : "Generate"}
+          </button>
           {localCompletion.length > 0 && (
-            <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg border border-pink-500">
-            <p>{localCompletion}</p>
+            <div>
+              <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg border border-purple-500">
+                <p>{localCompletion}</p>
+              </div>
+            
             <button
               className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
               onClick={handleInsert}
@@ -90,14 +101,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
             </button>
           </div>          
           )}
-          <button
-            className="bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
-            onClick={handleClick}
-            disabled={isLoading}
-          >
-            <SparklesIcon className="mx-2" />
-            {isLoading ? "Generating..." : "Generate"}
-          </button>
+          
         </PopoverContent>
       </Popover>
     </div>
