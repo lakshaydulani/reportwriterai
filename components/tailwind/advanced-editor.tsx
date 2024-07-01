@@ -19,6 +19,7 @@ import { useAtom } from 'jotai';
 import { generatedContent, initialContent as initialContentAtom } from "@/lib/atom";
 import { FileUp } from "lucide-react";
 import { AskAI } from "./generative/ask-ai";
+import DownloadReport from "./ui/report-process";
 
 type FileWithPreview = File & {
   preview: string;
@@ -180,14 +181,15 @@ const TailwindAdvancedEditor = () => {
           }}
           slotAfter={<ImageResizer />}
         >
-          <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2 ">
-            <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/>
-            <Dropzone />
+          {/* <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2 "> */}
+            {/* <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/>
+            <Dropzone /> */}
+            
             {/* <div className="relative flex items-center justify-center min-w-24 px-3 text-sm text-black rounded-lg">{saveStatus}</div>
             <div className={charsCount ? "rounded-lg flex items-center justify-center min-w-28 px-3 text-sm text-black" : "hidden"}>
               {charsCount} Words
             </div> */}
-          </div>
+          {/* </div> */}
 
           <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
             <EditorCommandEmpty className="px-2 text-muted-foreground">No results</EditorCommandEmpty>
@@ -210,6 +212,9 @@ const TailwindAdvancedEditor = () => {
               ))}
             </EditorCommandList>
           </EditorCommand>
+          <div className="flex absolute right-4 bottom-2 gap-2 bg-white px-4 py-2" >
+            <DownloadReport />
+          </div>
 
           <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
             <Separator orientation="vertical" />
