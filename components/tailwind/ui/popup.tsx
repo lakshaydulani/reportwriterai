@@ -166,7 +166,7 @@ const Popup = ({ onClose, onSubmit }) => {
           )}
         </div>
         <div className="mt-4 flex justify-between items-center">
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <input
               type="checkbox"
               checked={isEyFormatingRequired}
@@ -174,7 +174,7 @@ const Popup = ({ onClose, onSubmit }) => {
               className="mr-2"
             />
             Use EY Font
-          </div>
+          </div> */}
           <div className="flex">
             <button
               onClick={handleSave}

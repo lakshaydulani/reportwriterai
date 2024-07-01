@@ -150,13 +150,13 @@ const CentralPrompt = () => {
             className="flex max-h-100 w-[35vw] overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2 "
             align="start"
           >
-            <div className="flex flex-wrap gap-1 flex-start items-center">
+            <div className="flex flex-wrap gap-2 flex-start items-center justify-center">
             {option.map((item) => {
               return (
                 <Button
                   onClick={appendSection(item.value)}
                   variant="outline"
-                  className="rounded-xl w-1/3 border-black"
+                  className="rounded-xl border-black px-5"
                 >
                   <item.icon className="float-left mr-auto" />
                   {item.value}

@@ -151,7 +151,7 @@ const ObservationComponent = () => {
         {observations.map((observation, index) => (
           <Button
             key={index}
-            className={` mt-2 px-4 hover:bg-yellow-300 ${selectedIndex === index ? 'bg-ey-yellow' : ''}`}
+            className={` mt-2 px-5 hover:bg-yellow-300 ${selectedIndex === index ? 'bg-ey-yellow' : ''}`}
             variant="observation"
             onClick={() => handleSelect(index)}
           >
