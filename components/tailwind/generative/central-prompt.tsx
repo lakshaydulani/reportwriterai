@@ -39,6 +39,7 @@ import DownloadReport from "@/components/tailwind/ui/report-process";
 
 import dynamic from 'next/dynamic';
 import { DownloadIcon } from "lucide-react";
+import { AskAI } from "./ask-ai";
 
 const Observations = dynamic(() => import('@/components/tailwind/ui/observation'), {
   ssr: false,
@@ -94,81 +95,81 @@ const CentralPrompt = () => {
   // Function to handle button clicks
   
 
-  const Section = () => {
-    const [open, onOpenChange] = useState(false);
+  // const Section = () => {
+  //   const [open, onOpenChange] = useState(false);
 
-    const mergeContent = (initial, additional) => {
-      return {
-        ...initial,
-        content: [...initial.content, ...additional.content],
-      };
-    };
+  //   const mergeContent = (initial, additional) => {
+  //     return {
+  //       ...initial,
+  //       content: [...initial.content, ...additional.content],
+  //     };
+  //   };
     
 
-    const appendSection = (value) => () => {
-      // make changes here to integrate api from DB
-      complete(sectionPrompt, {
-        body: { option: "zap", command:"You are an auditor tasked with presenting a report for an internal audit. Your role is to clearly lay out the background of the operation under scrutiny and present your observations based on the following evidence collected" },
-      }).then((data) => {
-        const newContent = {
-          type: "doc",
-          content: [
-            {
-              type: "paragraph",
-              content: [
-                {
-                  type: "text",
-                  text: data,
-                },
-              ],
-            },
-          ],
-        };
-        setContent(newContent);
-        setInitialContent(newContent);
-      }
-      );
-      // const newInitialContent = { ...initialContent, ...content };
-      // const newObject = mergeContent(newInitialContent, newContent);
-      // setInitialContent(newObject);
-      // setContent(newObject);
-      onOpenChange(false);
-    };
+  //   const appendSection = (value) => () => {
+  //     // make changes here to integrate api from DB
+  //     complete(sectionPrompt, {
+  //       body: { option: "zap", command:"You are an auditor tasked with presenting a report for an internal audit. Your role is to clearly lay out the background of the operation under scrutiny and present your observations based on the following evidence collected" },
+  //     }).then((data) => {
+  //       const newContent = {
+  //         type: "doc",
+  //         content: [
+  //           {
+  //             type: "paragraph",
+  //             content: [
+  //               {
+  //                 type: "text",
+  //                 text: data,
+  //               },
+  //             ],
+  //           },
+  //         ],
+  //       };
+  //       setContent(newContent);
+  //       setInitialContent(newContent);
+  //     }
+  //     );
+  //     // const newInitialContent = { ...initialContent, ...content };
+  //     // const newObject = mergeContent(newInitialContent, newContent);
+  //     // setInitialContent(newObject);
+  //     // setContent(newObject);
+  //     onOpenChange(false);
+  //   };
 
-    return (
-      <div className="my-3 flex flex-wrap">
-        <Popover modal={true} open={open} onOpenChange={onOpenChange}>
-          <PopoverTrigger asChild>
-            <Button size="lg" className="rounded-xl w-full" variant="default">
-              <span className="rounded-sm px-1">Add Section</span>
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </PopoverTrigger>
+  //   return (
+  //     <div className="my-3 flex flex-wrap">
+  //       <Popover modal={true} open={open} onOpenChange={onOpenChange}>
+  //         <PopoverTrigger asChild>
+  //           <Button size="lg" className="rounded-xl w-full" variant="default">
+  //             <span className="rounded-sm px-1">Add Section</span>
+  //             <ChevronDown className="h-4 w-4" />
+  //           </Button>
+  //         </PopoverTrigger>
 
-          <PopoverContent
-            sideOffset={5}
-            className="flex max-h-100 w-[35vw] overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2 "
-            align="start"
-          >
-            <div className="flex flex-wrap gap-2 flex-start items-center justify-center">
-            {option.map((item) => {
-              return (
-                <Button
-                  onClick={appendSection(item.value)}
-                  variant="outline"
-                  className="rounded-xl border-black px-5"
-                >
-                  <item.icon className="float-left mr-auto" />
-                  {item.value}
-                </Button>
-              );
-            })}
-            </div>
-          </PopoverContent>
-        </Popover>
-      </div>
-    );
-  };
+  //         <PopoverContent
+  //           sideOffset={5}
+  //           className="flex max-h-100 w-[35vw] overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2 "
+  //           align="start"
+  //         >
+  //           <div className="flex flex-wrap gap-2 flex-start items-center justify-center">
+  //           {option.map((item) => {
+  //             return (
+  //               <Button
+  //                 onClick={appendSection(item.value)}
+  //                 variant="outline"
+  //                 className="rounded-xl border-black px-5"
+  //               >
+  //                 <item.icon className="float-left mr-auto" />
+  //                 {item.value}
+  //               </Button>
+  //             );
+  //           })}
+  //           </div>
+  //         </PopoverContent>
+  //       </Popover>
+  //     </div>
+  //   );
+  // };
 
   const downloadClick = () => {
     alert("Hello friends, this is message.");
@@ -191,7 +192,7 @@ const CentralPrompt = () => {
       </div>
       <Separator orientation="horizontal" />
       <div className="relative w-full">
-        <PencilLine className="absolute top-5 left-3 w-6 h-6 color" />
+        {/* <PencilLine className="absolute top-5 left-3 w-6 h-6 color" /> */}
         {/* <textarea
           value={sectionPrompt}
           onChange={(e) => setSectionPrompt(e.target.value)}
@@ -199,34 +200,28 @@ const CentralPrompt = () => {
           rows={4}
           placeholder="Enter your IA observation"
         ></textarea> */}
-        <Section />
+        {/* <Section /> */}
       </div>
 
       <Separator orientation="horizontal" />
-      <Observations />      
+      {/* <Observations />       */}
+      <div className="my-2">
+        <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/>
+      </div>
       
-      <Separator orientation="horizontal" className="mt-2" />
-      <button
-        className="mt-3 shadow-lg text-white bg-zinc-600 border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
-            isLoad ? 'cursor-not-allowed' : ''
-          }`"
-        // onClick={downloadClick}
-        // disabled={isLoad}
-      >
-        <ListMinus className="mr-auto" />
-        Download Issues List
+      {/* <Separator orientation="horizontal" className="mt-2" /> */}
+      {/* <div> */}
+      {/* <button className="mt-3 shadow-lg text-white bg-zinc-600 border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${ isLoad ? 'cursor-not-allowed' : ''}`"> // onClick={downloadClick} // disabled={isLoad}> */}
+        {/* <ListMinus className="mr-auto" /> */}
+        {/* Download Issues List */}
         {/* {isLoad ? "Downloading..." : "Download Report"} */}
-      </button>
-      <button
-        className="mt-3 shadow-lg text-white bg-zinc-700 border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${
-            isLoad ? 'cursor-not-allowed' : ''
-          }`"
-        // onClick={downloadClick}
-      >
-        <ComponentIcon className="mr-auto" />
-        Download Executive Summary
-      </button>
-      <DownloadReport />
+      {/* </button> */}
+      {/* <button className="mt-3 shadow-lg text-white bg-zinc-700 border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${ isLoad ? 'cursor-not-allowed' : '' }`" > */}
+         {/* onClick={downloadClick} */}
+        {/* <ComponentIcon className="mr-auto" /> */}
+        {/* Download Executive Summary */}
+      {/* </button> */}
+      
     </section>
   );
 };

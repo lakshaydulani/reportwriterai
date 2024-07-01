@@ -94,23 +94,23 @@ export const AskAI = ({ setInitialContent, setContent }) => {
 
   return (
     <div className="flex flex-wrap">
-      <Popover modal={true} open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
+      {/* <Popover modal={true} open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild> */}
+          {/* <Button
             className={`bg-purple-700 editor-button ${
               isLoading ? "cursor-not-allowed" : ""
             }`}
           >
-            <Magic className="mr-1 h-4 w-4" />
+            
             Ask AI
-          </Button>
-        </PopoverTrigger>
+          </Button> */}
+        {/* </PopoverTrigger> */}
 
-        <PopoverContent
+        {/* <PopoverContent
           sideOffset={5}
           className="flex max-h-100 w-[35vw] flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2"
           align="start"
-        >
+        > */}
           <Image
             alt="AI icon"
             src="images/ailogo.svg"
@@ -125,14 +125,17 @@ export const AskAI = ({ setInitialContent, setContent }) => {
             rows={5}
             placeholder="Write with AI.."
           ></textarea>
+            <div className="w-full flex justify-center items-center">
+
           <button
-            className="bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+            className="my-2 bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
             onClick={handleClick}
             disabled={isLoading}
-          >
+            >
             <SparklesIcon className="mx-2" />
             {isLoading ? "Generating..." : "Generate"}
           </button>
+            </div>
           {localCompletion.length > 0 && (
             <div>
               <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg border border-pink-500">
@@ -149,8 +152,8 @@ export const AskAI = ({ setInitialContent, setContent }) => {
               </button>
             </div>
           )}
-        </PopoverContent>
-      </Popover>
+        {/* </PopoverContent>
+      </Popover> */}
     </div>
   );
 };
