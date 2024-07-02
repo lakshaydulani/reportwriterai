@@ -93,7 +93,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
 
 
   return (
-    <div className="flex flex-wrap">
+    <div className="relative flex flex-wrap">
       {/* <Popover modal={true} open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild> */}
           {/* <Button
@@ -128,7 +128,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
             <div className="w-full flex justify-center items-center">
 
           <button
-            className="my-2 bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+            className="w-full my-2 bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
             onClick={handleClick}
             disabled={isLoading}
             >

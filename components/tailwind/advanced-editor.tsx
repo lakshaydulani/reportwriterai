@@ -156,7 +156,7 @@ const TailwindAdvancedEditor = () => {
   if (!initialContent) return null;
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-3/4">
       <EditorRoot>
         <EditorContent
           key={JSON.stringify(initialContent)} // Use a key to force re-initialization

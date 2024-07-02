@@ -40,6 +40,7 @@ import DownloadReport from "@/components/tailwind/ui/report-process";
 import dynamic from 'next/dynamic';
 import { DownloadIcon } from "lucide-react";
 import { AskAI } from "./ask-ai";
+import Labels from "../ui/tabs";
 
 const Observations = dynamic(() => import('@/components/tailwind/ui/observation'), {
   ssr: false,
@@ -221,6 +222,10 @@ const CentralPrompt = () => {
         {/* <ComponentIcon className="mr-auto" /> */}
         {/* Download Executive Summary */}
       {/* </button> */}
+      <Separator orientation="horizontal" />
+      <div className="my-2">
+        <Labels />
+      </div>
       
     </section>
   );
