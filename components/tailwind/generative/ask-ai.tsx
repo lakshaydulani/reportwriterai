@@ -13,6 +13,8 @@ import { createParagraph } from "@/app/utils/editor-utils";
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:2156026760.
 import { aiOptions as options, sectionOptions as option } from "./ai-selector-options";
 import Labels from "../ui/tabs";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip } from "react-tooltip";
 
 const isDisabled = false;
 
@@ -72,7 +74,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
             size="aihelper"
             variant="aihelper"
             onClick={() => handleButtonClick(item.value)}
-            // disabled={isDisabled} // Disable button if content or initialContent is empty
+          // disabled={isDisabled} // Disable button if content or initialContent is empty
           >
             <item.icon className="h-4 w-4 mr-2 text-purple-500" />
             {item.label}
@@ -86,16 +88,22 @@ export const AskAI = ({ setInitialContent, setContent }) => {
 
   return (
     <div className="">
-      <strong className='text-center mb-4'>To start drafting your observation please provide:</strong>
-      <ol className='list-decimal list-inside'>
-        <li><u>Background of the observation</u></li>
-        <li><u>Principle against which you are evaluating</u></li>
-        <li><u>Detailed findings of your observation</u></li>
-        <li><u>Any other matter you think should be included</u></li>
-      </ol>
+      <div className="p-4 bg-white rounded-lg shadow-lg">
+      <strong>To start drafting your observation please provide:</strong>
+      <ul>
+        <strong>
+          <li data-tooltip-id="my-tooltip">Background of the observation</li>
+          <li>Principle against which you are evaluating</li>
+          <li>Detailed findings of your observation</li>
+          <li>Any other matter you think should be included</li>
+        </strong>
+      </ul>
+      <Tooltip id="my-tooltip" place="left">
+      route to Vaibhav Kumar Ojha
+    </Tooltip>
       {/* <Popover modal={true} open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild> */}
-          {/* <Button
+      {/* <Button
             className={`bg-purple-700 editor-button ${
               isLoading ? "cursor-not-allowed" : ""
             }`}
@@ -103,62 +111,63 @@ export const AskAI = ({ setInitialContent, setContent }) => {
             
             Ask AI
           </Button> */}
-        {/* </PopoverTrigger> */}
+      {/* </PopoverTrigger> */}
 
-        {/* <PopoverContent
+      {/* <PopoverContent
           sideOffset={5}
           className="flex max-h-100 w-[35vw] flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2"
           align="start"
         > */}
-        <div className="relative mt-5">
-          <textarea
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            className="w-full text-xl p-3 pl-12 rounded-lg border-black border"
-            rows={5}
-            placeholder="Please Enter your draft audit observation"
-            >
-          </textarea>
-            <Image
-              alt="AI icon"
-              src="images/ailogo.svg"
-              className="absolute top-2 left-3 w-6 h-6 my-2"
-              width={50}
-              height={50}
-              />
-              </div>
-            <div className="w-full flex justify-center items-center">
+      <div className="relative mt-5">
+        <textarea
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          className="w-full text-xl p-3 pl-12 rounded-lg border-black border"
+          rows={5}
+          placeholder="Please Enter your draft audit observation"
+        >
+        </textarea>
+        <Image
+          alt="AI icon"
+          src="images/ailogo.svg"
+          className="absolute top-2 left-3 w-6 h-6 my-2"
+          width={50}
+          height={50}
+        />
+      </div>
+      <div className="w-full flex justify-center items-center">
 
-          <button
-            className="w-full my-2 bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
-            onClick={handleClick}
-            disabled={isLoading}
-            >
-            <SparklesIcon className="mx-2" />
-            {isLoading ? "Generating..." : "Generate"}
-          </button>
-            </div>
-          {localCompletion.length > 0 && (
-            <div className="w-full">
-              <Labels />
-            </div>
-            
-            // <div>
-            //   <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg border border-pink-500">
-            //     <p>{localCompletion}</p>
-            //   </div>
-              
-            //   <Commands />
-            //   <button
-            //     className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
-            //     onClick={handleInsert}
-            //     disabled={isLoading}
-            //   >
-            //     Insert
-            //   </button>
-            // </div>
-          )}
-        {/* </PopoverContent>
+        <button
+          className="w-full my-2 bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+          onClick={handleClick}
+          disabled={isLoading}
+        >
+          <SparklesIcon className="mx-2" />
+          {isLoading ? "Generating..." : "Generate"}
+        </button>
+      </div>
+      </div>
+      {localCompletion.length > 0 && (
+        <div className="w-full">
+          <Labels />
+        </div>
+
+        // <div>
+        //   <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg border border-pink-500">
+        //     <p>{localCompletion}</p>
+        //   </div>
+
+        //   <Commands />
+        //   <button
+        //     className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+        //     onClick={handleInsert}
+        //     disabled={isLoading}
+        //   >
+        //     Insert
+        //   </button>
+        // </div>
+      )}
+      {/* </PopoverContent>
       </Popover> */}
     </div>
   );
