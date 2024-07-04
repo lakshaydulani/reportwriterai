@@ -161,7 +161,7 @@ const CentralPrompt = () => {
   }
 
   return (
-    <section className="">
+    <section className="h-[calc(100vh-100px)] overflow-auto">
       <div className="flex">
         <SectionHeading>Editor:</SectionHeading>
         <button
@@ -176,7 +176,10 @@ const CentralPrompt = () => {
         )}
       </div>
       <Separator orientation="horizontal" />
-      {display === 'draft' ? (
+      {display === '' && (
+        <EditorWelcome parentCallback={onButtonClick} />
+      )}
+      {display === 'draft' && (
         // <div className="relative w-full">
         //   <PencilLine className="absolute top-5 left-3 w-6 h-6 color" />
         //   <textarea
@@ -188,12 +191,8 @@ const CentralPrompt = () => {
         // ></textarea>
         //   <Section />
         // </div>
-        <div className="my-2">
+        <div className="my-2">  
           <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/>
-        </div>
-      ):(
-        <div className="my-2">
-          <EditorWelcome parentCallback = {onButtonClick}/>
         </div>
       )}
       
@@ -203,6 +202,11 @@ const CentralPrompt = () => {
       <div className="my-2">
         {/* <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/> */}
       </div>
+
+      <Separator orientation="horizontal" />
+      {/* <div className="my-2">
+        <Labels />
+      </div> */}
       
       {/* <Separator orientation="horizontal" className="mt-2" /> */}
       {/* <div> */}

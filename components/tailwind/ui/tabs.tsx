@@ -17,7 +17,6 @@ const Labels = () => {
                     cols={5}
                     rows={15}
                     defaultValue={`This is a textarea for ${item.label}`}
-                    className=""
                   />
                 </CardBody>
               </Card>

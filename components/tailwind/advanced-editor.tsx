@@ -190,7 +190,9 @@ const TailwindAdvancedEditor = () => {
               {charsCount} Words
             </div> */}
           {/* </div> */}
-
+          <div className="flex absolute right-4 top-1 gap-2 bg-white px-4 py-2" >
+            <DownloadReport />
+          </div>
           <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
             <EditorCommandEmpty className="px-2 text-muted-foreground">No results</EditorCommandEmpty>
             <EditorCommandList>
@@ -212,9 +214,7 @@ const TailwindAdvancedEditor = () => {
               ))}
             </EditorCommandList>
           </EditorCommand>
-          <div className="flex absolute right-4 bottom-2 gap-2 bg-white px-4 py-2" >
-            <DownloadReport />
-          </div>
+          
 
           <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
             <Separator orientation="vertical" />

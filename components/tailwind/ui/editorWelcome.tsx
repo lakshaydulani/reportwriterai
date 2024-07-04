@@ -1,78 +1,54 @@
 import React from 'react';
+import "@/styles/globals.css";
 
 const EditorWelcome = (props) => {
 
-  const onButtonClick = (event) => {
-    props.parentCallback(event.target.value);
-    console.log("handle button click event value\n........",event.target.value);
+  const onButtonClick = (value) => {
+    console.log("handle button click event value\n........",value);
+    props.parentCallback(value);
   }
 
   return (
-    <section className=''>
+    <section className='p-4 bg-white rounded-lg shadow-lg'>
       <div className='text-center mb-4'>
-        <strong>Hi User!</strong>
-        <p>I am your writing assistant</p>
-        <p>I can help you write, edit, or summarize!</p>
-        <p>Tell me, what would you like to draft today?</p>
+        <p><strong>Hi User! </strong>I am your writing assistant
+        I can help you write, edit, or summarize!
+        Tell me, what would you like to draft today?</p>
       </div>
       <div className='text-left'>
-        <ol className='list-decimal list-inside'>
-          <li>
-            <button 
-              className='m-2 p-2 border border-black'
-              value='draft'
-              onClick={onButtonClick}
-
-            >
-              Draft an Observation
-            </button>
+        <ul className=''>
+          <li
+            className='m-2 p-2 myList cursor-pointer'
+            onClick={()=>onButtonClick('draft')}
+          >                        
+            Draft an Observation            
           </li>
-          <li>
-            <button 
-              className='m-2 p-2 border border-black'
-              value='review'
-              onClick={onButtonClick}
-            >
-              Review Your Observation
-            </button>
+          <li
+            className='m-2 p-2 myList cursor-pointer'
+            onClick={()=>onButtonClick('review')}
+          >            
+            Review Your Observation            
           </li>
-          <li>
-            <button 
-              className='m-2 p-2 border border-black'
-              value='generate'
-              onClick={onButtonClick}
-            >
-              Review Your Observations
-            </button>
+          
+          <li
+            className='m-2 p-2 myList cursor-pointer'
+            onClick={()=>onButtonClick('summary')}
+          >
+            Generate Executive Summary
           </li>
-          <li>
-            <button 
-              className='m-2 p-2 border border-black'
-              value='summary'
-              onClick={onButtonClick}
-            >
-              Generate Executive Summary
-            </button>
+          <li
+            className='m-2 p-2 myList cursor-pointer'
+            onClick={()=>onButtonClick('committee')}
+          >
+            Generate Issue Facts
           </li>
-          <li>
-            <button 
-              className='m-2 p-2 border border-black'
-              value='fact'
-              onClick={onButtonClick}
-            >
-              Generate Issue Facts
-            </button>
+          <li
+            className='m-2 p-2 myList cursor-pointer'
+            onClick={()=>onButtonClick('committee')}
+          >
+            Generate Audit Committee
           </li>
-          <li>
-            <button 
-              className='m-2 p-2 border border-black'
-              value='committee'
-              onClick={onButtonClick}
-            >
-              Generate Audit Committee
-            </button>
-          </li>
-        </ol>
+        </ul>
       </div>
     </section>
   );
