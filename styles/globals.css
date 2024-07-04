@@ -98,7 +98,7 @@
     @apply bg-background text-foreground;
   }
   .bg-custom-gradient {
-    @apply bg-gradient-to-br from-zinc-400 to-zinc-300;
+    @apply bg-gradient-to-br from-zinc-300 to-zinc-200;
   }
 
   button {
@@ -204,4 +204,10 @@ hr {
 .ProseMirror {
   padding: 5rem 2rem !important; 
   /* overriden by Lakshay  */
+}
+
+.myList {
+  background: #d4d2d2;
+  border-radius: 5px;
+  margin: 5px 0px 5px;
 }
