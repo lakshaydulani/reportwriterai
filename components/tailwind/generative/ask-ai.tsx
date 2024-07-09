@@ -22,16 +22,40 @@ export const AskAI = ({ setInitialContent, setContent }) => {
   const [prompt, setPrompt] = useState("");
   const [open, setOpen] = useState(false);
   const [localCompletion, setLocalCompletion] = useState("");
+  const [generatePersona, setGeneratePersona] = useState("You are an AI assistant chat bot who gives response according to EY Standrads and response limit should be 500 words and at the end of the response you should give copywrite by EY.");
+  const [loading, setLoading] = useState(false);
 
   const { completion, complete, isLoading } = useCompletionJotai();
 
-  const handleClick = () => {
-    complete(prompt, {
-      body: { option: "zap", command: persona.init },
-    }).then((data) => {
-      setLocalCompletion(data);
-    });
-  };
+  const handleClick = async () => {
+    setLoading(true);
+    try {
+        const payload = {
+            prompt: prompt,
+            persona: "give response in 300 words with EY copy right at the end"
+        };
+
+        const res = await fetch("/api/langchain", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+            throw new Error(`Error: ${res.statusText}`);
+        }
+
+        const data = await res.json();
+        setPrompt(data);
+        console.log("data from ask ai is:\n", data);
+    } catch (error) {
+        console.error("Error is occurred:", error);
+    }
+    setLoading(false)
+};
+
 
   const handleInsert = () => {
     const newContent = createParagraph(localCompletion);
@@ -101,23 +125,6 @@ export const AskAI = ({ setInitialContent, setContent }) => {
       <Tooltip id="my-tooltip" place="left">
       route to Vaibhav Kumar Ojha
     </Tooltip>
-      {/* <Popover modal={true} open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild> */}
-      {/* <Button
-            className={`bg-purple-700 editor-button ${
-              isLoading ? "cursor-not-allowed" : ""
-            }`}
-          >
-            
-            Ask AI
-          </Button> */}
-      {/* </PopoverTrigger> */}
-
-      {/* <PopoverContent
-          sideOffset={5}
-          className="flex max-h-100 w-[35vw] flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl gap-2"
-          align="start"
-        > */}
       <div className="relative mt-5">
         <textarea
           value={prompt}
@@ -140,10 +147,10 @@ export const AskAI = ({ setInitialContent, setContent }) => {
         <button
           className="w-full my-2 bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
           onClick={handleClick}
-          disabled={isLoading}
+          disabled={loading}
         >
           <SparklesIcon className="mx-2" />
-          {isLoading ? "Generating..." : "Generate"}
+          {loading ? "Generating..." : "Generate"}
         </button>
       </div>
       </div>
