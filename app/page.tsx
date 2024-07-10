@@ -5,54 +5,47 @@ import { ScrollArea } from "@/components/tailwind/ui/scroll-area";
 import Uploader from "@/components/tailwind/ui/uploader";
 import CentralPrompt from "@/components/tailwind/generative/central-prompt";
 import { useAtom } from "jotai";
+import { atomWithStorage } from 'jotai/utils';
 import { useState, useEffect } from 'react';
-import {
-  generatedContent,
-  initialContent as initialContentAtom,
-  isEditorLoading as isEditorLoadingAtom,
-  persona
-} from "@/lib/atom";
+import { generatedContent, initialContent as initialContentAtom, isEditorLoading as isEditorLoadingAtom, persona } from "@/lib/atom";
 import { motion, AnimatePresence } from "framer-motion";
 import Animation from "@/components/tailwind/ui/animation";
 import { Steps } from 'intro.js-react';
 import "intro.js/introjs.css";
 // import { Skeleton } from "@radix-ui/react-skeleton";
 
+const isFirstLoad = atomWithStorage('introJS', 'true');
 
 const EditorSkeleton = () => {
-  return (<div className="bg-white rounded-lg w-full h-[calc(100vh-100px)] p-8">
-    <div role="status" className="animate-pulse">
-      <div className="h-8 bg-gray-400 dark:bg-gray-700 w-2/3 mb-10"></div>
-      <div className="h-5 bg-gray-400  dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-      <div className="h-5 bg-gray-400  dark:bg-gray-700 max-w-[200px] mb-2.5"></div>
-      <div className="h-5 bg-gray-400  dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
-      <div className="h-5 bg-gray-400  dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
-      <div className="h-5 bg-gray-400  dark:bg-gray-700 max-w-[360px] mb-10"></div>
-      <div className="h-8 bg-gray-400 dark:bg-gray-700 w-2/3 mb-2"></div>
-      <div className="h-5 bg-gray-400  dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-      <div className="h-5 bg-gray-400  dark:bg-gray-700 max-w-[200px] mb-2.5"></div>
-      <div className="h-5 bg-gray-400  dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
-      <div className="h-5 bg-gray-400  dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
-      <div className="h-5 bg-gray-400  dark:bg-gray-700 max-w-[360px]"></div>
+  return (
+    <div className="bg-white rounded-lg w-full h-[calc(100vh-100px)] p-8">
+      <div role="status" className="animate-pulse">
+        <div className="h-8 bg-gray-400 dark:bg-gray-700 w-2/3 mb-10"></div>
+        <div className="h-5 bg-gray-400 dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+        <div className="h-5 bg-gray-400 dark:bg-gray-700 max-w-[200px] mb-2.5"></div>
+        <div className="h-5 bg-gray-400 dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+        <div className="h-5 bg-gray-400 dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+        <div className="h-5 bg-gray-400 dark:bg-gray-700 max-w-[360px] mb-10"></div>
+        <div className="h-8 bg-gray-400 dark:bg-gray-700 w-2/3 mb-2"></div>
+        <div className="h-5 bg-gray-400 dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+        <div className="h-5 bg-gray-400 dark:bg-gray-700 max-w-[200px] mb-2.5"></div>
+        <div className="h-5 bg-gray-400 dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+        <div className="h-5 bg-gray-400 dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+        <div className="h-5 bg-gray-400 dark:bg-gray-700 max-w-[360px]"></div>
+      </div>
     </div>
-  </div>);
-}
-
+  );
+};
 
 export default function Page() {
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [content, setContent] = useAtom(generatedContent);
   const [isEditorLoading, setIsEditorLoadingAtom] = useAtom(isEditorLoadingAtom);
-  // const [welcomeScreenVisible, setWelcomeScreenVisible] = useState(true);
+  const [introJS, setIntroJS] = useAtom(isFirstLoad);
   const [inputPersona, setPersona] = useAtom(persona);
 
-  const [introJS, setIntroJS] = useState(() => {
-    const introJSStatus = window.localStorage.getItem('introJS');
-    return introJSStatus !== null ? JSON.parse(introJSStatus) : true;
-  });
-
   useEffect(() => {
-    ( async () => {
+    (async () => {
       try {
         const response = await fetch('/api/settings', {
           method: 'GET',
@@ -60,13 +53,13 @@ export default function Page() {
             'Content-Type': 'application/json',
           },
         });
-  
+
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
         }
-  
+
         const data = await response.json();
-        console.log("response from route in settings ", data)
+        console.log("response from route in settings ", data);
         const keys = Object.keys(data);
         const result = data[keys[0]];
         setPersona(data);
@@ -76,19 +69,18 @@ export default function Page() {
     })();
   }, []);
 
-  const [enabled, setEnabled] = useState(true)
-  const [initialStep, setInitialStep] = useState(0)
+  const [enabled, setEnabled] = useState(true);
+  const [initialStep, setInitialStep] = useState(0);
 
   const onExit = () => {
-    setEnabled(false)
-    // setIntroJS(false)
-    window.localStorage.setItem('introJS', JSON.stringify(!introJS));
-    // localStorage.setItem('introJS', JSON.stringify(false))
-  }
+    setEnabled(false);
+    setIntroJS('false');
+  };
+
   const steps = [
     {
       element: '#first',
-      intro: 'This your AI Editor',
+      intro: 'This is your AI Editor',
       position: 'right',
     },
     {
@@ -100,23 +92,19 @@ export default function Page() {
   return (
     <section>
       <Animation />
-      {introJS && ( 
-      <Steps
-        enabled={enabled}
-        steps={steps}
-        initialStep={initialStep}
-        onExit={onExit}
-      />)}
+      {introJS === 'true' && (
+        <Steps
+          enabled={enabled}
+          steps={steps}
+          initialStep={initialStep}
+          onExit={onExit}
+        />
+      )}
       <div className="grid grid-cols-9 gap-1 px-4">
         <div id="first" className="col-span-5">
           <ScrollArea className="max-h-screen">
             {isEditorLoading ? <EditorSkeleton /> : <TailwindAdvancedEditor />}
           </ScrollArea>
-          {/* content - <br />
-          {JSON.stringify(content)}
-          <br />
-          initial content - <br />
-          {JSON.stringify(initialContent)} */}
         </div>
         <div id="second" className="col-span-4">
           <div className="p-0 rounded-lg gap-5 flex flex-col [&>section]:border-5 [&>*]:p-3 [&>section]:rounded-lg [&>section]:bg-custom-gradient">
