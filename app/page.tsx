@@ -47,7 +47,7 @@ export default function Page() {
   const [inputPersona, setPersona] = useAtom(persona);
 
   const [introJS, setIntroJS] = useState(() => {
-    const introJSStatus = localStorage.getItem('introJS');
+    const introJSStatus = window.localStorage.getItem('introJS');
     return introJSStatus !== null ? JSON.parse(introJSStatus) : true;
   });
 
