@@ -46,6 +46,11 @@ export default function Page() {
   // const [welcomeScreenVisible, setWelcomeScreenVisible] = useState(true);
   const [inputPersona, setPersona] = useAtom(persona);
 
+  const [introJS, setIntroJS] = useState(() => {
+    const introJSStatus = localStorage.getItem('introJS');
+    return introJSStatus !== null ? JSON.parse(introJSStatus) : true;
+  });
+
   useEffect(() => {
     ( async () => {
       try {
@@ -76,6 +81,9 @@ export default function Page() {
 
   const onExit = () => {
     setEnabled(false)
+    // setIntroJS(false)
+    window.localStorage.setItem('introJS', JSON.stringify(!introJS));
+    // localStorage.setItem('introJS', JSON.stringify(false))
   }
   const steps = [
     {
@@ -92,12 +100,13 @@ export default function Page() {
   return (
     <section>
       <Animation />
+      {introJS && ( 
       <Steps
         enabled={enabled}
         steps={steps}
         initialStep={initialStep}
         onExit={onExit}
-      />
+      />)}
       <div className="grid grid-cols-9 gap-1 px-4">
         <div id="first" className="col-span-5">
           <ScrollArea className="max-h-screen">
