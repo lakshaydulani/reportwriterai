@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Atom, Bug, Settings2 as Settings, FerrisWheel, SquareAsterisk, Check, ChevronDown, Heading, Pen as PencilLine, FileUp, Zap, ListMinus, Component as ComponentIcon } from "lucide-react";
+import { Blinds, Atom, Bug, Settings2 as Settings, FerrisWheel, SquareAsterisk, Check, ChevronDown, Heading, Pen as PencilLine, FileUp, Zap, ListMinus, Component as ComponentIcon } from "lucide-react";
 import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
 import { useCompletion } from "ai/react";
 import useCompletionJotai from "@/hooks/use-completion-jotai";
@@ -30,6 +30,7 @@ const CentralPrompt = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [display, setDisplay] = useState('');
+  const [key, setKey] = useState(false)
 
   const displayArray = ['draft','review','generate','summary','fact'];
 
@@ -159,17 +160,28 @@ const CentralPrompt = () => {
     alert("Hello friends, this is message.");
   }
 
+  const handle = () => {
+    setDisplay('');
+  };
+
   return (
     <section className="h-[calc(100vh-100px)] overflow-auto">
       <div className="flex">
         <SectionHeading>Editor:</SectionHeading>
-        <button
-          className="float-end ml-auto"
-          title="Advance Setting"
-          onClick={handleOpenPopup}
-        >
-          <Settings />
-        </button>
+        <div className="flex flex-wrap float-end ml-auto">
+          <button
+            title="HOME"
+            onClick={handle}
+          >
+            <Blinds />
+          </button>
+          <button
+            title="Advance Setting"
+            onClick={handleOpenPopup}
+          >
+            <Settings />
+          </button>
+        </div>
         {isPopupOpen && (
           <Popup onClose={handleClosePopup} onSubmit={handleSubmitPopup} />
         )}
