@@ -26,9 +26,9 @@ export const aiOptions = [
 
 export const sectionOptions = [
   {
-    label: "header",
-    value: "Header",
-    icon: AlignJustify
+    label: "detailedobservation",
+    value: "Detailed observation",
+    icon: FerrisWheel
   },
   {
     label: "background",
@@ -41,9 +41,9 @@ export const sectionOptions = [
     icon: Bug
   },
   {
-    label: "detailedobservation",
-    value: "Detailed observation",
-    icon: FerrisWheel
+    label: "header",
+    value: "Header",
+    icon: AlignJustify
   },
   {
     label: "riskimpact",

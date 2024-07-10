@@ -1,8 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tabs, Tab, Card, CardBody } from '@nextui-org/react';
-import { sectionOptions as option } from '../generative/ai-selector-options';
+import { sectionOptions as option, aiOptions as options } from '../generative/ai-selector-options';
+import useCompletionJotai from "@/hooks/use-completion-jotai";
+import { Button } from "../ui/button";
 
-const Labels = () => {
+const Labels = ({apiResponse}) => {
+  const { completion, complete, isLoading } = useCompletionJotai();
+  const [localCompletion, setLocalCompletion] = useState("");
+
+  const Commands = (prompt) => {
+    const handleButtonClick = (value) => {
+      // const text = getTextFromInitialContent(content);
+      complete(prompt, {
+        body: { option: value },
+      }).then((data) => {
+        setLocalCompletion(data);
+      });
+    };
+    return (
+      <div className="mt-2 mb-4 flex flex-wrap gap-2">
+        {options.map((item) => (
+          <Button
+            key={item.value}
+            size="aihelper"
+            variant="aihelper"
+            onClick={() => handleButtonClick(item.value)}
+          // disabled={isDisabled} // Disable button if content or initialContent is empty
+          >
+            <item.icon className="h-4 w-4 mr-2 text-purple-500" />
+            {item.label}
+          </Button>
+        ))}
+      </div>
+    );
+  };
+
   const handleButtonClick = async (value) => {
     try {
       const res = await fetch("/api/langchain", {
@@ -23,7 +55,7 @@ const Labels = () => {
     }
   };
   return (
-    // <div className="flex flex-wrap flex-col">
+    <div>
     <Tabs aria-label="Options" placement='start' className="bg-purple-500 rounded-lg">
       {option.map((item) => {
         return (
@@ -35,7 +67,8 @@ const Labels = () => {
                   id={item.label}
                   cols={5}
                   rows={15}
-                  defaultValue={`This is a textarea for ${item.label}`}
+                  value={item.label === 'detailedobservation' ? apiResponse : ''}
+                  // defaultValue={`This is a textarea for ${item.label}`}
                 />
               </CardBody>
             </Card>
@@ -43,7 +76,8 @@ const Labels = () => {
         );
       })}
     </Tabs>
-    // </div>
+    <Commands />
+    </div>
   );
 };
 
