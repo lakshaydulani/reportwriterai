@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     try {
-        const content = await request.json(); // Directly get the content array
-        console.log('Request content is:', content);
+        const content = await request.json();
 
         const apiURL = 'https://ai-report-writer.azurewebsites.net/api/download_file';
 

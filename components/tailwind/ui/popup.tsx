@@ -1,11 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAtom } from "jotai";
-import { persona, isEYFontRequired } from "@/lib/atom";
+import { persona, isEYFontRequired, initialContent as initialContentAtom } from "@/lib/atom";
 import { Button } from './button';
 import { sectionOptions as option} from '@/components/tailwind/generative/ai-selector-options';
-import {
-  initialContent as initialContentAtom,
-} from "@/lib/atom";
 
 // Loader component
 const EditorSkeleton = () => {
@@ -28,16 +25,22 @@ const EditorSkeleton = () => {
 }
 
 const Popup = ({ onClose, onSubmit }) => {
-  const [inputValue, setInputValue] = useAtom(persona);
+  const [inputPersona, setPersona] = useAtom(persona);
   const [isEyFormatingRequired, setIsEyFormatingRequired] = useAtom(isEYFontRequired);
   const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [selectedButton, setSelectedButton] = useState('header');
   const [loading, setLoading] = useState(false); // Loading state
   const [isSaving, setIsSaving] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   const popupRef = useRef(null);
 
   const handleInputChange = (e) => {
+    console.log("input persona is ", e.target.value);
+    setPersona({
+      ...inputPersona,
+      [selectedButton]: e.target.value
+    });
     setInputValue(e.target.value);
   };
 
@@ -45,13 +48,13 @@ const Popup = ({ onClose, onSubmit }) => {
     setIsEyFormatingRequired(e.target.checked);
   };
 
-  const handleSubmit = () => {
-    onSubmit(inputValue, isEyFormatingRequired);
-    setSelectedButton(inputValue);
-  };
+  // const handleSubmit = () => {
+  //   onSubmit(inputValue, isEyFormatingRequired);
+  //   setSelectedButton(inputValue);
+  // };
 
   useEffect(() => {
-    getSettings(selectedButton);
+    // getSettings(selectedButton);
     const handleOutsideClick = (e) => {
       if (popupRef.current && !popupRef.current.contains(e.target)) {
         e.stopPropagation();
@@ -65,35 +68,11 @@ const Popup = ({ onClose, onSubmit }) => {
     };
   }, []);
 
-  const getSettings = async (value) => {
-    try {
-      setLoading(true); // Set loading to true while fetching data
-      const response = await fetch(`/api/settings?field=${value}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      const keys = Object.keys(data);
-      const result = data[keys[0]];
-      setInputValue(result);
-    } catch (error) {
-      console.error('Error fetching settings:', error);
-    } finally {
-      setLoading(false); // Set loading to false when data is received
-    }
-  };
-
   const handleSave = async () => {
     try {
       setIsSaving(true); // Set saving to true when save process starts
       let obj = {};
+      console.log("this is input from save ...... ",inputValue)
       obj[selectedButton.toLowerCase()] = inputValue;
   
       const res = await fetch("/api/settings", {
@@ -126,7 +105,7 @@ const Popup = ({ onClose, onSubmit }) => {
   const Section = () => {
     const appendSection = (value) => () => {
       setSelectedButton(value); // Set the selected button
-      getSettings(value);
+      // getSettings(value);
     };
 
     return (
@@ -159,7 +138,7 @@ const Popup = ({ onClose, onSubmit }) => {
           {loading ? <EditorSkeleton /> : (
           <textarea
             placeholder="Enter Your Persona"
-            value={inputValue}
+            value={inputPersona[selectedButton]}
             onChange={handleInputChange}
             className="flex-1 p-4 border border-gray-300 rounded resize-none overflow-y-auto"
           />

@@ -5,11 +5,12 @@ import { ScrollArea } from "@/components/tailwind/ui/scroll-area";
 import Uploader from "@/components/tailwind/ui/uploader";
 import CentralPrompt from "@/components/tailwind/generative/central-prompt";
 import { useAtom } from "jotai";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   generatedContent,
   initialContent as initialContentAtom,
-  isEditorLoading as isEditorLoadingAtom
+  isEditorLoading as isEditorLoadingAtom,
+  persona
 } from "@/lib/atom";
 import { motion, AnimatePresence } from "framer-motion";
 import Animation from "@/components/tailwind/ui/animation";
@@ -43,6 +44,32 @@ export default function Page() {
   const [content, setContent] = useAtom(generatedContent);
   const [isEditorLoading, setIsEditorLoadingAtom] = useAtom(isEditorLoadingAtom);
   // const [welcomeScreenVisible, setWelcomeScreenVisible] = useState(true);
+  const [inputPersona, setPersona] = useAtom(persona);
+
+  useEffect(() => {
+    ( async () => {
+      try {
+        const response = await fetch('/api/settings', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+  
+        const data = await response.json();
+        console.log("response from route in settings ", data)
+        const keys = Object.keys(data);
+        const result = data[keys[0]];
+        setPersona(data);
+      } catch (error) {
+        console.error('Error fetching settings:', error);
+      }
+    })();
+  }, []);
 
   const [enabled, setEnabled] = useState(true)
   const [initialStep, setInitialStep] = useState(0)

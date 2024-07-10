@@ -49,7 +49,6 @@ export const AskAI = ({ setInitialContent, setContent }) => {
 
         const data = await res.json();
         setPrompt(data);
-        console.log("data from ask ai is:\n", data);
     } catch (error) {
         console.error("Error is occurred:", error);
     }

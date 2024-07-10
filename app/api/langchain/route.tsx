@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request) {
     try {
-        const content = await request.json(); // Directly get the content array
-        console.log('Request content is:', content);
+        const content = await request.json();
 
         const apiURL = 'https://langchaintest.azurewebsites.net/api/azureTest';
 
@@ -13,8 +12,7 @@ export async function POST(request) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(content),  // Convert content to JSON string
-        }); 
-        console.log(apiResponse.status);
+        });
 
         if (apiResponse.status !== 200) {
             const errorText = await apiResponse.text();
@@ -23,7 +21,6 @@ export async function POST(request) {
         }
 
         const data = await apiResponse.text();
-        console.log("data from API route is :\n", data);
 
         return new NextResponse(JSON.stringify(data), {
             status: 200,

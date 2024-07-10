@@ -4,7 +4,6 @@ import "@/styles/globals.css";
 const EditorWelcome = (props) => {
 
   const onButtonClick = (value) => {
-    console.log("handle button click event value\n........",value);
     props.parentCallback(value);
   }
 
