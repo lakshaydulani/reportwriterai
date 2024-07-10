@@ -15,6 +15,7 @@ import { aiOptions as options, sectionOptions as option } from "./ai-selector-op
 import Labels from "../ui/tabs";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
+import { Separator } from "@/components/tailwind/ui/separator";
 
 const isDisabled = false;
 
@@ -24,6 +25,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
   const [localCompletion, setLocalCompletion] = useState("");
   const [generatePersona, setGeneratePersona] = useState("You are an AI assistant chat bot who gives response according to EY Standrads and response limit should be 500 words and at the end of the response you should give copywrite by EY.");
   const [loading, setLoading] = useState(false);
+  const [apiResponse, setApiResponse] = useState('');
 
   const { completion, complete, isLoading } = useCompletionJotai();
 
@@ -48,7 +50,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
         }
 
         const data = await res.json();
-        setPrompt(data);
+        setApiResponse(data);
     } catch (error) {
         console.error("Error is occurred:", error);
     }
@@ -69,7 +71,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
     setOpen(false);
   }
 
-  const Commands = () => {
+  const Commands = (prompt) => {
     const getTextFromInitialContent = (initialContent) => {
       if (initialContent && initialContent?.content?.[0]?.content?.[0]?.text) {
         return initialContent.content[0].content[0].text;
@@ -83,7 +85,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
 
     const handleButtonClick = (value) => {
       // const text = getTextFromInitialContent(content);
-      complete(localCompletion, {
+      complete(prompt, {
         body: { option: value },
       }).then((data) => {
         setLocalCompletion(data);
@@ -153,10 +155,13 @@ export const AskAI = ({ setInitialContent, setContent }) => {
         </button>
       </div>
       </div>
-      {localCompletion.length > 0 && (
-        <div className="w-full">
-          <Labels />
+      <Separator className="my-2" orientation="horizontal" />
+      {apiResponse.length > 0 && (
+        <div className="w-full my-2">
+          <Labels apiResponse = {apiResponse}/>
+          {/* <Commands prompt = {prompt}/> */}
         </div>
+        
 
         // <div>
         //   <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg border border-pink-500">
