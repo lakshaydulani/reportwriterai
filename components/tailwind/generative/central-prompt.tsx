@@ -70,7 +70,6 @@ const CentralPrompt = () => {
   }, [content, initialContent]);
 
   const onButtonClick = (childData) => {
-    console.log("button clicked is ", childData);
     setDisplay(childData);
   }
   

@@ -64,7 +64,6 @@ const knowledgebaseDropzone = ({ className }) => {
       body: formData
     }).then(res => res.json())
 
-    console.log(data)
   }
 
   return (
