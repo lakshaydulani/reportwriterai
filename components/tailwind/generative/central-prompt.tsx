@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Blinds, Atom, Bug, Settings2 as Settings, FerrisWheel, SquareAsterisk, Check, ChevronDown, Heading, Pen as PencilLine, FileUp, Zap, ListMinus, Component as ComponentIcon } from "lucide-react";
+import { ChevronLeft, Atom, Bug, Settings2 as Settings, FerrisWheel, SquareAsterisk, Check, ChevronDown, Heading, Pen as PencilLine, FileUp, Zap, ListMinus, Component as ComponentIcon } from "lucide-react";
 import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
 import { useCompletion } from "ai/react";
 import useCompletionJotai from "@/hooks/use-completion-jotai";
@@ -173,7 +173,9 @@ const CentralPrompt = () => {
             title="HOME"
             onClick={handle}
           >
-            <Blinds />
+          {
+            display !== '' && <ChevronLeft />
+          }
           </button>
           <button
             title="Advance Setting"
@@ -208,13 +210,13 @@ const CentralPrompt = () => {
       )}
       
 
-      <Separator orientation="horizontal" />
+      {/* <Separator orientation="horizontal" /> */}
       {/* <Observations />       */}
       <div className="my-2">
         {/* <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/> */}
       </div>
 
-      <Separator orientation="horizontal" />
+      {/* <Separator orientation="horizontal" /> */}
       {/* <div className="my-2">
         <Labels />
       </div> */}
@@ -231,9 +233,9 @@ const CentralPrompt = () => {
         {/* <ComponentIcon className="mr-auto" /> */}
         {/* Download Executive Summary */}
       {/* </button> */}
-      <Separator orientation="horizontal" />
+      {/* <Separator orientation="horizontal" /> */}
       
-      <Separator orientation="horizontal" />
+      {/* <Separator orientation="horizontal" /> */}
       <div className="my-2">
         {/* <Labels /> */}
       </div>
