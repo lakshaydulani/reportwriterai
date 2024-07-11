@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   redirects: async () => {
+    distDir: "build",
     return [
       {
         source: "/github",
