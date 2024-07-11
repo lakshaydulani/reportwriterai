@@ -7,14 +7,13 @@ import CentralPrompt from "@/components/tailwind/generative/central-prompt";
 import { useAtom } from "jotai";
 import { atomWithStorage } from 'jotai/utils';
 import { useState, useEffect } from 'react';
-import { generatedContent, initialContent as initialContentAtom, isEditorLoading as isEditorLoadingAtom, persona } from "@/lib/atom";
+import { generatedContent, initialContent as initialContentAtom, isEditorLoading as isEditorLoadingAtom, persona, isFirstLoad } from "@/lib/atom";
 import { motion, AnimatePresence } from "framer-motion";
 import Animation from "@/components/tailwind/ui/animation";
 import { Steps } from 'intro.js-react';
 import "intro.js/introjs.css";
 // import { Skeleton } from "@radix-ui/react-skeleton";
 
-const isFirstLoad = atomWithStorage('introJS', 'true');
 
 const EditorSkeleton = () => {
   return (
@@ -74,7 +73,7 @@ export default function Page() {
 
   const onExit = () => {
     setEnabled(false);
-    setIntroJS('false');
+    setIntroJS(false);
   };
 
   const steps = [
@@ -92,7 +91,7 @@ export default function Page() {
   return (
     <section>
       <Animation />
-      {introJS === 'true' && (
+      {introJS && (
         <Steps
           enabled={enabled}
           steps={steps}
