@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Tabs, Tab, Card, CardBody } from '@nextui-org/react';
 import { sectionOptions as option, aiOptions as options } from '../generative/ai-selector-options';
+import { useAtom } from "jotai";
 import useCompletionJotai from "@/hooks/use-completion-jotai";
 import { Button } from "../ui/button";
+import { persona } from "@/lib/atom";
 
 const Labels = ({apiResponse}) => {
   const { completion, complete, isLoading } = useCompletionJotai();
   const [localCompletion, setLocalCompletion] = useState("");
+  const [inputPersona, setPersona] = useAtom(persona);
+  const [prompt, setPrompt] = useState('');
 
   const Commands = (prompt) => {
     const handleButtonClick = (value) => {
@@ -36,30 +40,35 @@ const Labels = ({apiResponse}) => {
   };
 
   const handleButtonClick = async (value) => {
+    console.log("handleButtonClick called......")
     try {
+      const payload = {
+        prompt: prompt,
+        persona: inputPersona[value]
+      };
       const res = await fetch("/api/langchain", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(value),
+        body: JSON.stringify(payload),
       });
-
       if (!res.ok) {
         throw new Error(`Error: ${res.statusText}`);
       }
 
       const data = await res.json();
+      setPrompt(data);
     } catch (error) {
       console.error("Error during download:", error);
     }
   };
   return (
     <div>
-    <Tabs aria-label="Options" placement='start' className="bg-purple-500 rounded-lg">
+    <Tabs aria-label="Options" placement='start' className="bg-purple-500 rounded-lg" onSelectionChange={(key)=>handleButtonClick(key)}>
       {option.map((item) => {
         return (
-          <Tab key={item.label} title={item.value} className="rounded-lg w-full" onClick={() => handleButtonClick(item.label)}>
+          <Tab key={item.label} title={item.value} className="rounded-lg w-full" >
             <Card className="bg-white rounded-lg">
               <CardBody>
                 <textarea
@@ -67,7 +76,7 @@ const Labels = ({apiResponse}) => {
                   id={item.label}
                   cols={5}
                   rows={15}
-                  value={item.label === 'detailedobservation' ? apiResponse : ''}
+                  defaultValue={item.label === 'detailedobservation' ? apiResponse : prompt}
                   // defaultValue={`This is a textarea for ${item.label}`}
                 />
               </CardBody>
