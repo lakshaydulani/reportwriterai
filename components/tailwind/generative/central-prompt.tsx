@@ -212,15 +212,8 @@ const CentralPrompt = () => {
 
       {/* <Separator orientation="horizontal" /> */}
       {/* <Observations />       */}
-      <div className="my-2">
-        {/* <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/> */}
-      </div>
-
       {/* <Separator orientation="horizontal" /> */}
-      {/* <div className="my-2">
-        <Labels />
-      </div> */}
-      
+
       {/* <Separator orientation="horizontal" className="mt-2" /> */}
       {/* <div> */}
       {/* <button className="mt-3 shadow-lg text-white bg-zinc-600 border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${ isLoad ? 'cursor-not-allowed' : ''}`"> // onClick={downloadClick} // disabled={isLoad}> */}
@@ -234,12 +227,6 @@ const CentralPrompt = () => {
         {/* Download Executive Summary */}
       {/* </button> */}
       {/* <Separator orientation="horizontal" /> */}
-      
-      {/* <Separator orientation="horizontal" /> */}
-      <div className="my-2">
-        {/* <Labels /> */}
-      </div>
-      
     </section>
   );
 };

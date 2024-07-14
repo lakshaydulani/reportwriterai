@@ -14,6 +14,7 @@ const Labels = ({ apiResponse }) => {
   const { completion, complete, isLoading } = useCompletionJotai();
   const [localCompletion, setLocalCompletion] = useState("");
   const [inputPersona, setPersona] = useAtom(persona);
+  const [selectedKey, setSelectedKey] = useState('detailedobservation');
   const [prompt, setPrompt] = useState(() => {
     let basicPrompt = {};
     option.forEach((option) => {
@@ -31,13 +32,16 @@ const Labels = ({ apiResponse }) => {
     }
   }, [apiResponse]);
 
-  const Commands = (prompt) => {
+  const Commands = () => {
     const handleButtonClick = (value) => {
       // const text = getTextFromInitialContent(content);
-      complete(prompt, {
+      complete(prompt[selectedKey], {
         body: { option: value },
       }).then((data) => {
-        setLocalCompletion(data);
+        setPrompt((prevPrompt) => ({
+          ...prevPrompt,
+          selectedKey: data,
+        }));;
       });
     };
     return (
@@ -58,11 +62,12 @@ const Labels = ({ apiResponse }) => {
     );
   };
 
-  const handleButtonClick = async (value) => {
+  const handleButtonClick = async (label) => {
+    console.log(prompt[label]);
     try {
       const payload = {
-        prompt: prompt[value],
-        persona: inputPersona[value],
+        prompt: prompt[label],
+        persona: inputPersona[label],
       };
       const res = await fetch("/api/langchain", {
         method: "POST",
@@ -74,70 +79,67 @@ const Labels = ({ apiResponse }) => {
       if (!res.ok) {
         throw new Error(`Error: ${res.statusText}`);
       }
-
+  
       const data = await res.json();
       setPrompt((prevPrompt) => ({
         ...prevPrompt,
-        [value]: data,
+        [label]: data,
       }));
-      // setPrompt(data);
     } catch (error) {
       console.error("Error during download:", error);
     }
   };
+  
 
-  const handleChange = (e, key) => {
+  const handleChange = (e, label) => {
+    const { value } = e.target;
     setPrompt((prevPrompt) => ({
       ...prevPrompt,
-      [key]: e.target.value,
+      [label]: value,
     }));
   };
 
+  const handleTabChange = (key) => {
+    // console.log("prompt key is ",prompt[key]);
+    setSelectedKey(key);
+  }
+  
+
   return (
     <div>
-      <Tabs
-        aria-label="Options"
-        placement="start"
-        className="bg-blue-500 rounded-lg"
-      >
-        {option.map((item) => {
-          return (
-            <Tab
-              key={item.label}
-              title={item.value}
-              className="rounded-lg w-full"
-            >
-              <Card className="bg-white rounded-lg">
-                <CardBody>
-                  <textarea
-                    name={item.value}
-                    id={item.label}
-                    cols={5}
-                    rows={15}
-                    defaultValue={prompt[item.label]}
-                    onChange={(e) => handleChange(e, item.label)}
-                    // placeholder='Enter your prompt'
-                  />
-                  <button
-                    className="absolute top-2 right-2 bg-blue-500 text-white py-1 px-2 rounded-lg"
-                    title="Regerate the text"
-                    // onClick={() => regenerateText(item.value)}
-                  >
-                    <RefreshCcwDot />
-                  </button>
-                  <button
-                    className="relative bg-blue-500 text-white py-2 px-4 rounded-lg"
-                    onClick={() => handleButtonClick(item.label)}
-                  >
-                    Generate Text
-                  </button>
-                </CardBody>
-              </Card>
-            </Tab>
-          );
-        })}
-      </Tabs>
-      <Commands />
+      <Tabs aria-label="Options" placement="start" className="bg-blue-500 rounded-lg"  onSelectionChange={(key)=>handleTabChange(key)}>
+  {option.map((item) => (
+    <Tab key={item.label} title={item.value} className="rounded-lg w-full">
+      <Card className="bg-white rounded-lg">
+        <CardBody>
+          <textarea
+            name={item.value}
+            id={item.label}
+            cols={5}
+            rows={15}
+            value={prompt[item.label]}
+            onChange={(e) => handleChange(e, item.label)}
+            placeholder={`Enter your prompt for ${item.value}`}
+          />
+          <button
+            className="absolute top-2 right-2 bg-blue-500 text-white py-1 px-2 rounded-lg"
+            title="Regenerate the text"
+            onClick={() => handleButtonClick(item.label)}
+          >
+            <RefreshCcwDot />
+          </button>
+          <button
+            className="relative bg-blue-500 text-white py-2 px-4 rounded-lg"
+            onClick={() => handleButtonClick(item.label)}
+          >
+            {prompt[item.label]===""? "Generate Response" : "Regerate Response"}
+          </button>
+        </CardBody>
+      </Card>
+    </Tab>
+  ))}
+</Tabs>
+<Commands />
       <button
         className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex float-end justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
         // onClick={handleInsert}
