@@ -3,6 +3,7 @@ import { useAtom } from "jotai";
 import { persona, isEYFontRequired, initialContent as initialContentAtom } from "@/lib/atom";
 import { Button } from './button';
 import { sectionOptions as option} from '@/components/tailwind/generative/ai-selector-options';
+import { motion } from "framer-motion";
 
 // Loader component
 const EditorSkeleton = () => {
@@ -129,7 +130,16 @@ const Popup = ({ onClose, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-8 rounded shadow-md w-3/4 h-3/4 max-h-screen" ref={popupRef}>
+      <motion.div className='xyz'
+        initial={{ opacity: 0, scale: 1 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.8,
+          delay: 0.1,
+          ease: [0, 0, 0, 0]
+        }}
+      >
+      <div className="bg-white p-8 rounded shadow-md w-3/4 h-3/4 max-h-screen m-auto" ref={popupRef}>
         <h2 className="text-2xl font-bold mb-4">Setting</h2>
         <div className="flex flex-1 overflow-hidden h-[calc(100%-100px)]">
           <div className="flex flex-col mr-2 p-2 border border-gray-300 w-1/4 overflow-y-auto">
@@ -171,6 +181,7 @@ const Popup = ({ onClose, onSubmit }) => {
           </div>
         </div>
       </div>
+      </motion.div>
     </div>
   );
 };

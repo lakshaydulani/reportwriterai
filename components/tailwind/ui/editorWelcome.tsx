@@ -1,11 +1,19 @@
 import React from 'react';
 import "@/styles/globals.css";
-
+import { motion } from "framer-motion";
 const EditorWelcome = (props) => {
 
   const onButtonClick = (value) => {
     props.parentCallback(value);
   }
+
+  const buttonsName = [
+    {name:'draft',title:'Draft an Observation'},
+    {name:'review',title:'Review Your Observation'},
+    {name:'summary',title:'Generate Executive Summary'},
+    {name:'fact',title:'Generate Issue Facts'},
+    {name:'committee',title:'Generate Audit Committee'}
+  ];
 
   return (
     <section className='p-4 bg-white rounded-lg shadow-lg'>
@@ -16,37 +24,18 @@ const EditorWelcome = (props) => {
       </div>
       <div className='text-left'>
         <ul className=''>
-          <li
-            className='m-2 p-2 myList cursor-pointer'
-            onClick={()=>onButtonClick('draft')}
-          >                        
-            Draft an Observation            
-          </li>
-          <li
-            className='m-2 p-2 myList cursor-pointer'
-            onClick={()=>onButtonClick('review')}
-          >            
-            Review Your Observation            
-          </li>
-          
-          <li
-            className='m-2 p-2 myList cursor-pointer'
-            onClick={()=>onButtonClick('summary')}
-          >
-            Generate Executive Summary
-          </li>
-          <li
-            className='m-2 p-2 myList cursor-pointer'
-            onClick={()=>onButtonClick('committee')}
-          >
-            Generate Issue Facts
-          </li>
-          <li
-            className='m-2 p-2 myList cursor-pointer'
-            onClick={()=>onButtonClick('committee')}
-          >
-            Generate Audit Committee
-          </li>
+          {
+            buttonsName.map((item) => {
+                return <motion.li
+                  className='m-2 p-2 myList cursor-pointer list-none'
+                  onClick={() => onButtonClick(item.name)}
+                  whileHover={{ scale: 1.03 }}
+                  transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                >
+                  {item.title}
+                </motion.li>
+            })
+          }
         </ul>
       </div>
     </section>
