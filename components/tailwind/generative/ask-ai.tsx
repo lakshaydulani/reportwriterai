@@ -124,7 +124,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
       transition={{
         duration: 0.8,
         delay: 0.1,
-        ease: [0, 0, 0, 0]
+        ease: [0, 0.71, 0.2, 1.01]
       }}
     >
       <div className="p-4 bg-white rounded-lg shadow-lg">
