@@ -16,6 +16,7 @@ import Labels from "../ui/tabs";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 import { Separator } from "@/components/tailwind/ui/separator";
+import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 
 const isDisabled = false;
 
@@ -28,6 +29,10 @@ export const AskAI = ({ setInitialContent, setContent }) => {
   const [apiResponse, setApiResponse] = useState('');
 
   const { completion, complete, isLoading } = useCompletionJotai();
+
+  useEffect(()=>{
+
+  },[apiResponse]);
 
   const handleClick = async () => {
     setLoading(true);
