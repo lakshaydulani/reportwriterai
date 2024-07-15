@@ -17,6 +17,7 @@ import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 import { Separator } from "@/components/tailwind/ui/separator";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
+import { motion } from "framer-motion";
 
 const isDisabled = false;
 
@@ -39,7 +40,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
     try {
         const payload = {
             prompt: prompt,
-            persona: "give response in 300 words with EY copy right at the end"
+            persona: "give response in 300 words"
         };
 
         const res = await fetch("/api/langchain", {
@@ -117,7 +118,15 @@ export const AskAI = ({ setInitialContent, setContent }) => {
 
 
   return (
-    <div className="">
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.8,
+        delay: 0.1,
+        ease: [0, 0, 0, 0]
+      }}
+    >
       <div className="p-4 bg-white rounded-lg shadow-lg">
       <strong>To start drafting your observation please provide:</strong>
       <ul>
@@ -185,7 +194,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
       )}
       {/* </PopoverContent>
       </Popover> */}
-    </div>
+    </motion.div>
   );
 };
 
