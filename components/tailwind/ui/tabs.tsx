@@ -9,7 +9,7 @@ import { useAtom } from "jotai";
 import useCompletionJotai from "@/hooks/use-completion-jotai";
 import { Button } from "../ui/button";
 import { persona } from "@/lib/atom";
-import { RefreshCcwDot, ShieldAlert } from "lucide-react";
+import { RefreshCcwDot } from "lucide-react";
 
 const Labels = ({ apiResponse }) => {
   const { completion, complete, isLoading } = useCompletionJotai();
