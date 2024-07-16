@@ -101,6 +101,10 @@
     @apply bg-gradient-to-br from-zinc-300 to-zinc-200;
   }
 
+  .bg-custom-gradient-tabs {
+    @apply bg-gradient-to-br from-violet-500 to-purple-500;
+  }
+
   button {
     @apply hover:shadow-2xl;
   }
