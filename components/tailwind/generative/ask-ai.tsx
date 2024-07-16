@@ -28,6 +28,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
   const [generatePersona, setGeneratePersona] = useState("You are an AI assistant chat bot who gives response according to EY Standrads and response limit should be 500 words and at the end of the response you should give copywrite by EY.");
   const [loading, setLoading] = useState(false);
   const [apiResponse, setApiResponse] = useState('');
+  const [inputPersona, setPersona] = useAtom(persona);
 
   const { completion, complete, isLoading } = useCompletionJotai();
 
@@ -40,7 +41,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
     try {
         const payload = {
             prompt: prompt,
-            persona: "give response in 300 words"
+            persona: inputPersona['detailedobservation']
         };
 
         const res = await fetch("/api/langchain", {
