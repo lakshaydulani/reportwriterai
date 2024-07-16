@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useState } from "react";
-import { DownloadIcon, SendIcon as MailIcon, SparklesIcon } from "lucide-react";
+import { Download, SendIcon as MailIcon, SparklesIcon } from "lucide-react";
 import { useAtom } from "jotai";
 import {
   initialContent as initialContentAtom,
@@ -66,13 +66,13 @@ const DownloadReport = () => {
   return (   
 
       <button
-        className="mt-4 text-sm bg-ey-yellow border border-2 border-black flex w-full justify-center items-center font-bold py-2 px-2 rounded-lg ${
+        className="text-sm border-b-2 border-black flex w-full justify-center items-center ${
             isLoad ? 'cursor-not-allowed' : ''
           }`"
         onClick={handleDownloadClick}
         disabled={isLoad}
       >
-        {/* <DownloadIcon className="m-2" /> */}
+        <Download className="m-2" />
         {isLoad ? "Downloading..." : "Download"}
       </button>
   );
