@@ -110,7 +110,7 @@ const Labels = ({ apiResponse }) => {
       return (
         <div>
           {value}
-          <ShieldAlert />
+          {/* <ShieldAlert /> */}
         </div>
       )
     }
