@@ -40,7 +40,7 @@ const Labels = ({ apiResponse }) => {
       }).then((data) => {
         setPrompt((prevPrompt) => ({
           ...prevPrompt,
-          selectedKey: data,
+          [selectedKey]: data,
         }));;
       });
     };
@@ -52,7 +52,7 @@ const Labels = ({ apiResponse }) => {
             size="aihelper"
             variant="aihelper"
             onClick={() => handleButtonClick(item.value)}
-            // disabled={isDisabled} // Disable button if content or initialContent is empty
+          // disabled={isDisabled} // Disable button if content or initialContent is empty
           >
             <item.icon className="h-4 w-4 mr-2 text-purple-500" />
             {item.label}
@@ -79,7 +79,7 @@ const Labels = ({ apiResponse }) => {
       if (!res.ok) {
         throw new Error(`Error: ${res.statusText}`);
       }
-  
+
       const data = await res.json();
       setPrompt((prevPrompt) => ({
         ...prevPrompt,
@@ -89,7 +89,7 @@ const Labels = ({ apiResponse }) => {
       console.error("Error during download:", error);
     }
   };
-  
+
 
   const handleChange = (e, label) => {
     const { value } = e.target;
@@ -103,43 +103,43 @@ const Labels = ({ apiResponse }) => {
     // console.log("prompt key is ",prompt[key]);
     setSelectedKey(key);
   }
-  
+
 
   return (
     <div>
-      <Tabs aria-label="Options" placement="start" className="bg-blue-500 rounded-lg"  onSelectionChange={(key)=>handleTabChange(key)}>
-  {option.map((item) => (
-    <Tab key={item.label} title={item.value} className="rounded-lg w-full">
-      <Card className="bg-white rounded-lg">
-        <CardBody>
-          <textarea
-            name={item.value}
-            id={item.label}
-            cols={5}
-            rows={15}
-            value={prompt[item.label]}
-            onChange={(e) => handleChange(e, item.label)}
-            placeholder={`Enter your prompt for ${item.value}`}
-          />
-          <button
-            className="absolute top-2 right-2 bg-blue-500 text-white py-1 px-2 rounded-lg"
-            title="Regenerate the text"
-            onClick={() => handleButtonClick(item.label)}
-          >
-            <RefreshCcwDot />
-          </button>
-          <button
-            className="relative bg-blue-500 text-white py-2 px-4 rounded-lg"
-            onClick={() => handleButtonClick(item.label)}
-          >
-            {prompt[item.label]===""? "Generate Response" : "Regerate Response"}
-          </button>
-        </CardBody>
-      </Card>
-    </Tab>
-  ))}
-</Tabs>
-<Commands />
+      <Tabs aria-label="Options" placement="start" className="bg-blue-500 rounded-lg" onSelectionChange={(key) => handleTabChange(key)}>
+        {option.map((item) => (
+          <Tab key={item.label} title={item.value} className="rounded-lg w-full">
+            <Card className="bg-white rounded-lg">
+              <CardBody>
+                <textarea
+                  name={item.value}
+                  id={item.label}
+                  cols={5}
+                  rows={15}
+                  value={prompt[item.label]}
+                  onChange={(e) => handleChange(e, item.label)}
+                  placeholder={`Enter your prompt for ${item.value}`}
+                />
+                <button
+                  className="absolute top-2 right-2 bg-blue-500 text-white py-1 px-2 rounded-lg"
+                  title="Regenerate the text"
+                  onClick={() => handleButtonClick(item.label)}
+                >
+                  <RefreshCcwDot />
+                </button>
+                <button
+                  className="relative bg-blue-500 text-white py-2 px-4 rounded-lg"
+                  onClick={() => handleButtonClick(item.label)}
+                >
+                  {prompt[item.label] === "" ? "Generate Response" : "Regerate Response"}
+                </button>
+              </CardBody>
+            </Card>
+          </Tab>
+        ))}
+      </Tabs>
+      <Commands />
       <button
         className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex float-end justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
         // onClick={handleInsert}
