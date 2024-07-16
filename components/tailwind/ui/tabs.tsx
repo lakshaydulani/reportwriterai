@@ -105,12 +105,28 @@ const Labels = ({ apiResponse }) => {
     setSelectedKey(key);
   }
 
+  const handleDisplayButton = (key,value) => {
+    if (prompt[key] === "") {
+      return (
+        <div>
+          {value}
+          {/* <ShieldAlert /> */}
+        </div>
+      )
+    }
+    return (
+      <div>
+        {value}
+      </div>
+     )
+  }
+
 
   return (
     <div>
       <Tabs aria-label="Options" placement="start" className="rounded-lg" onSelectionChange={(key) => handleTabChange(key)}>
         {option.map((item) => (
-          <Tab key={item.label} title={item.value} className="bg-custom-gradient-tabs rounded-lg w-full">
+          <Tab key={item.label} title={prompt[item.label]===""?item.value+"  !  ": item.value} className="bg-custom-gradient-tabs rounded-lg w-full">
             <Card className="bg-white rounded-lg">
               <CardBody>
                 <textarea
