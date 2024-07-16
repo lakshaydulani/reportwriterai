@@ -10,4 +10,4 @@ export const persona = atom({});
 export const isEYFontRequired = atom(false);
 export const isEditorLoading = atom(false);
 export const contentArray = atom([]);
-export const isFirstLoad = atomWithStorage('introJS', true);
+// export const isFirstLoad = atomWithStorage('showIntroJS', false);
