@@ -17,7 +17,7 @@ import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 import { useAtom } from 'jotai';
 import { generatedContent, initialContent as initialContentAtom } from "@/lib/atom";
-import { FileUp } from "lucide-react";
+import { FileUp, Eraser, FileTerminal, Lightbulb } from "lucide-react";
 import { AskAI } from "./generative/ask-ai";
 import DownloadReport from "./ui/report-process";
 
@@ -190,7 +190,24 @@ const TailwindAdvancedEditor = () => {
               {charsCount} Words
             </div> */}
           {/* </div> */}
-          <div className="flex absolute right-4 top-1 gap-2 bg-white px-4 py-2" >
+          <div className="flex absolute left-2 top-1 gap-2 bg-white px-4 py-2">
+            <Eraser />
+          </div>
+          <div className="flex absolute right-4 top-1 gap-2 bg-white px-4 py-2">
+            <button className="text-sm border-b-2 border-black flex w-full"
+              // onClick={handleDownloadClick}
+              // disabled={isLoad}
+            >
+              <Lightbulb className="m-2" />
+              Manager Review
+            </button>
+            <button className="text-sm border-b-2 border-black flex w-full"
+              // onClick={handleDownloadClick}
+              // disabled={isLoad}
+            >
+              <FileTerminal className="m-2" />
+              Executive Summary
+            </button>
             <DownloadReport />
           </div>
           <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
