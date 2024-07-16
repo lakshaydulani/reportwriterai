@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "@/styles/globals.css";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import {
   sectionOptions as option,
@@ -107,9 +108,9 @@ const Labels = ({ apiResponse }) => {
 
   return (
     <div>
-      <Tabs aria-label="Options" placement="start" className="bg-blue-500 rounded-lg" onSelectionChange={(key) => handleTabChange(key)}>
+      <Tabs aria-label="Options" placement="start" className="rounded-lg" onSelectionChange={(key) => handleTabChange(key)}>
         {option.map((item) => (
-          <Tab key={item.label} title={item.value} className="rounded-lg w-full">
+          <Tab key={item.label} title={item.value} className="bg-custom-gradient-tabs rounded-lg w-full">
             <Card className="bg-white rounded-lg">
               <CardBody>
                 <textarea
@@ -122,18 +123,18 @@ const Labels = ({ apiResponse }) => {
                   placeholder={`Enter your prompt for ${item.value}`}
                 />
                 <button
-                  className="absolute top-2 right-2 bg-blue-500 text-white py-1 px-2 rounded-lg"
-                  title="Regenerate the text"
+                  className="absolute bottom-2 right-2 bg-blue-500 text-white py-1 px-2 rounded-lg"
+                  title="Generate/Regenerate the text"
                   onClick={() => handleButtonClick(item.label)}
                 >
                   <RefreshCcwDot />
                 </button>
-                <button
+                {/* <button
                   className="relative bg-blue-500 text-white py-2 px-4 rounded-lg"
                   onClick={() => handleButtonClick(item.label)}
                 >
                   {prompt[item.label] === "" ? "Generate Response" : "Regerate Response"}
-                </button>
+                </button> */}
               </CardBody>
             </Card>
           </Tab>
