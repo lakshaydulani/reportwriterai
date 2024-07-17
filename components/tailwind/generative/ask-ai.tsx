@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useAtom } from "jotai";
 import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/tailwind/ui/popover";
-import { SparklesIcon } from "lucide-react";
+import { SparklesIcon, Atom, Stamp, BookOpen, ShieldAlert } from "lucide-react";
 import { Button } from "../ui/button";
 import Magic from "../ui/icons/magic";
 import { createParagraph } from "@/app/utils/editor-utils";
@@ -128,19 +128,49 @@ export const AskAI = ({ setInitialContent, setContent }) => {
         ease: [0, 0.71, 0.2, 1.01]
       }}
     >
+      <strong>Kick off your observation by sharing:</strong>
+      <Separator orientation="horizontal" className="my-2"/>
       <div className="p-4 bg-white rounded-lg shadow-lg">
-      <strong>To start drafting your observation please provide:</strong>
-      <ul>
-        <strong>
-          <li data-tooltip-id="my-tooltip">Background of the observation</li>
-          <li>Principle against which you are evaluating</li>
-          <li>Detailed findings of your observation</li>
-          <li>Any other matter you think should be included</li>
-        </strong>
-      </ul>
-      <Tooltip id="my-tooltip" place="left">
-      route to Vaibhav Kumar Ojha
-    </Tooltip>
+          <strong>
+            <div className="flex my-2">
+              <Atom className="mr-2"/>
+              <span data-tooltip-id="my-tooltip">The context behind it</span>
+            </div>
+            <div className="flex my-2">
+              <Stamp className="mr-2"/>
+              <span>The Principle you're measuring against</span>
+            </div>
+            <div className="flex my-2">
+              <BookOpen className="mr-2"/>
+              <span>In-depth insights from your findings</span>
+            </div>
+            <div className="flex my-2">
+              <ShieldAlert className="mr-2"/>
+              <span>Anything else you deem important to include</span>
+            </div>
+          </strong>
+        <Tooltip id="my-tooltip" place="left">
+          Background
+        </Tooltip>
+      </div>
+      <div className="bg-blue-500 text-center rounded-lg m-4 p-2 w-1/2 mx-auto flex justify-center">
+        <button>
+          Download E.g.
+        </button>
+      </div>
+
+      <div className="flex justify-center m-2">
+        <i><strong>Jumpstart your work with our recommended templates!</strong></i>
+      </div>
+
+      <div className="bg-blue-500 text-center rounded-lg m-4 p-2 w-1/2 mx-auto flex justify-center">
+        <button>
+          Download template
+        </button>
+      </div>
+
+      <div className="p-4 bg-white rounded-lg shadow-lg">
+      
       <div className="relative mt-5">
         <textarea
           value={prompt}
@@ -174,7 +204,6 @@ export const AskAI = ({ setInitialContent, setContent }) => {
       {apiResponse.length > 0 && (
         <div className="w-full my-2">
           <Labels apiResponse = {apiResponse}/>
-          {/* <Commands prompt = {prompt}/> */}
         </div>
         
 
@@ -193,8 +222,6 @@ export const AskAI = ({ setInitialContent, setContent }) => {
         //   </button>
         // </div>
       )}
-      {/* </PopoverContent>
-      </Popover> */}
     </motion.div>
   );
 };

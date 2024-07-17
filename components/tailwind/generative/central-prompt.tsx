@@ -210,23 +210,7 @@ const CentralPrompt = () => {
       )}
       
 
-      {/* <Separator orientation="horizontal" /> */}
-      {/* <Observations />       */}
-      {/* <Separator orientation="horizontal" /> */}
-
-      {/* <Separator orientation="horizontal" className="mt-2" /> */}
-      {/* <div> */}
-      {/* <button className="mt-3 shadow-lg text-white bg-zinc-600 border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${ isLoad ? 'cursor-not-allowed' : ''}`"> // onClick={downloadClick} // disabled={isLoad}> */}
-        {/* <ListMinus className="mr-auto" /> */}
-        {/* Download Issues List */}
-        {/* {isLoad ? "Downloading..." : "Download Report"} */}
-      {/* </button> */}
-      {/* <button className="mt-3 shadow-lg text-white bg-zinc-700 border-2 border-black flex w-full justify-center items-center font-bold py-2 px-6 rounded-lg ${ isLoad ? 'cursor-not-allowed' : '' }`" > */}
-         {/* onClick={downloadClick} */}
-        {/* <ComponentIcon className="mr-auto" /> */}
-        {/* Download Executive Summary */}
-      {/* </button> */}
-      {/* <Separator orientation="horizontal" /> */}
+      
     </section>
   );
 };
