@@ -9,7 +9,7 @@ import { useAtom } from "jotai";
 import useCompletionJotai from "@/hooks/use-completion-jotai";
 import { Button } from "../ui/button";
 import { persona } from "@/lib/atom";
-import { RefreshCcwDot } from "lucide-react";
+import { RefreshCcwDot, ShieldAlert } from "lucide-react";
 
 const Labels = ({ apiResponse }) => {
   const { completion, complete, isLoading } = useCompletionJotai();
@@ -108,10 +108,10 @@ const Labels = ({ apiResponse }) => {
   const handleDisplayButton = (key,value) => {
     if (prompt[key] === "") {
       return (
-        <div>
-          {value}
-          {/* <ShieldAlert /> */}
-        </div>
+        <button className="flex wrap justify-between items-center" title="Your Prompt is Empty">
+          <span>{value}</span>
+          <ShieldAlert className="float-end"/>
+        </button>
       )
     }
     return (
@@ -126,7 +126,7 @@ const Labels = ({ apiResponse }) => {
     <div>
       <Tabs aria-label="Options" placement="start" className="rounded-lg" onSelectionChange={(key) => handleTabChange(key)}>
         {option.map((item) => (
-          <Tab key={item.label} title={prompt[item.label]===""?item.value+"  !  ": item.value} className="bg-custom-gradient-tabs rounded-lg w-full">
+          <Tab key={item.label} title={handleDisplayButton(item.label, item.value)} className="bg-custom-gradient-tabs rounded-lg w-full">
             <Card className="bg-white rounded-lg">
               <CardBody>
                 <textarea
