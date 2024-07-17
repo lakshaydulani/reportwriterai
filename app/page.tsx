@@ -17,9 +17,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Animation from "@/components/tailwind/ui/animation";
 import { Steps } from "intro.js-react";
 import "intro.js/introjs.css";
+import { Pane, ResizablePanes } from "resizable-panes-react";
 // import { Skeleton } from "@radix-ui/react-skeleton";
-import SplitPane from "react-split-pane";
-
 
 const EditorSkeleton = () => {
   return (
@@ -117,25 +116,24 @@ export default function Page() {
           onExit={onExit}
         />
       )}
-      <div className="grid grid-cols-9 gap-1 px-4">
-      <SplitPane
-        split="vertical"
-        minSize={200}
-        defaultSize={1000}
-        className="flex"
-      >
-        <div id="first" className="col-span-5">
+      {/* <div className="grid grid-cols-9 gap-1 px-4"> */}
+      <ResizablePanes uniqueId="uniqueId" vertical resizerClass="bg-slate-500">
+      <Pane id="P0" size={2}>
+        <div id="first">
           <ScrollArea className="max-h-screen">
             <TailwindAdvancedEditor />
           </ScrollArea>
         </div>
-        <div id="second" className="col-span-4">
+        </Pane>
+        <Pane id="P1" size={1}>
+        <div id="second">
           <div className="p-0 rounded-lg gap-5 flex flex-col [&>section]:border-5 [&>*]:p-3 [&>section]:rounded-lg [&>section]:bg-custom-gradient">
             <CentralPrompt />
           </div>
         </div>
-      </SplitPane>
-      </div>
+        </Pane>
+        </ResizablePanes>
+      {/* </div> */}
     </section>
   );
 }
