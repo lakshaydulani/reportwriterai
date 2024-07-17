@@ -18,6 +18,8 @@ import Animation from "@/components/tailwind/ui/animation";
 import { Steps } from "intro.js-react";
 import "intro.js/introjs.css";
 // import { Skeleton } from "@radix-ui/react-skeleton";
+import SplitPane from "react-split-pane";
+
 
 const EditorSkeleton = () => {
   return (
@@ -116,9 +118,15 @@ export default function Page() {
         />
       )}
       <div className="grid grid-cols-9 gap-1 px-4">
+      <SplitPane
+        split="vertical"
+        minSize={200}
+        defaultSize={1000}
+        className="flex"
+      >
         <div id="first" className="col-span-5">
           <ScrollArea className="max-h-screen">
-            {isEditorLoading ? <EditorSkeleton /> : <TailwindAdvancedEditor />}
+            <TailwindAdvancedEditor />
           </ScrollArea>
         </div>
         <div id="second" className="col-span-4">
@@ -126,6 +134,7 @@ export default function Page() {
             <CentralPrompt />
           </div>
         </div>
+      </SplitPane>
       </div>
     </section>
   );
