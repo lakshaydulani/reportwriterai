@@ -10,7 +10,7 @@ import {
 } from "@/lib/atom";
 import { saveAs } from "file-saver";
 
-const DownloadReport = ({ content }) => {
+const DownloadReport = () => {
   const [isLoad, setIsLoading] = useState(false);
   const [contentArrayElement, setContentArrayElement] = useAtom(contentArray);
 
