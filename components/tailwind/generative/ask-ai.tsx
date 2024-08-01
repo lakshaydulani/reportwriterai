@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useAtom } from "jotai";
 import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/tailwind/ui/popover";
-import { SparklesIcon, Atom, Stamp, BookOpen, ShieldAlert } from "lucide-react";
+import { SparklesIcon, Atom, Stamp, BookOpen, ShieldAlert, MessageSquarePlus } from "lucide-react";
 import { Button } from "../ui/button";
 import Magic from "../ui/icons/magic";
 import { createParagraph } from "@/app/utils/editor-utils";
@@ -32,37 +32,37 @@ export const AskAI = ({ setInitialContent, setContent }) => {
 
   const { completion, complete, isLoading } = useCompletionJotai();
 
-  useEffect(()=>{
+  useEffect(() => {
 
-  },[apiResponse]);
+  }, [apiResponse]);
 
   const handleClick = async () => {
     setLoading(true);
     try {
-        const payload = {
-            prompt: prompt,
-            persona: inputPersona['detailedobservation']
-        };
+      const payload = {
+        prompt: prompt,
+        persona: inputPersona['detailedobservation']
+      };
 
-        const res = await fetch("/api/langchain", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-        });
+      const res = await fetch("/api/langchain", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-        if (!res.ok) {
-            throw new Error(`Error: ${res.statusText}`);
-        }
+      if (!res.ok) {
+        throw new Error(`Error: ${res.statusText}`);
+      }
 
-        const data = await res.json();
-        setApiResponse(data);
+      const data = await res.json();
+      setApiResponse(data);
     } catch (error) {
-        console.error("Error is occurred:", error);
+      console.error("Error is occurred:", error);
     }
     setLoading(false)
-};
+  };
 
 
   const handleInsert = () => {
@@ -119,7 +119,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
 
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{
@@ -129,26 +129,26 @@ export const AskAI = ({ setInitialContent, setContent }) => {
       }}
     >
       <strong>Kick off your observation by sharing:</strong>
-      <Separator orientation="horizontal" className="my-2"/>
+      <Separator orientation="horizontal" className="my-2" />
       <div className="p-4 bg-white rounded-lg shadow-lg">
-          <strong>
-            <div className="flex my-2">
-              <Atom className="mr-2"/>
-              <span data-tooltip-id="my-tooltip">The context behind it</span>
-            </div>
-            <div className="flex my-2">
-              <Stamp className="mr-2"/>
-              <span>The Principle you're measuring against</span>
-            </div>
-            <div className="flex my-2">
-              <BookOpen className="mr-2"/>
-              <span>In-depth insights from your findings</span>
-            </div>
-            <div className="flex my-2">
-              <ShieldAlert className="mr-2"/>
-              <span>Anything else you deem important to include</span>
-            </div>
-          </strong>
+        <strong>
+          <div className="flex my-2">
+            <Atom className="mr-2" />
+            <span data-tooltip-id="my-tooltip">The context behind it</span>
+          </div>
+          <div className="flex my-2">
+            <Stamp className="mr-2" />
+            <span>The Principle you're measuring against</span>
+          </div>
+          <div className="flex my-2">
+            <BookOpen className="mr-2" />
+            <span>In-depth insights from your findings</span>
+          </div>
+          <div className="flex my-2">
+            <ShieldAlert className="mr-2" />
+            <span>Anything else you deem important to include</span>
+          </div>
+        </strong>
         <Tooltip id="my-tooltip" place="left">
           Background
         </Tooltip>
@@ -170,42 +170,46 @@ export const AskAI = ({ setInitialContent, setContent }) => {
       </div>
 
       <div className="p-4 bg-white rounded-lg shadow-lg">
-      
-      <div className="relative mt-5">
-        <textarea
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          className="w-full text-xl p-3 pl-12 rounded-lg border-black border"
-          rows={5}
-          placeholder="Please Enter your draft audit observation"
-        >
-        </textarea>
-        <Image
-          alt="AI icon"
-          src="images/ailogo.svg"
-          className="absolute top-2 left-3 w-6 h-6 my-2"
-          width={50}
-          height={50}
-        />
+        <div className="relative mt-5">
+          <textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            className="w-full text-xl p-3 pl-12 rounded-lg border-black border"
+            rows={5}
+            placeholder="Please draft your audit observation"
+          >
+          </textarea>
+          <Image
+            alt="AI icon"
+            src="images/ailogo.svg"
+            className="absolute top-2 left-3 w-6 h-6 my-2"
+            width={50}
+            height={50}
+          />
+        </div>
+        <div className="w-full flex justify-center items-center">
+          <button
+            className="w-full my-2 bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+            onClick={handleClick}
+            disabled={loading}
+          >
+            <SparklesIcon className="mx-2" />
+            {loading ? "Generating..." : "Generate"}
+          </button>
+        </div>
       </div>
-      <div className="w-full flex justify-center items-center">
-
-        <button
-          className="w-full my-2 bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
-          onClick={handleClick}
-          disabled={loading}
-        >
-          <SparklesIcon className="mx-2" />
-          {loading ? "Generating..." : "Generate"}
-        </button>
-      </div>
-      </div>
+      {/* <div>
+          <button className="flex relative float-end bg-blue-500 justify-center items-center text-white font-bold m-2 p-2 px-6">
+            <MessageSquarePlus />
+            Management Review
+          </button>
+        </div> */}
       <Separator className="my-2" orientation="horizontal" />
       {apiResponse.length > 0 && (
         <div className="w-full my-2">
           <Labels apiResponse = {apiResponse}/>
         </div>
-        
+
 
         // <div>
         //   <div className="mt-3 max-h-60 overflow-y-auto p-3 bg-gray-100 rounded-lg border border-pink-500">

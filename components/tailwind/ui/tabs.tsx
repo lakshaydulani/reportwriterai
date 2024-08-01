@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "@/styles/globals.css";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import {
@@ -24,6 +24,8 @@ const Labels = ({ apiResponse }) => {
     return basicPrompt;
   });
 
+  const textareaRef = useRef(null);
+
   useEffect(() => {
     if (apiResponse) {
       setPrompt((prevPrompt) => ({
@@ -33,16 +35,23 @@ const Labels = ({ apiResponse }) => {
     }
   }, [apiResponse]);
 
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.focus();
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+    }
+  }, [selectedKey, prompt[selectedKey]]); // Adjust dependency array as needed
+
   const Commands = () => {
     const handleButtonClick = (value) => {
-      // const text = getTextFromInitialContent(content);
       complete(prompt[selectedKey], {
         body: { option: value },
       }).then((data) => {
         setPrompt((prevPrompt) => ({
           ...prevPrompt,
           [selectedKey]: data,
-        }));;
+        }));
       });
     };
     return (
@@ -53,7 +62,6 @@ const Labels = ({ apiResponse }) => {
             size="aihelper"
             variant="aihelper"
             onClick={() => handleButtonClick(item.value)}
-          // disabled={isDisabled} // Disable button if content or initialContent is empty
           >
             <item.icon className="h-4 w-4 mr-2 text-purple-500" />
             {item.label}
@@ -101,35 +109,36 @@ const Labels = ({ apiResponse }) => {
   };
 
   const handleTabChange = (key) => {
-    // console.log("prompt key is ",prompt[key]);
     setSelectedKey(key);
   }
 
-  const handleDisplayButton = (key,value) => {
+  const handleDisplayButton = (key, value) => {
     if (prompt[key] === "") {
       return (
-        <button className="flex wrap justify-between items-center" title="Your Prompt is Empty">
-          <span>{value}</span>
-          <ShieldAlert className="float-end"/>
-        </button>
+        <div className="v0">
+          <button className="v1 w-full flex wrap justify-between items-center" title="Your Prompt is Empty">
+            <span>{value}</span>
+            <ShieldAlert className="float-end"/>
+          </button>
+        </div>
       )
     }
     return (
-      <div>
+      <div className="v2 w-full">
         {value}
       </div>
      )
   }
 
-
   return (
     <div>
       <Tabs aria-label="Options" placement="start" className="rounded-lg" onSelectionChange={(key) => handleTabChange(key)}>
         {option.map((item) => (
-          <Tab key={item.label} title={handleDisplayButton(item.label, item.value)} className="bg-custom-gradient-tabs rounded-lg w-full">
-            <Card className="bg-white rounded-lg">
-              <CardBody>
+          <Tab key={item.label} title={handleDisplayButton(item.label, item.value)} className="v3 bg-custom-gradient-tabs rounded-lg w-full">
+            <Card className="v4 bg-white rounded-lg">
+              <CardBody className="v2">
                 <textarea
+                  ref={textareaRef}
                   name={item.value}
                   id={item.label}
                   cols={5}
@@ -145,12 +154,6 @@ const Labels = ({ apiResponse }) => {
                 >
                   <RefreshCcwDot />
                 </button>
-                {/* <button
-                  className="relative bg-blue-500 text-white py-2 px-4 rounded-lg"
-                  onClick={() => handleButtonClick(item.label)}
-                >
-                  {prompt[item.label] === "" ? "Generate Response" : "Regerate Response"}
-                </button> */}
               </CardBody>
             </Card>
           </Tab>

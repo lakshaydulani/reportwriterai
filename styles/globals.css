@@ -215,3 +215,7 @@ hr {
   border-radius: 5px;
   margin: 30px 0px 5px;
 }
+
+.v3 div.text-default-500{
+  width: 100%;
+}
