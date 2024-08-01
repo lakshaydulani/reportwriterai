@@ -10,9 +10,8 @@ import {
 } from "@/lib/atom";
 import { saveAs } from "file-saver";
 
-const DownloadReport = () => {
+const DownloadReport = ({content}) => {
   const [isLoad, setIsLoading] = useState(false);
-  const [content, setContent] = useAtom(generatedContent);
   const [contentArrayElement, setContentArrayElement] = useAtom(contentArray);
 
   const handleDownloadClick = async () => {
