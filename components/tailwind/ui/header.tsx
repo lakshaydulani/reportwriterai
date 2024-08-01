@@ -2,7 +2,7 @@ import Image from "next/image";
 import { MessageCircleIcon } from 'lucide-react'
 import { HEADER_TITLE } from "@/lib/constants";
 
-const Header = () => {
+const Header = ({ onStartTour }) => {
   return (
     <header className="px-4 py-2 flex items-center ">
       <div className="flex items-center">
@@ -21,7 +21,9 @@ const Header = () => {
           height={20}
         />
       </div>
-      <div className="float-end ml-auto pt-2" title="How To Use">
+      <div className="float-end ml-auto pt-2 cursor-pointer" title="How To Use" onClick={() => {
+          onStartTour();
+        }}>
         <MessageCircleIcon />
       </div>
     </header>
