@@ -19,6 +19,7 @@ import { Steps } from "intro.js-react";
 import "intro.js/introjs.css";
 import { Pane, ResizablePanes } from "resizable-panes-react";
 // import { Skeleton } from "@radix-ui/react-skeleton";
+import Header from "@/components/tailwind/ui/header";
 
 const EditorSkeleton = () => {
   return (
@@ -49,6 +50,9 @@ export default function Page() {
   // const [introJS, setIntroJS] = useAtom(isFirstLoad);
   const [showDemo, setShowDemo] = useState(false);
   const [inputPersona, setPersona] = useAtom(persona);
+  const [enabled, setEnabled] = useState(false);
+  const [initialStep, setInitialStep] = useState(0);
+  const [isTourActive, setIsTourActive] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -83,8 +87,11 @@ export default function Page() {
     }
   });
 
-  const [enabled, setEnabled] = useState(true);
-  const [initialStep, setInitialStep] = useState(0);
+  const startTour = () => {
+    console.log("StartTour");
+    setEnabled(true);
+    setShowDemo(true);
+  };
 
   const onExit = () => {
     setEnabled(false);
@@ -103,10 +110,12 @@ export default function Page() {
     },
   ];
 
+  
   console.log("page loaded");
 
   return (
     <section>
+      <Header onStartTour={startTour}  />
       <Animation />
       {showDemo && (
         <Steps

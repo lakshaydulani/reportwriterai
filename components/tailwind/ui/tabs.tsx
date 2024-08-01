@@ -8,14 +8,17 @@ import {
 import { useAtom } from "jotai";
 import useCompletionJotai from "@/hooks/use-completion-jotai";
 import { Button } from "../ui/button";
-import { persona } from "@/lib/atom";
 import { RefreshCcwDot, ShieldAlert } from "lucide-react";
+import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
 
 const Labels = ({ apiResponse }) => {
   const { completion, complete, isLoading } = useCompletionJotai();
   const [localCompletion, setLocalCompletion] = useState("");
   const [inputPersona, setPersona] = useAtom(persona);
+  const [content, setContent] = useAtom(generatedContent);
+  const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [selectedKey, setSelectedKey] = useState('detailedobservation');
+
   const [prompt, setPrompt] = useState(() => {
     let basicPrompt = {};
     option.forEach((option) => {
@@ -121,6 +124,15 @@ const Labels = ({ apiResponse }) => {
      )
   }
 
+  // const mergeValues = (obj) => {
+  //   return Object.values(obj).join(' ').trim();
+  // };
+
+  // const handleInsert = () => {
+  //   setInitialContent(prompt[setSelectedKey]);
+  //   setContent(prompt[setSelectedKey]);
+  // };
+
 
   return (
     <div>
@@ -159,7 +171,6 @@ const Labels = ({ apiResponse }) => {
       <Commands />
       <button
         className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex float-end justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
-        // onClick={handleInsert}
         disabled={isLoading}
       >
         Insert

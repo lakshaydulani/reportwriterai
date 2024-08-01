@@ -6,7 +6,7 @@ export const defaultEditorContent = {
       content: [
         {
           type: "text",
-          text: "Start writing/Paste your content below, Or, Upload your DOCX file (recommended)",
+          text: "",
         },
       ],
     },
