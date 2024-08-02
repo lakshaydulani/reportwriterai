@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "@/styles/globals.css";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import {
@@ -27,6 +27,8 @@ const Labels = ({ apiResponse }) => {
     return basicPrompt;
   });
 
+  const textareaRef = useRef(null);
+
   useEffect(() => {
     if (apiResponse) {
       setPrompt((prevPrompt) => ({
@@ -35,6 +37,15 @@ const Labels = ({ apiResponse }) => {
       }));
     }
   }, [apiResponse]);
+
+  
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.focus();
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+    }
+  }, [selectedKey, prompt[selectedKey]]); // Adjust dependency array as needed
 
   const Commands = () => {
     const handleButtonClick = (value) => {
@@ -129,10 +140,12 @@ const Labels = ({ apiResponse }) => {
   const handleDisplayButton = (key,value) => {
     if (prompt[key] === "") {
       return (
-        <button className="flex wrap justify-between items-center" title="Your Prompt is Empty">
+      <div className="v0">
+        <button className="v1 w-full flex wrap justify-between items-center" title="Your Prompt is Empty">
           <span>{value}</span>
           <ShieldAlert className="float-end"/>
         </button>
+      </div>
       )
     }
     return (
@@ -150,6 +163,7 @@ const Labels = ({ apiResponse }) => {
             <Card className="v4 bg-white rounded-lg">
               <CardBody className="v2">
                 <textarea
+                  ref={textareaRef}
                   name={item.value}
                   id={item.label}
                   cols={5}
