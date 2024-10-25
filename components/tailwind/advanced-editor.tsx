@@ -28,10 +28,9 @@ type FileWithPreview = File & {
 const extensions = [...defaultExtensions, slashCommand];
 
 const TailwindAdvancedEditor = () => {
-  const [initialContent, setInitialContent] = useAtom(initialContentAtom); // useState<null | JSONContent>(null);
+  const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState(0);
-
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
@@ -50,23 +49,30 @@ const TailwindAdvancedEditor = () => {
     window.localStorage.setItem("html-content", editor.getHTML());
     window.localStorage.setItem("novel-content", JSON.stringify(json));
     window.localStorage.setItem("markdown", editor.storage.markdown.getMarkdown());
-    if(json) setContent(JSON.parse(window.localStorage.getItem("novel-content")));
+    if (json) setContent(json);
     setSaveStatus("Saved");
   }, 500);
 
   useEffect(() => {
     const content = window.localStorage.getItem("novel-content");
-    if (content){
+    if (content) {
       setInitialContent(JSON.parse(content));
       setContent(JSON.parse(content));
-    } 
-    else{
+    } else {
       setInitialContent(defaultEditorContent);
       setContent(defaultEditorContent);
-    } 
+    }
   }, []);
 
-  
+  const resetContent = () => {
+    setInitialContent({});
+    setContent({});
+    window.localStorage.setItem("novel-content", JSON.stringify(defaultEditorContent));
+    window.localStorage.setItem("html-content", ""); // Optionally clear HTML content
+    window.localStorage.setItem("markdown", ""); // Optionally clear markdown content
+    setSaveStatus("Saved");
+  };
+
   const Dropzone = () => {
     const onDrop = useCallback((acceptedFiles) => {
       if (acceptedFiles.length) {
@@ -79,7 +85,7 @@ const TailwindAdvancedEditor = () => {
         }
       }
     }, []);
-  
+
     const convertToBase64 = (file) => {
       setIsLoading(true);
       const reader = new FileReader();
@@ -89,7 +95,7 @@ const TailwindAdvancedEditor = () => {
           const base64String = reader.result as string;
           const base64URL = base64String.split(",")[1];
           setBase64URL(base64URL);
-  
+
           const res = await fetch("/api/upload-file", {
             method: "POST",
             body: JSON.stringify({ file: base64URL }),
@@ -97,11 +103,11 @@ const TailwindAdvancedEditor = () => {
               'Content-Type': 'application/json'
             }
           });
-  
+
           if (!res.ok) {
             throw new Error(`Error: ${res.statusText}`);
           }
-  
+
           const data = await res.json();
         
           setInitialContent(data);
@@ -117,14 +123,14 @@ const TailwindAdvancedEditor = () => {
           setIsLoading(false);
         }
       };
-  
+
       reader.onerror = (error) => {
         console.error("Error converting file to base64:", error);
         setAlertMessage("Error converting file to base64");
         setIsLoading(false);
       };
     };
-  
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       accept: {
         "application/msword": [".doc"],
@@ -133,25 +139,20 @@ const TailwindAdvancedEditor = () => {
       maxFiles: 1,
       onDrop,
     });
-  
+
     return (
-    
-        <div className="flex flex-wrap" {...getRootProps()}>
-          <button
-            className="bg-gray-500 editor-button ${
-              isLoad ? 'cursor-not-allowed' : ''
-            }`"
-            disabled={isLoading}
-          >
-            <FileUp className="mr-1 h-4 w-4"/>
-            <input {...getInputProps({ multiple: false })} />
-            {isLoading ? "Importing..." : "Import"}
-          </button>
-        </div>
-      
+      <div className="flex flex-wrap" {...getRootProps()}>
+        <button
+          className={`bg-gray-500 editor-button ${isLoading ? 'cursor-not-allowed' : ''}`}
+          disabled={isLoading}
+        >
+          <FileUp className="mr-1 h-4 w-4"/>
+          <input {...getInputProps({ multiple: false })} />
+          {isLoading ? "Importing..." : "Import"}
+        </button>
+      </div>
     );
   }
-
 
   if (!initialContent) return null;
 
@@ -163,7 +164,6 @@ const TailwindAdvancedEditor = () => {
           initialContent={initialContent}
           extensions={extensions}
           className="border-muted bg-background rounded-lg h-[calc(100vh-100px)] overflow-auto"
-// className="relative h-full w-full shadow-blue-900 border-muted bg-background sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -181,30 +181,17 @@ const TailwindAdvancedEditor = () => {
           }}
           slotAfter={<ImageResizer />}
         >
-          {/* <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2 "> */}
-            {/* <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/>
-            <Dropzone /> */}
-            
-            {/* <div className="relative flex items-center justify-center min-w-24 px-3 text-sm text-black rounded-lg">{saveStatus}</div>
-            <div className={charsCount ? "rounded-lg flex items-center justify-center min-w-28 px-3 text-sm text-black" : "hidden"}>
-              {charsCount} Words
-            </div> */}
-          {/* </div> */}
           <div className="flex absolute left-2 top-1 gap-2 bg-white px-4 py-2">
-            <Eraser />
+            <button onClick={resetContent}>
+              <Eraser />
+            </button>
           </div>
           <div className="flex absolute right-4 top-1 gap-2 bg-white px-4 py-2">
-            <button className="text-sm border-b-2 border-black flex w-full"
-              // onClick={handleDownloadClick}
-              // disabled={isLoad}
-            >
+            <button className="text-sm border-b-2 border-black flex w-full">
               <Lightbulb className="m-2" />
               Manager Review
             </button>
-            <button className="text-sm border-b-2 border-black flex w-full"
-              // onClick={handleDownloadClick}
-              // disabled={isLoad}
-            >
+            <button className="text-sm border-b-2 border-black flex w-full">
               <FileTerminal className="m-2" />
               Executive Summary
             </button>
@@ -231,7 +218,6 @@ const TailwindAdvancedEditor = () => {
               ))}
             </EditorCommandList>
           </EditorCommand>
-          
 
           <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
             <Separator orientation="vertical" />
