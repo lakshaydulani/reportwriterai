@@ -195,7 +195,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
             disabled={loading}
           >
             <SparklesIcon className="mx-2" />
-            {loading ? "Generating..." : "Generate"}
+            {loading ? "Drafting..." : "Draft"}
           </button>
         </div>
       </div>
