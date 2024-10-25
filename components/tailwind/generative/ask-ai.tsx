@@ -190,7 +190,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
         </div>
         <div className="w-full flex justify-center items-center">
           <button
-            className="w-full my-2 bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+            className="w-full my-2 bottom-3 right-3 flex justify-center items-center bg-black text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
             onClick={handleClick}
             disabled={loading}
           >
