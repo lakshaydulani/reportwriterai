@@ -34,7 +34,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-      <div className="flex min-h-screen flex-col gap-2 bg-zinc-200">
+      <div className="flex min-h-screen flex-col gap-2">
+        <Header />
         <Providers>{children}</Providers>
       </div>
       </body>

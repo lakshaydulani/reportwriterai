@@ -159,7 +159,7 @@ const Labels = ({ apiResponse }) => {
     <div>
       <Tabs aria-label="Options" placement="start" className="rounded-lg" onSelectionChange={(key) => handleTabChange(key)}>
         {option.map((item) => (
-          <Tab key={item.label} title={handleDisplayButton(item.label, item.value)} className="v3 bg-custom-gradient-tabs rounded-lg w-full">
+          <Tab key={item.label} title={handleDisplayButton(item.label, item.value)} className="v3 bg-black text-white w-full">
             <Card className="v4 bg-white rounded-lg">
               <CardBody className="v2">
                 <textarea

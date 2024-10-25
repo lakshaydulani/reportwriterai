@@ -167,7 +167,7 @@ const CentralPrompt = () => {
   return (
     <section className="h-[calc(100vh-100px)] overflow-auto">
       <div className="flex">
-        <SectionHeading>Editor:</SectionHeading>
+        {/* <SectionHeading>Editor:</SectionHeading> */}
         <div className="flex flex-wrap float-end ml-auto">
           <button
             title="HOME"

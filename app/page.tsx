@@ -135,7 +135,7 @@ export default function Page() {
         </Pane>
         <Pane id="P1" size={1}>
         <div id="second">
-          <div className="p-0 rounded-lg gap-5 flex flex-col [&>section]:border-5 [&>*]:p-3 [&>section]:rounded-lg [&>section]:bg-custom-gradient">
+          <div className="p-0 gap-5 flex flex-col">
             <CentralPrompt />
           </div>
         </div>

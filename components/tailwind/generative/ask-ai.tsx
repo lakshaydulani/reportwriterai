@@ -130,6 +130,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
     >
       <strong>Kick off your observation by sharing:</strong>
       <Separator orientation="horizontal" className="my-2" />
+      <button className="bg-black text-white p-1 mr-2 float-right">Example</button>
       <div className="p-4 bg-white rounded-lg shadow-lg">
         <strong>
           <div className="flex my-2">
@@ -153,24 +154,24 @@ export const AskAI = ({ setInitialContent, setContent }) => {
           Background
         </Tooltip>
       </div>
-      <div className="bg-blue-500 text-center rounded-lg m-4 p-2 w-1/2 mx-auto flex justify-center">
+      <div className="bg-black text-center text-white m-4 p-2 w-1/2 mx-auto flex justify-center">
         <button>
-          Download E.g.
+          Use template
         </button>
       </div>
 
       <div className="flex justify-center m-2">
-        <i><strong>Jumpstart your work with our recommended templates!</strong></i>
+        <i><strong>OR</strong></i>
       </div>
 
-      <div className="bg-blue-500 text-center rounded-lg m-4 p-2 w-1/2 mx-auto flex justify-center">
+      {/* <div className="bg-blue-500 text-center rounded-lg m-4 p-2 w-1/2 mx-auto flex justify-center">
         <button>
           Download template
         </button>
-      </div>
+      </div> */}
 
       <div className="p-4 bg-white rounded-lg shadow-lg">
-        <div className="relative mt-5">
+        <div className="relative">
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
@@ -189,7 +190,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
         </div>
         <div className="w-full flex justify-center items-center">
           <button
-            className="w-full my-2 bottom-3 right-3 bg-violet-700 hover:bg-violet-950 flex justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+            className="w-full my-2 bottom-3 right-3 flex justify-center items-center bg-black text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
             onClick={handleClick}
             disabled={loading}
           >
