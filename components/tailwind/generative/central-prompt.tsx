@@ -205,7 +205,7 @@ const CentralPrompt = () => {
         //   <Section />
         // </div>
         <div className="my-2">  
-          <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/>
+          <AskAI setInitialContent= {setInitialContent} setContent = {setContent} />
         </div>
       )}
       

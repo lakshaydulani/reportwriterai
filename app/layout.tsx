@@ -35,7 +35,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body>
       <div className="flex min-h-screen flex-col gap-2">
-        <Header />
+        <Header onStartTour={() => {
+          console.log("onStartTour");
+        }} />
         <Providers>{children}</Providers>
       </div>
       </body>
