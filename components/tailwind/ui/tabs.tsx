@@ -11,7 +11,6 @@ import { Button } from "../ui/button";
 import { RefreshCcwDot, ShieldAlert } from "lucide-react";
 import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
 
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:2889041356.
 const Labels = ({ apiResponse, handleCallback }) => {
   const { completion, complete, isLoading } = useCompletionJotai();
   const [localCompletion, setLocalCompletion] = useState("");
