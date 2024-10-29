@@ -8,15 +8,18 @@ import {
 import { useAtom } from "jotai";
 import useCompletionJotai from "@/hooks/use-completion-jotai";
 import { Button } from "../ui/button";
-import { persona } from "@/lib/atom";
 import { RefreshCcwDot, ShieldAlert } from "lucide-react";
+import { generatedContent, initialContent as initialContentAtom, persona, isEYFontRequired } from "@/lib/atom";
 
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:2889041356.
 const Labels = ({ apiResponse, handleCallback }) => {
   const { completion, complete, isLoading } = useCompletionJotai();
   const [localCompletion, setLocalCompletion] = useState("");
   const [inputPersona, setPersona] = useAtom(persona);
+  const [content, setContent] = useAtom(generatedContent);
+  const [initialContent, setInitialContent] = useAtom(initialContentAtom);
   const [selectedKey, setSelectedKey] = useState('detailedobservation');
+
   const [prompt, setPrompt] = useState(() => {
     let basicPrompt = {};
     option.forEach((option) => {
@@ -36,6 +39,7 @@ const Labels = ({ apiResponse, handleCallback }) => {
     }
   }, [apiResponse]);
 
+  
   useEffect(() => {
     const textarea = textareaRef.current;
     if (textarea) {
@@ -52,7 +56,7 @@ const Labels = ({ apiResponse, handleCallback }) => {
         setPrompt((prevPrompt) => ({
           ...prevPrompt,
           [selectedKey]: data,
-        }));
+        }));;
       });
     };
     return (
@@ -114,22 +118,43 @@ const Labels = ({ apiResponse, handleCallback }) => {
   };
 
   const handleTabChange = (key) => {
+    // console.log("prompt key is ",prompt[key]);
     setSelectedKey(key);
   }
 
-  const handleDisplayButton = (key, value) => {
+  const handleInsert = () => {
+    const result = Object.values(prompt).join("\n")
+    const obj = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text: result,
+            },
+          ],
+        },
+      ]
+    }
+    setContent(obj)
+    setInitialContent(obj)
+  }
+
+  const handleDisplayButton = (key,value) => {
     if (prompt[key] === "") {
       return (
-        <div className="v0">
-          <button className="v1 w-full flex wrap justify-between items-center" title="Your Prompt is Empty">
-            <span>{value}</span>
-            <ShieldAlert className="float-end"/>
-          </button>
-        </div>
+      <div className="v0">
+        <button className="v1 w-full flex wrap justify-between items-center" title="Your Prompt is Empty">
+          <span>{value}</span>
+          <ShieldAlert className="float-end"/>
+        </button>
+      </div>
       )
     }
     return (
-      <div className="v2 w-full">
+      <div>
         {value}
       </div>
      )
