@@ -201,13 +201,13 @@ const TailwindAdvancedEditor = () => {
               <Lightbulb className="m-2" />
               Manager Review
             </button>
-            <button className="text-sm border-b-2 border-black flex w-full"
+            {/* <button className="text-sm border-b-2 border-black flex w-full"
               // onClick={handleDownloadClick}
               // disabled={isLoad}
             >
               <FileTerminal className="m-2" />
               Executive Summary
-            </button>
+            </button> */}
             <DownloadReport content={content} />
           </div>
           <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">

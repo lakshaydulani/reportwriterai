@@ -64,6 +64,11 @@ export const AskAI = ({ setInitialContent, setContent }) => {
     setLoading(false)
   };
 
+  const handleCallback = (childData) => {
+    setInitialContent(childData);
+    setContent(childData);
+    console.log(childData);
+  }
 
   const handleInsert = () => {
     const newContent = createParagraph(localCompletion);
@@ -208,7 +213,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
       <Separator className="my-2" orientation="horizontal" />
       {apiResponse.length > 0 && (
         <div className="w-full my-2">
-          <Labels apiResponse = {apiResponse}/>
+          <Labels apiResponse = {apiResponse} handleCallback = {handleCallback}/>
         </div>
 
 

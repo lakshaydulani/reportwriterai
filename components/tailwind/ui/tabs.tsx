@@ -11,7 +11,8 @@ import { Button } from "../ui/button";
 import { persona } from "@/lib/atom";
 import { RefreshCcwDot, ShieldAlert } from "lucide-react";
 
-const Labels = ({ apiResponse }) => {
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:2889041356.
+const Labels = ({ apiResponse, handleCallback }) => {
   const { completion, complete, isLoading } = useCompletionJotai();
   const [localCompletion, setLocalCompletion] = useState("");
   const [inputPersona, setPersona] = useAtom(persona);
@@ -71,11 +72,15 @@ const Labels = ({ apiResponse }) => {
     );
   };
 
-  const handleButtonClick = async (label) => {
+  const handleButtonClick = async (label, index) => {
     console.log(prompt[label]);
     try {
+      let str = "";
+      option.slice(0, index+1).forEach((item) => {
+        str += prompt[item.label];
+      });
       const payload = {
-        prompt: prompt[label],
+        prompt: str,
         persona: inputPersona[label],
       };
       const res = await fetch("/api/langchain", {
@@ -130,10 +135,49 @@ const Labels = ({ apiResponse }) => {
      )
   }
 
+  const handleInsert = () => {
+    console.log(prompt);
+    const generateEditorContent = () => {
+      const content = [];
+    
+      Object.keys(prompt).forEach((key) => {
+        // Add heading
+        content.push({
+          type: "heading",
+          attrs: { level: 2 }, // Define heading level as needed
+          content: [
+            {
+              type: "text",
+              text: options.find((option) => option.label === key)?.value || key,
+            },
+          ],
+        });
+    
+        // Add paragraph with prompt value
+        content.push({
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text: prompt[key] || "Add your text here...",
+            },
+          ],
+        });
+      });
+    
+      return {
+        type: "doc",
+        content: content,
+      };
+    };
+    let xyz = generateEditorContent()
+    handleCallback(xyz);
+  }
+
   return (
     <div>
       <Tabs aria-label="Options" placement="start" className="rounded-lg" onSelectionChange={(key) => handleTabChange(key)}>
-        {option.map((item) => (
+        {option.map((item, index ) => (
           <Tab key={item.label} title={handleDisplayButton(item.label, item.value)} className="v3 bg-black text-white w-full">
             <Card className="v4 bg-white rounded-lg">
               <CardBody className="v2">
@@ -150,7 +194,7 @@ const Labels = ({ apiResponse }) => {
                 <button
                   className="absolute bottom-2 right-2 bg-blue-500 text-white py-1 px-2 rounded-lg"
                   title="Generate/Regenerate the text"
-                  onClick={() => handleButtonClick(item.label)}
+                  onClick={() => handleButtonClick(item.label, index)}
                 >
                   <RefreshCcwDot />
                 </button>
@@ -162,7 +206,7 @@ const Labels = ({ apiResponse }) => {
       <Commands />
       <button
         className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex float-end justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
-        // onClick={handleInsert}
+        onClick={handleInsert}
         disabled={isLoading}
       >
         Insert
