@@ -181,15 +181,6 @@ const TailwindAdvancedEditor = () => {
           }}
           slotAfter={<ImageResizer />}
         >
-          {/* <div className="flex absolute right-4 top-2 gap-2 bg-white px-4 py-2 "> */}
-            {/* <AskAI setInitialContent = {setInitialContent} setContent = {setContent}/>
-            <Dropzone /> */}
-            
-            {/* <div className="relative flex items-center justify-center min-w-24 px-3 text-sm text-black rounded-lg">{saveStatus}</div>
-            <div className={charsCount ? "rounded-lg flex items-center justify-center min-w-28 px-3 text-sm text-black" : "hidden"}>
-              {charsCount} Words
-            </div> */}
-          {/* </div> */}
           <div className="flex absolute left-2 top-1 gap-2 bg-white px-4 py-2">
             <Eraser />
           </div>
