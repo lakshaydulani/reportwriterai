@@ -27,7 +27,7 @@ export const aiOptions = [
 export const sectionOptions = [
   {
     label: "detailedobservation",
-    value: "Detailed observation",
+    value: "Detailed Observation",
     icon: FerrisWheel
   },
   {

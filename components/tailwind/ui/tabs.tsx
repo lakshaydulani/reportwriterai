@@ -172,7 +172,7 @@ const Labels = ({ apiResponse, handleCallback }) => {
           content: [
             {
               type: "text",
-              text: options.find((option) => option.label === key)?.value || key,
+              text: option.find((item) => item.label === key)?.value || key,
             },
           ],
         });
@@ -229,7 +229,7 @@ const Labels = ({ apiResponse, handleCallback }) => {
       </Tabs>
       <Commands />
       <button
-        className="mt-3 bg-ey-yellow hover:bg-yellow-600 flex float-end justify-center items-center text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+        className="mt-3 bg-black text-white flex float-end justify-center items-center font-bold p-2 px-6 disabled:opacity-50"
         onClick={handleInsert}
         disabled={isLoading}
       >
