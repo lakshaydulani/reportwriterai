@@ -15,7 +15,7 @@ const Header = () => {
         />
         <h1 className="text-2xl text-white font-bold mt-1 ms-1">{HEADER_TITLE}</h1>
       </div>
-      <div className="float-end ml-auto pt-2" title="How To Use">
+      <div className="float-end ml-auto pt-2 text-white" title="How To Use">
         <MessageCircleIcon />
       </div>
     </header>

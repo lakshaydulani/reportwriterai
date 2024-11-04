@@ -129,7 +129,7 @@ const Popup = ({ onClose, onSubmit }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-color-black bg-opacity-50 flex items-center justify-center z-50">
       <motion.div className='xyz'
         initial={{ opacity: 0, scale: 1 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -174,7 +174,7 @@ const Popup = ({ onClose, onSubmit }) => {
             </button>
             <button
               onClick={onClose}
-              className="bg-black text-white py-2 px-4 rounded hover:bg-red-600 "
+              className="bg-color-black text-white py-2 px-4 rounded hover:bg-red-600 "
             >
               Close
             </button>

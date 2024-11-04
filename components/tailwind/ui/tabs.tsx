@@ -181,7 +181,7 @@ const Labels = ({ apiResponse, handleCallback }) => {
     <div>
       <Tabs aria-label="Options" placement="start" className="rounded-lg" onSelectionChange={(key) => handleTabChange(key)}>
         {option.map((item, index ) => (
-          <Tab key={item.label} title={handleDisplayButton(item.label, item.value)} className="v3 bg-black text-white w-full">
+          <Tab key={item.label} title={handleDisplayButton(item.label, item.value)} className="v3 bg-color-black text-white w-full">
             <Card className="v4 bg-white rounded-lg">
               <CardBody className="v2">
                 <textarea
@@ -195,7 +195,7 @@ const Labels = ({ apiResponse, handleCallback }) => {
                   placeholder={`Enter your prompt for ${item.value}`}
                 />
                 <button
-                  className="absolute bottom-2 right-2 bg-blue-500 text-white py-1 px-2 rounded-lg"
+                  className="absolute bottom-2 right-2 bg-color-black text-white py-1 px-2 rounded-lg"
                   title="Generate/Regenerate the text"
                   onClick={() => handleButtonClick(item.label, index)}
                 >
@@ -208,7 +208,7 @@ const Labels = ({ apiResponse, handleCallback }) => {
       </Tabs>
       <Commands />
       <button
-        className="mt-3 bg-black text-white flex float-end justify-center items-center font-bold p-2 px-6 disabled:opacity-50"
+        className="mt-3 bg-color-black text-white flex float-end justify-center items-center font-bold p-2 px-6 disabled:opacity-50"
         onClick={handleInsert}
         disabled={isLoading}
       >

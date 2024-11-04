@@ -2,6 +2,7 @@ import React from 'react';
 import "@/styles/globals.css";
 import { Send } from 'lucide-react';
 import { motion } from "framer-motion";
+import { Tooltip } from 'react-tooltip';
 
 const EditorWelcome = (props) => {
 
@@ -34,6 +35,7 @@ const EditorWelcome = (props) => {
                   onClick={() => onButtonClick(item.name)}
                   whileHover={{ scale: 1.03, backgroundColor: "grey" }}
                   transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                  data-tooltip-id={item.name}
                 >
                   <span>{item.title}</span>
                   <Send />
@@ -42,6 +44,12 @@ const EditorWelcome = (props) => {
             })
           }
         </ul>
+        <Tooltip id="draft" place="left" style={{ backgroundColor: "Pink", color: "#222" }}>
+          "Observation provide audit findings, associated risk and how to fix them."   
+        </Tooltip>
+        <Tooltip id="review" place="left">
+          "Helps you identify and address Queries Manager / Partner would ask."
+        </Tooltip>
       </div>
     </section>
   );
