@@ -135,7 +135,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
     >
       <strong>Kick off your observation by sharing:</strong>
       <Separator orientation="horizontal" className="my-2" />
-      <button className="bg-black text-white p-1 mr-2 float-right">Example</button>
+      <button className="bg-header-grey text-white p-1 mr-2 float-right">Example</button>
       <div className="p-4 bg-white rounded-lg shadow-lg">
         <strong>
           <div className="flex my-2">
@@ -159,7 +159,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
           Background
         </Tooltip>
       </div>
-      <div className="bg-black text-center text-white m-4 p-2 w-1/2 mx-auto flex justify-center">
+      <div className="bg-color-black text-center text-white m-4 p-2 w-1/2 mx-auto flex justify-center">
         <button>
           Use template
         </button>
@@ -195,7 +195,7 @@ export const AskAI = ({ setInitialContent, setContent }) => {
         </div>
         <div className="w-full flex justify-center items-center">
           <button
-            className="w-full my-2 bottom-3 right-3 flex justify-center items-center bg-black text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
+            className="w-full my-2 bottom-3 right-3 flex justify-center items-center bg-color-black text-white font-bold p-2 px-6 rounded-lg disabled:opacity-50"
             onClick={handleClick}
             disabled={loading}
           >

@@ -9,7 +9,7 @@ const KnowledgeBase = () => {
           <Link
             href='/'
           >
-            <button className="bg-black text-white m-4 p-5 rounded-full">
+            <button className="bg-header-grey text-white m-4 p-5 rounded-full">
               BACK
             </button>
           </Link>
