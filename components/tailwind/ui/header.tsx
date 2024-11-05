@@ -2,7 +2,7 @@ import Image from "next/image";
 import { MessageCircleIcon } from 'lucide-react'
 import { HEADER_TITLE } from "@/lib/constants";
 
-const Header = () => {
+const Header = ({ onStartTour }) => {
   return (
     <header className="bg-header-grey px-4 py-2 flex items-center ">
       <div className="flex items-center">

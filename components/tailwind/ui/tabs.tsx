@@ -55,7 +55,7 @@ const Labels = ({ apiResponse, handleCallback }) => {
         setPrompt((prevPrompt) => ({
           ...prevPrompt,
           [selectedKey]: data,
-        }));
+        }));;
       });
     };
     return (
@@ -117,10 +117,31 @@ const Labels = ({ apiResponse, handleCallback }) => {
   };
 
   const handleTabChange = (key) => {
+    // console.log("prompt key is ",prompt[key]);
     setSelectedKey(key);
   }
 
-  const handleDisplayButton = (key, value) => {
+  const handleInsert = () => {
+    const result = Object.values(prompt).join("\n")
+    const obj = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text: result,
+            },
+          ],
+        },
+      ]
+    }
+    setContent(obj)
+    setInitialContent(obj)
+  }
+
+  const handleDisplayButton = (key,value) => {
     if (prompt[key] === "") {
       return (
       <div className="v0">
